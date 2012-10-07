@@ -5,7 +5,7 @@ clientApp
 	return {
 		scope: {val:'=ngModel', title: '@'},
 		link: function(scope, element) {
-			if (!angular.isArray(scope.val.components))
+			if (!scope.val || !angular.isArray(scope.val.components))
 				return;
 			
 			element.append('<ul class="nav nav-list">' +
