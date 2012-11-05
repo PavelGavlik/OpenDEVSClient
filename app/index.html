@@ -48,6 +48,7 @@
         <div class="span9">
             <div class="hero-unit">
                 <h1>Welcome!</h1>
+	            <div ui-run-block></div>
                 <p>Start by selecting simulation in sidebar or by creating a new one.</p>
                 <p><a class="btn btn-primary btn-large">Create new simulation</a></p>
             </div>
@@ -62,9 +63,6 @@
 
 </div><!--/.fluid-container-->
 
-<!-- Add your site or application content here -->
-<!-- <div class="container" ng-view></div> -->
-
 <script src="scripts/vendor/angular.js"></script>
 <script src="scripts/vendor/lodash.js"></script>
 
@@ -73,14 +71,7 @@
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/directives/uiTree.js"></script>
 <script src="scripts/services/api.js"></script>
+<script src="scripts/directives/uiRunBlock.js"></script>
 <!-- endbuild -->
-
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-<script>
-var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-</script>
 </body>
 </html>
