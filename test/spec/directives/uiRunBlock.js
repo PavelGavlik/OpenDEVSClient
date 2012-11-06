@@ -5,9 +5,9 @@ describe('Directive: uiRunBlock', function() {
 
   var element;
 
-  it('should make hidden element visible', inject(function($rootScope, $compile) {
+  it('should be stopped at injection', inject(function($rootScope, $compile) {
     element = angular.element('<ui-run-block></ui-run-block>');
     element = $compile(element)($rootScope);
-    expect(element.text()).toBe('this is the uiRunBlock directive');
+    expect($rootScope.state).toBe('stopped');
   }));
 });

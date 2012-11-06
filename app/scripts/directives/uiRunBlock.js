@@ -11,7 +11,7 @@ clientApp.directive('uiRunBlock', function() {
 			'<button ng-click="state=\'paused\'" ng-show="state==\'running\'" class="btn">Pause</button>' +
 			'<button ng-click="state=\'stopped\'" class="btn">Stop</button>' +
 			'</div></div>',
-		restrict: 'A',
+		restrict: 'AE',
 		link: linkFn
 	};
 });

@@ -10,7 +10,7 @@ files = [
   JASMINE,
   JASMINE_ADAPTER,
   'app/scripts/vendor/angular.js',
-  'test/lib/angular-mocks.js',
+  'test/vendor/angular-mocks.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',
@@ -20,7 +20,7 @@ files = [
 
 // list of files to exclude
 exclude = [
-  
+  'app/scripts/**/*.min.js'
 ];
 
 
@@ -47,7 +47,7 @@ logLevel = LOG_INFO;
 
 
 // enable / disable watching file and executing tests whenever any file changes
-autoWatch = false;
+autoWatch = true;
 
 
 // Start these browsers, currently available:

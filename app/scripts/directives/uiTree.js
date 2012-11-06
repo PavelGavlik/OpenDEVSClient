@@ -3,6 +3,7 @@
 clientApp
 .directive('uiTree', function($compile) {
 	return {
+		restrict: 'AE',
 		scope: {val:'=ngModel', title: '@'},
 		link: function(scope, element) {
 			if (!scope.val || !angular.isArray(scope.val.components))
