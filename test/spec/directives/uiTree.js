@@ -13,7 +13,5 @@ describe('Directive: uiTree', function() {
     scope.$digest();
   }));
 
-  // it('should list rows', function() {
-  //   expect(element.find('li').length).toBe(2);
-  // });
+  xit('should pass events to tree children');
 });

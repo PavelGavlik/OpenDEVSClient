@@ -6,8 +6,11 @@ body
 .sidebar-nav
 	padding: 9px 0
 
+[ng-cloak]
+	display: none
+
 // no padding for nested items in tree
-*[ui-tree]
+[ui-tree]
 	ul ul
 		padding-right: 0
 	li span:before
