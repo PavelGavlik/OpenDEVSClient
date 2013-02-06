@@ -2,6 +2,6 @@
 
 clientApp.factory('api', ['$http', function($http) {
 	return {
-		simulations: $http.get('/fixtures/simulations.json')
+		simulations: $http.get('http://localhost:9004/')
 	};
 }]);

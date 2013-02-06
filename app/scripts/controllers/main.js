@@ -3,22 +3,25 @@
 clientApp.controller('MainCtrl', ['$scope', 'api', function($scope, api) {
 	$scope.simulations = {components: []};
 	$scope.items = [];
-	$scope.currentItem = -1;
+	$scope.currentItemName = '';
 
 
 	$scope.openItem = function(newItem) {
 		function isNotSameItem(item) {
-			return item.name !== newItem.name;
+			var isNotSameItem = item.name !== newItem.name;
+			// if (!isNotSameItem)
+			// 	$scope.selectItem(item);
+			return isNotSameItem;
 		}
 
 		if ($scope.items.every(isNotSameItem)) {
 			$scope.items.push(newItem);
-			$scope.currentItem = $scope.items.length - 1;
+			$scope.currentItemName = newItem.name;
 		}
 	};
 
-	$scope.selectItem = function(itemIndex) {
-		$scope.currentItem = itemIndex;
+	$scope.selectItem = function(item) {
+		$scope.currentItemName = item.name;
 	};
 
 

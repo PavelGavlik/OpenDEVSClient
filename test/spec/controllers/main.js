@@ -19,7 +19,7 @@ describe('Controller: MainCtrl', function() {
 
 	it('should empty items after launch', function() {
 		expect(scope.items.length).toBe(0);
-		expect(scope.currentItem).toBe(-1);
+		expect(scope.currentItemName).toBe("");
 	});
 
 	it('should add item with openItem', function() {
@@ -43,16 +43,17 @@ describe('Controller: MainCtrl', function() {
 		scope.openItem({ name: 'New itemitem' });
 		scope.$apply();
 
-		expect(scope.currentItem).toBe(0);
+		expect(scope.currentItemName).toBe('New itemitem');
 	});
 
 	it('should be able to switch to another item', function() {
-		scope.openItem({ name: 'Another item' });
+		var item = { name: 'Another item' };
+		scope.openItem(item);
 		scope.openItem({ name: 'New item' });
 		scope.$apply();
 
-		scope.selectItem(0);
-		expect(scope.currentItem).toBe(0);
+		scope.selectItem(item);
+		expect(scope.currentItemName).toBe(item.name);
 	});
 
 	xit('should be able to close items');

@@ -27,8 +27,8 @@
                     Logged in as <a href="#" class="navbar-link">Pavel Gavlík</a>
                 </p>
                 <ul ng-repeat="i in items" class="nav">
-                    <li ng-class="{active: currentItem == $index}">
-                        <a ng-bind="i.name" ng-click="selectItem($index)"></a></li>
+                    <li ng-class="{active: currentItemName == i.name}">
+                        <a ng-bind="i.name" ng-click="selectItem(i)"></a></li>
                 </ul>
             </div>
         </div>
@@ -41,14 +41,14 @@
             <div ui-tree ng-model="simulations" item-dblclick="openItem" title="Simulations" class="well sidebar-nav"></div>
         </div>
         <div class="span9">
-            <div ng-show="currentItem == -1" class="hero-unit">
+            <div ng-show="currentItemName == ''" class="hero-unit">
                 <h1>Welcome!</h1>
                 <p>Start by selecting simulation in sidebar or by creating a new one.</p>
                 <p><a class="btn btn-primary btn-large">Create new simulation</a></p>
             </div>
-            <div ng-cloak ng-hide="currentItem == -1" class="hero-unit">
-                <h2>{{items[currentItem].name}}</h2>
-	            <div ui-run-block></div>
+            <div ng-repeat="i in items" ng-show="currentItemName == i.name">
+                <h2>{{i.name}}</h2>
+                <div ui-run-block ng-model="i.state"></div>
             </div>
         </div>
     </div>

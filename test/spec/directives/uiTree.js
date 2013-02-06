@@ -1,17 +1,20 @@
 'use strict';
 
 describe('Directive: uiTree', function() {
-  var element, scope;
+	var element, $scope, $compile;
 
-  beforeEach(module('clientApp'));
+	beforeEach(module('clientApp'));
+	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
+		$scope = $r;
+		$compile = $c;
+	}]));
 
-  beforeEach(inject(function($rootScope, $compile) {
-	scope = $rootScope;
-    element = angular.element('<ui-tree model="tree"></ui-tree>');
-    $compile(element)(scope);
-	scope.tree = [{name: 'aa'}, {name: 'bb'}];
-    scope.$digest();
-  }));
+	beforeEach(function() {
+		element = angular.element('<ui-tree model="tree"></ui-tree>');
+		$compile(element)($scope);
+		$scope.tree = [{name: 'aa'}, {name: 'bb'}];
+		$scope.$digest();
+	});
 
-  xit('should pass events to tree children');
+	xit('should pass events to tree children');
 });

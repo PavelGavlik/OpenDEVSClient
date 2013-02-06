@@ -1,13 +1,18 @@
 'use strict';
 
 describe('Directive: uiRunBlock', function() {
-  beforeEach(module('clientApp'));
+	var element, $scope, $compile;
 
-  var element;
+	beforeEach(module('clientApp'));
+	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
+		$scope = $r;
+		$compile = $c;
+	}]));
 
-  it('should be stopped at injection', inject(function($rootScope, $compile) {
-    element = angular.element('<ui-run-block></ui-run-block>');
-    element = $compile(element)($rootScope);
-    expect($rootScope.state).toBe('stopped');
-  }));
+	it('should be stopped at injection', function() {
+		element = angular.element('<ui-run-block></ui-run-block>');
+		element = $compile(element)($scope);
+		$scope.$digest();
+		expect(element.find('button')[1].style.display).toBe('none');
+	});
 });
