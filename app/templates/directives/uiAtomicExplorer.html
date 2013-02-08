@@ -1,0 +1,29 @@
+<div class="ports input-ports">
+	<div ng-repeat="p in data.inputPorts" class="port">{{p}}</div>
+</div>
+
+<div class="options-tree">
+	<div ng-show="data.slots">
+		<h3>Slots</h3>
+		<div ng-repeat="(sName, sValue) in data.slots">{{sName}} -> {{sValue}}</div>
+	</div>
+	<div ng-show="data.delegates">
+		<h3>Delegates</h3>
+		<div ng-repeat="d in data.delegates">{{d}}</div>
+	</div>
+	<div ng-show="data.methods">
+		<h3>Methods</h3>
+		<div ng-repeat="(mName, mSource) in data.methods">
+			<h4>{{mName}}</h4>
+			<code>{{mSource}}</code>
+		</div>
+	</div>
+	<div ng-show="data.comment">
+		<h3>Comment</h3>
+		{{data.comment}}
+	</div>
+</div>
+
+<div class="ports output-ports">
+	<div ng-repeat="p in data.outputPorts" class="port">{{p}}</div>
+</div>

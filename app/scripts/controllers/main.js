@@ -8,10 +8,10 @@ clientApp.controller('MainCtrl', ['$scope', 'api', function($scope, api) {
 
 	$scope.openItem = function(newItem) {
 		function isNotSameItem(item) {
-			var isNotSameItem = item.name !== newItem.name;
-			// if (!isNotSameItem)
-			// 	$scope.selectItem(item);
-			return isNotSameItem;
+			var isNotSame = item.name !== newItem.name;
+			if (!isNotSame)
+				$scope.selectItem(item);
+			return isNotSame;
 		}
 
 		if ($scope.items.every(isNotSameItem)) {

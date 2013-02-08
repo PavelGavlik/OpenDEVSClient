@@ -63,3 +63,14 @@ browsers = ['PhantomJS'];
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
+
+// reporters = ['progress', 'coverage'];
+
+// coverageReporter = {
+//   type : 'html',
+//   dir : 'coverage/'
+// };
+
+// preprocessors = {
+//   '**/app/scripts/**/*.js': 'coverage'
+// };

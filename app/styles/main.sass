@@ -1,5 +1,8 @@
 @import "compass_twitter_bootstrap"
 
+$inputPort: rgb(0, 209, 0)
+$outputPort: red
+
 body
 	padding-top: 60px
 	padding-bottom: 40px
@@ -24,3 +27,87 @@ body
 		position: relative
 	li.closed ul
 		display: none
+
+
+[ui-coupled-explorer]
+	.main-ports
+		.port
+			display: inline-block
+			text-align: center
+			margin-left: 10px
+
+		.port:before
+			background: $outputPort
+			content: ''
+			display: block
+			width: 20px
+			height: 20px
+			@include border-radius(12px)
+			border: 2px solid black
+			margin-left: -12px
+			position: relative
+			left: 50%
+		.port.input-port:before
+			background: $inputPort
+
+	.submodel
+		display: inline-block
+		padding: 5px
+		border: 1px solid black
+		margin-right: 40px
+		margin-bottom: 10px
+
+		.name-wrapper, .ports-wrapper
+			display: table-row
+		.name
+			font-weight: bold
+		.ports
+			display: table-cell
+			font-size: 0.9em
+		.output-ports
+			text-align: right
+		.port
+			height: 14px
+			margin: 5px 5px 0 5px
+
+		.input-ports .port:before, .output-ports .port:after
+			content: ''
+			display: inline-block
+			width: 10px
+			height: 10px
+			@include border-radius(6px)
+			border: 1px solid black
+			position: relative
+			top: 2px
+		.input-ports .port:before
+			background: $inputPort
+			left: -4px
+			margin-left: -19px
+		.output-ports .port:after
+			background: $outputPort
+			right: -4px
+			margin-right: -19px
+
+
+[ui-atomic-explorer]
+	.ports, .options-tree
+		float: left
+		padding: 10px
+
+	.port
+		text-align: center
+		margin-bottom: 10px
+
+	.port:before
+		background: $outputPort
+		content: ''
+		display: block
+		width: 20px
+		height: 20px
+		@include border-radius(12px)
+		border: 2px solid black
+		margin-left: -12px
+		position: relative
+		left: 50%
+	.input-ports .port:before
+		background: $inputPort
