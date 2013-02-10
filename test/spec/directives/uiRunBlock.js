@@ -10,7 +10,7 @@ describe('Directive: uiRunBlock', function() {
 	}]));
 
 	it('should be stopped at injection', function() {
-		element = angular.element('<ui-run-block></ui-run-block>');
+		element = angular.element('<div ui-run-block />');
 		element = $compile(element)($scope);
 		$scope.$digest();
 		expect(element.find('button')[1].style.display).toBe('none');

@@ -40,8 +40,8 @@
         <div class="span9">
             <div ng-show="currentItemName == ''" class="hero-unit">
                 <h1>Welcome!</h1>
-                <p>Start by selecting simulation in sidebar or by creating a new one.</p>
-                <p><a class="btn btn-primary btn-large">Create new simulation</a></p>
+                <p>Start by selecting simulation in sidebar<!-- or by creating a new one -->.</p>
+                <!-- <p><a class="btn btn-primary btn-large">Create new simulation</a></p> -->
             </div>
             <div ng-repeat="i in items" ng-show="currentItemName == i.name">
                 <h2>{{i.name}}</h2>
@@ -61,6 +61,7 @@
 </div>
 
 <script src="scripts/vendor/angular.js"></script>
+<script src="scripts/vendor/es5-shim.min.js"></script>
 
 <!-- build:js scripts/scripts.js -->
 <script src="scripts/client.js"></script>

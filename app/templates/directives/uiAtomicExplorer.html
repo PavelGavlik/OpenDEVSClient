@@ -1,5 +1,5 @@
 <div class="ports input-ports">
-	<div ng-repeat="p in data.inputPorts" class="port">{{p}}</div>
+	<div ng-repeat="p in data.inputPorts" class="port">{{p.name}}</div>
 </div>
 
 <div class="options-tree">
@@ -25,5 +25,5 @@
 </div>
 
 <div class="ports output-ports">
-	<div ng-repeat="p in data.outputPorts" class="port">{{p}}</div>
+	<div ng-repeat="p in data.outputPorts" class="port">{{p.name}}</div>
 </div>

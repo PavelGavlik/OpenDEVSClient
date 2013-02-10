@@ -1,18 +1,23 @@
 <div class="main-ports">
-	<div ng-repeat="p in data.inputPorts" class="port input-port">{{p}}</div>
-	<div ng-repeat="p in data.outputPorts" class="port output-port">{{p}}</div>
+	<div ng-repeat="p in data.inputPorts" ng-style="{top: p.position[1]+'px', left: p.position[0]+'px'}" class="port input-port">{{p.name}}</div>
+	<div ng-repeat="p in data.outputPorts" ng-style="{top: p.position[1]+'px', left: p.position[0]+'px'}" class="port output-port">{{p.name}}</div>
 </div>
 
-<div ng-repeat="c in data.components" class="submodel">
+<div ng-repeat="c in data.components" ng-style="{top: c.position[1]+'px', left: c.position[0]+'px'}" class="submodel">
 	<div class="name-wrapper">
 		<div class="name">{{c.name}}</div>
 	</div>
 	<div class="ports-wrapper">
 		<div class="ports input-ports">
-			<div ng-repeat="p in c.inputPorts" class="port">{{p}}</div>
+			<div ng-repeat="p in c.inputPorts" class="port">{{p.name}}</div>
 		</div>
 		<div class="ports output-ports">
-			<div ng-repeat="p in c.outputPorts" class="port">{{p}}</div>
+			<div ng-repeat="p in c.outputPorts" class="port">{{p.name}}</div>
 		</div>
 	</div>
 </div>
+
+<!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="190">
+  <polygon points="100,10 40,180 190,60 10,60 160,180"
+  style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;">
+</svg> -->

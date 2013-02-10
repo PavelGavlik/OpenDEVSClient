@@ -19,7 +19,7 @@ describe('Controller: MainCtrl', function() {
 
 	it('should empty items after launch', function() {
 		expect(scope.items.length).toBe(0);
-		expect(scope.currentItemName).toBe("");
+		expect(scope.currentItemName).toBe('');
 	});
 
 	it('should add item with openItem', function() {
