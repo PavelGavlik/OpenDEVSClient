@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Controller: MainCtrl', function() {
-	var scope;
+	var scope, api, routeParams;
 
 	// load the controller's module
 	beforeEach(module('clientApp'));
@@ -9,13 +9,19 @@ describe('Controller: MainCtrl', function() {
 	// initialize the controller and a mock scope
 	beforeEach(inject(function($controller, $rootScope, apiMock) {
 		scope = $rootScope.$new();
+		api = apiMock;
+		routeParams = {}
+
 		$controller('MainCtrl', {
 			$scope: scope,
-			api: apiMock
+			api: api,
+			routeParams: routeParams
 		});
 	}));
 
-	xit('should load items via api');
+	it('should load items via api', function() {
+		expect(api.simulations.success).toHaveBeenCalled();
+	});
 
 	it('should empty items after launch', function() {
 		expect(scope.items.length).toBe(0);
