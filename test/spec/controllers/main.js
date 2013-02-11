@@ -10,7 +10,7 @@ describe('Controller: MainCtrl', function() {
 	beforeEach(inject(function($controller, $rootScope, apiMock) {
 		scope = $rootScope.$new();
 		api = apiMock;
-		routeParams = {}
+		routeParams = {};
 
 		$controller('MainCtrl', {
 			$scope: scope,
@@ -19,8 +19,10 @@ describe('Controller: MainCtrl', function() {
 		});
 	}));
 
-	it('should load items via api', function() {
-		expect(api.simulations.success).toHaveBeenCalled();
+	it('should update simulations when needed', function() {
+		var simulations = {myKey: 'value'};
+		scope.pass('simulations')(simulations);
+		expect(scope.simulations).toBe(simulations);
 	});
 
 	it('should empty items after launch', function() {
@@ -32,6 +34,12 @@ describe('Controller: MainCtrl', function() {
 		scope.openItem({ name: 'New item' });
 		scope.$apply();
 
+		expect(scope.items.length).toBe(1);
+		expect(scope.items[0].name).toBe('New item');
+	});
+
+	it('should add item with event request', function() {
+		scope.$broadcast('openWindow', { name: 'New item' });
 		expect(scope.items.length).toBe(1);
 		expect(scope.items[0].name).toBe('New item');
 	});

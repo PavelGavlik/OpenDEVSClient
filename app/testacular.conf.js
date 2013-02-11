@@ -9,25 +9,26 @@ basePath = '';
 files = [
   JASMINE,
   JASMINE_ADAPTER,
-  'app/scripts/vendor/es5-shim.min.js',
-  'app/scripts/vendor/angular.js',
-  'test/vendor/angular-mocks.js',
-  'app/scripts/*.js',
-  'app/scripts/**/*.js',
-  'test/mock/**/*.js',
-  'test/spec/**/*.js'
+  'scripts/vendor/es5-shim.min.js',
+  'scripts/vendor/angular.js',
+  '../test/vendor/angular-mocks.js',
+  'templates/**/*.html',
+  'scripts/*.js',
+  'scripts/**/*.js',
+  '../test/mock/**/*.js',
+  '../test/spec/**/*.js'
 ];
 
 
 // list of files to exclude
 exclude = [
-  'app/scripts/**/*.min.js'
+  'scripts/**/*.min.js'
 ];
 
 
 // test results reporter to use
 // possible values: dots || progress
-reporter = 'progress';
+// reporter = 'progress';
 
 
 // web server port
@@ -65,13 +66,17 @@ browsers = ['PhantomJS'];
 // if true, it capture browsers, run tests and exit
 singleRun = false;
 
-// reporters = ['progress', 'coverage'];
+reporters = ['progress', 'coverage'];
 
-// coverageReporter = {
-//   type : 'html',
-//   dir : 'coverage/'
-// };
+coverageReporter = {
+  type : 'html',
+  dir : '../test/coverage/'
+};
 
-// preprocessors = {
-//   '**/app/scripts/**/*.js': 'coverage'
-// };
+preprocessors = {
+  '**/*.html': 'html2js',
+  '**/scripts/*.js': 'coverage',
+  '**/scripts/controllers/*.js': 'coverage',
+  '**/scripts/directives/*.js': 'coverage',
+  '**/scripts/services/*.js': 'coverage'
+};

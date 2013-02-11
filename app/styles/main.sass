@@ -16,12 +16,12 @@ body
 [ui-tree]
 	ul ul
 		padding-right: 0
-	li span:before
+	li a > span:before
 		content: '▾ '
 		width: 10px
-	li.closed span:before
+	li.closed a > span:before
 		content: '▸ '
-	li.end span:before
+	li.end a > span:before
 		content: '● '
 		font-size: 90%
 		position: relative

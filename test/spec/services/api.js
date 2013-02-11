@@ -1,18 +1,17 @@
 'use strict';
 
 describe('Service: api', function () {
+	var api;
 
-  // load the service's module
-  beforeEach(module('clientApp'));
+	beforeEach(module('clientApp'));
 
-  // instantiate service
-  var api;
-  beforeEach(inject(function(_api_) {
-    api = _api_;
-  }));
+	beforeEach(inject(function($httpBackend) {
+		$httpBackend.when('GET', 'http://server:9004/Simulations/').respond({});
+	}));
 
-  // it('should do something', function () {
-  //   expect(!!api).toBe(true);
-  // });
-
+	it('should list MyRepository items', inject(function(api, $httpBackend) {
+		$httpBackend.expectGET('http://server:9004/Simulations/');
+		api.simulations();
+		$httpBackend.flush();
+	}));
 });

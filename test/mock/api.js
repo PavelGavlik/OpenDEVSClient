@@ -1,9 +1,9 @@
 'use strict';
 
-clientApp.factory('apiMock', [function() {
+clientApp.factory('apiMock', ['$q', function($q) {
 	return {
-		simulations: {
-			success: jasmine.createSpy()
+		simulations: function() {
+			return {success: jasmine.createSpy()}
 		}
 	};
 }]);

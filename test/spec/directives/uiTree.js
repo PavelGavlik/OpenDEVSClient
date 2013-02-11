@@ -9,12 +9,10 @@ describe('Directive: uiTree', function() {
 		$compile = $c;
 	}]));
 
-	beforeEach(function() {
-		element = angular.element('<ui-tree model="tree"></ui-tree>');
+	it('should compile', function() {
+		element = angular.element('<div ui-tree model="tree" />');
 		$compile(element)($scope);
-		$scope.tree = [{name: 'aa'}, {name: 'bb'}];
+		$scope.tree = [{name: 'aa'}, {name: 'bb', components: [{name: 'cc'}]}];
 		$scope.$digest();
 	});
-
-	xit('should pass events to tree children');
 });

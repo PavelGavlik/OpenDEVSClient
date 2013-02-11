@@ -26,18 +26,30 @@
                 <ul ng-repeat="i in items" class="nav">
                     <li ng-class="{active: currentItemName == i.name}">
                         <a ng-bind="i.name" ng-click="selectItem(i)"></a></li>
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span3">
-            <div ui-tree ng-model="simulations" item-dblclick="openItem" title="My Repository" class="well sidebar-nav"></div>
-        </div>
-        <div class="span9">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                <div ui-tree ng-model="simulations" item-dblclick="openItem" title="My Repository" class="well sidebar-nav"></div>
+                <!--<script type="text/ng-template"  id="template-category">
+                <a ng-click="this[$index] = !this[$index]">
+                    <span>{{data.name}}</span>
+                </a>
+                <ul class="nav nav-list">
+                    <li ng-repeat="data in data.components" ng-include="'template-category'" ng-class="{closed: !this[$index], end: !data.components.length}"></li>
+                </ul>
+                </script>  
+                <ul class="nav nav-list well" ng-cloak>
+                  <li class="nav-header">My Repository</li>
+                  <li ng-repeat="data in simulations.components" ng-include="'template-category'" ng-class="{closed: !this[$index], end: !data.components.length}"></li>
+              </ul>-->
+          </div>
+          <div class="span9">
             <div ng-show="currentItemName == ''" class="hero-unit">
                 <h1>Welcome!</h1>
                 <p>Start by selecting simulation in sidebar<!-- or by creating a new one -->.</p>
