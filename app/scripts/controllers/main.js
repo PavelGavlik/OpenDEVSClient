@@ -1,6 +1,6 @@
 'use strict';
 
-clientApp.controller('MainCtrl', ['$scope', 'api', function($scope, api) {
+clientApp.controller('MainCtrl', ['$rootScope', 'api', function($scope, api) {
 	function openItem(newItem) {
 		function isNotSameItem(item) {
 			var isNotSame = item.name !== newItem.name;
@@ -15,8 +15,19 @@ clientApp.controller('MainCtrl', ['$scope', 'api', function($scope, api) {
 		}
 	}
 
-	function openItemFromEvent(e, window) {
-		$scope.openItem(window);
+	function openItemFromEvent(e, itemName) {
+		function makeHash(itemName, tree, hash) {
+			if (tree.name)
+				hash[tree.name] = tree;
+			if (tree.components)
+				tree.components.forEach(function(item) {
+					makeHash(itemName, item, hash);
+				});
+			return hash;
+		}
+		var item = makeHash(itemName, $scope.simulations, [])[itemName];
+		$scope.openItem(item);
+		$scope.$apply();
 	}
 
 	function selectItem(item) {
@@ -40,5 +51,8 @@ clientApp.controller('MainCtrl', ['$scope', 'api', function($scope, api) {
 	$scope.pass = passToScope;
 
 	$scope.$on('openWindow', openItemFromEvent);
-	api.simulations().success($scope.pass('simulations'));
+	api.simulations().success(function() {
+		$scope.pass('simulations');
+		setTimeout($scope.$broadcast.bind($scope, 'MyRepository:ready'), 1000);
+	});
 }]);

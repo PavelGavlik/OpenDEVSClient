@@ -1,0 +1,20 @@
+'use strict';
+
+// Declare app level module which depends on filters, and services
+var clientApp = angular.module('clientApp', [])
+.config(['$routeProvider', function($routeProvider) {
+	$routeProvider
+	.when('/', {
+		templateUrl: 'views/main.html',
+	})
+	.when('/coupled/:name', {
+		controller: 'NewCtrl',
+		templateUrl: 'views/new.html'
+	})
+	.otherwise({
+		redirectTo: '/'
+	});
+}])
+.config(['$locationProvider', function($locationProvider) {
+	// $locationProvider.html5Mode(true);
+}]);
