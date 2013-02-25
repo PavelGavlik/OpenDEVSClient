@@ -51,8 +51,12 @@ clientApp.controller('MainCtrl', ['$rootScope', 'api', function($scope, api) {
 	$scope.pass = passToScope;
 
 	$scope.$on('openWindow', openItemFromEvent);
-	api.simulations().success(function() {
-		$scope.pass('simulations');
+	api.simulations()
+	.success(function() {
 		setTimeout($scope.$broadcast.bind($scope, 'MyRepository:ready'), 1000);
+	})
+	.success($scope.pass('simulations'))
+	.error(function() {
+		window.alert('Unable to load MyRepository.');
 	});
 }]);

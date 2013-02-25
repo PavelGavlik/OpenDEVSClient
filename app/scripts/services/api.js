@@ -1,6 +1,6 @@
 'use strict';
 
-clientApp.factory('api', ['$http', '$location', function($http, $location) {
+clientApp.factory('api', ['$http', '$location', '$q', function($http, $location, $q) {
 	var host = $location.host();
 	return {
 		simulations: function() {

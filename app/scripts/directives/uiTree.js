@@ -10,8 +10,8 @@ clientApp
 		element.append('<ul class="nav nav-list">' +
 			'<li ng-show="title" class="nav-header">{{title}}</li>' +
 			'<li ng-repeat="item in val.components" ng-class="{closed: !this[$index], end: !item.components.length}">' +
-				'<a ng-click="this[$index] = !this[$index]" ng-dblclick="itemDblclick(item)"><span>{{item.name}}</span></a>' +
-				'<div ui-tree ng-model="item" item-dblclick="itemDblclick"></div></li></ul>');
+			'<a ng-click="this[$index] = !this[$index]" ng-dblclick="itemDblclick(item)"><span>{{item.name}}</span></a>' +
+			'<div ui-tree ng-model="item" item-dblclick="itemDblclick"></div></li></ul>');
 		$compile(element.contents())(scope.$new());
 	}
 

@@ -26,11 +26,6 @@ exclude = [
 ];
 
 
-// test results reporter to use
-// possible values: dots || progress
-// reporter = 'progress';
-
-
 // web server port
 port = 8080;
 
@@ -66,12 +61,16 @@ browsers = ['PhantomJS'];
 // if true, it capture browsers, run tests and exit
 singleRun = false;
 
-reporters = ['progress', 'coverage'];
 
-coverageReporter = {
-  type : 'html',
-  dir : '../test/coverage/'
-};
+// test results reporter to use
+// possible values: dots || progress
+reporter = 'progress';
+// reporters = ['progress', 'coverage'];
+
+// coverageReporter = {
+//   type : 'html',
+//   dir : '../test/coverage/'
+// };
 
 preprocessors = {
   '**/*.html': 'html2js',

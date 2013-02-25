@@ -1,23 +1,34 @@
-<div class="main-ports">
-	<div ng-repeat="p in data.inputPorts" ng-style="{top: p.position[1]+'px', left: p.position[0]+'px'}" class="port input-port">{{p.name}}</div>
-	<div ng-repeat="p in data.outputPorts" ng-style="{top: p.position[1]+'px', left: p.position[0]+'px'}" class="port output-port">{{p.name}}</div>
-</div>
-
-<div ng-repeat="c in data.components" ng-style="{top: c.position[1]+'px', left: c.position[0]+'px'}" class="submodel">
-	<div class="name-wrapper">
-		<div class="name">{{c.name}}</div>
-	</div>
-	<div class="ports-wrapper">
-		<div class="ports input-ports">
-			<div ng-repeat="p in c.inputPorts" class="port">{{p.name}}</div>
-		</div>
-		<div class="ports output-ports">
-			<div ng-repeat="p in c.outputPorts" class="port">{{p.name}}</div>
-		</div>
-	</div>
-</div>
-
-<!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="190">
-  <polygon points="100,10 40,180 190,60 10,60 160,180"
-  style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;">
-</svg> -->
+<!-- <div ng-svg> -->
+<!--<script type="image/svg+xml">-->
+<svg xmlns="http://www.w3.org/2000/svg">
+	<g>
+		<g ng-repeat="p in data.inputPorts"  ng-transform="translate({{0.5 + p.position.x}}, {{0.5 + p.position.y}})">
+			<circle cx="10" cy="10" r="10" stroke="black" stroke-width="2" fill="rgb(0, 209, 0)"></circle>
+			<text x="10" y="35" style="text-anchor: middle">{{p.name}}</text>
+		</g>
+	</g><g>
+		<g ng-repeat="p in data.outputPorts"  ng-transform="translate({{0.5 + p.position.x}}, {{0.5 + p.position.y}})">
+			<circle cx="10" cy="10" r="10" stroke="black" stroke-width="2" fill="red"></circle>
+			<text x="10" y="35" style="text-anchor: middle">{{p.name}}</text>
+		</g>
+	</g><g>
+		<g ng-repeat="c in data.components" ng-transform="translate({{0.5 + c.position.x}}, {{0.5 + c.position.y}})" ui-coupled-submodel>
+			<rect x="10" y="0" ng-height="{{rectHeight}}" ng-width="{{rectWidth}}" stroke="black" stroke-width="1" fill="none" />
+			<text x="13" y="13" style="font-weight: bold">{{c.name}}</text>
+		
+			<g ng-repeat="p in c.inputPorts" ng-transform="translate(0, {{portGap + 10 + $index*portGap}})">
+				<circle cx="5" cy="0" r="5" stroke="black" stroke-width="1" fill="rgb(0, 209, 0)"></circle>
+				<text x="13" y="4" >{{p.name}}</text>
+			</g>
+		
+			<g ng-repeat="p in c.outputPorts" ng-transform="translate({{rectWidth}}, {{portGap + 10 + $index*portGap}})" class="output-port">
+				<circle cx="15" cy="0" r="5" stroke="black" stroke-width="1" fill="red"></circle>
+				<text x="7" y="4" style="text-anchor :end">{{p.name}}</text>
+			</g>
+		</g>
+	</g><g>
+		<path ng-repeat="c in data.couplings" ui-coupled-submodel-coupling ng-model="c" style="stroke: black; fill: none;"/>
+	</g>
+</svg>
+<!-- </div> -->
+<!-- </script> -->
