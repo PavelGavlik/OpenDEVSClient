@@ -1,21 +1,146 @@
 'use strict';
 
-clientApp.directive('uiCoupledExplorer', function() {
+clientApp.directive('uiCoupledExplorer', ['computeCouplingSegments', 'computeSubmodelSize', 'submodelPortGap', function(computeCouplingSegments, computeSubmodelSize, submodelPortGap) {
+	var data;
+
+	function svgElement(svgRoot, elementName, attributes, textContent) {
+		var el = document.createElementNS(svgns, elementName);
+		for (var a in attributes)
+			if (attributes.hasOwnProperty(a))
+				el.setAttribute(a, attributes[a]);
+		if (textContent)
+			el.textContent = textContent;
+		svgRoot.appendChild(el);
+		return el;
+	}
+
+	function svgCircle(svgRoot, x, y, r, fill) {
+		svgElement(svgRoot, 'circle', {
+			cx: x,
+			cy: y,
+			r: r,
+			stroke: 'black',
+			'stroke-width': 1,
+			fill: fill
+		});
+	}
+
+	function svgGroup(svgRoot, x, y) {
+		return svgElement(svgRoot, 'g', {
+			transform: 'translate('+x+','+y+')'
+		});
+	}
+
+	function svgRect(svgRoot, x, y, width, height) {
+		return svgElement(svgRoot, 'rect', {
+			x: x,
+			y: y,
+			height: height,
+			width: width,
+			stroke: 'black',
+			'stroke-width': 1,
+			fill: 'none'
+		});
+	}
+
+	function svgText(svgRoot, x, y, text, other) {
+		var attrs = other || {};
+		angular.extend(attrs, {
+			x: x,
+			y: y
+		});
+		return svgElement(svgRoot, 'text', attrs, text);
+	}
+
+	function svgPath(svgRoot, d) {
+		return svgElement(svgRoot, 'path', {
+			d: d,
+			style: 'stroke: black; fill: none;'
+		});
+	}
+
+	function renderEach(svgRoot, collection, renderFn) {
+		collection.forEach(function(item) {
+			renderFn(svgRoot, item);
+		});
+	}
+
+	function renderCoupling(svgRoot, coupling) {
+		svgPath(svgRoot, computeCouplingSegments(coupling));
+	}
+
+	function renderPort(color, svgRoot, port) {
+		var group = svgGroup(svgRoot, 0.5 + port.position.x, 0.5 + port.position.y);
+		svgCircle(group, 10, 10, 10, color);
+		svgText(group, 10, 35, port.name, { 'text-anchor': 'middle' });
+	}
+	var renderInputPort = renderPort.bind(null, 'rgb(0, 209, 0)');
+	var renderOutputPort = renderPort.bind(null, 'red');
+
+	function renderSubmodelInputPorts(svgRoot, ports) {
+		var y = submodelPortGap + 10;
+		for (var i = 0; i < ports.length; i++) {
+			var port = ports[i];
+			var group = svgGroup(svgRoot, 0, y);
+			svgText(group, 13, 4, port.name);
+			svgCircle(group, 5, 0, 5, 'rgb(0, 209, 0)');
+			y += submodelPortGap;
+		}
+	}
+
+	function renderSubmodelOutputPorts(svgRoot, ports, x) {
+		var y = submodelPortGap + 10;
+		for (var i = 0; i < ports.length; i++) {
+			var port = ports[i];
+			var group = svgGroup(svgRoot, x, y);
+			svgText(group, 7, 4, port.name, { 'text-anchor': 'end' });
+			svgCircle(group, 15, 0, 5, 'red');
+			y += submodelPortGap;
+		}
+	}
+
+	function renderSubmodel(svgRoot, submodel) {
+		var position = submodel.position;
+		var size = computeSubmodelSize(svgRoot, submodel);
+		var group = svgGroup(svgRoot, 0.5 + position.x, 0.5 + position.y);
+		svgRect(group, 10, 0, size.x, size.y);
+		svgText(group, 13, 13, submodel.name, { style: 'font-weight: bold' });
+		renderSubmodelInputPorts(group, submodel.inputPorts);
+		renderSubmodelOutputPorts(group, submodel.outputPorts, size.x);
+	}
+
+	function renderAll() {
+		var renderEachOnThis = renderEach.bind(null, this);
+		renderEachOnThis(data.inputPorts, renderInputPort);
+		renderEachOnThis(data.outputPorts, renderOutputPort);
+		renderEachOnThis(data.components, renderSubmodel);
+		renderEachOnThis(data.couplings, renderCoupling);
+	}
+
 	return {
 		scope: {data: '=ngModel'},
 		templateUrl: 'templates/directives/uiCoupledExplorer.html',
 		restrict: 'AE',
-		link: function(scope) {
+		link: function(scope, element) {
 			scope.portGap = 15;
-
 			scope.rectHeight = 0;
 			scope.rectWidth = 150;
+
+			var svgRoot = document.createElementNS(svgns, 'svg');
+			// svgRoot.setAttribute('width', 300);
+			// svgRoot.setAttribute('height', 300);
+
+			data = scope.data;
+			svgRoot.addEventListener('SVGLoad', renderAll);
+			window.svgweb.appendChild(svgRoot, element[0]);
 		}
 	};
-});
+}]);
 
-clientApp.directive('uiCoupledSubmodel', function() {
-	function linkFn(scope, elm) {
+clientApp.value('submodelPortGap', 15);
+
+clientApp.factory('computeSubmodelSize', ['submodelPortGap', function(submodelPortGap) {
+	function computeSize(svgRoot, submodel) {
 		function getTextWidth(node, text) {
 			node.textContent = text;
 			return node.clientWidth;
@@ -28,35 +153,34 @@ clientApp.directive('uiCoupledSubmodel', function() {
 		}
 
 		// create fake text elements and save their widths
-		var newText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-		elm[0].appendChild(newText);
+		var newText = document.createElementNS(svgns, 'text');
+		svgRoot.appendChild(newText);
 
-		var inputPortsWidth = getCollectionTextWidth(scope.c.inputPorts);
-		var outputPortsWidth = getCollectionTextWidth(scope.c.outputPorts);
+		var inputPortsWidth = getCollectionTextWidth(submodel.inputPorts);
+		var outputPortsWidth = getCollectionTextWidth(submodel.outputPorts);
 		newText.style.fontWeight = 'bold';
-		var nameWidth = getTextWidth(newText, scope.c.name);
+		var nameWidth = getTextWidth(newText, submodel.name);
 
-		elm[0].removeChild(newText);
+		svgRoot.removeChild(newText);
 
 
 		// compute final rectangle dimensions
-		var portsSize = inputPortsWidth + scope.portGap + outputPortsWidth;
+		var size = {};
+		var portsSize = inputPortsWidth + submodelPortGap + outputPortsWidth;
 		if (nameWidth > portsSize)
-			scope.rectWidth = nameWidth + 6;
+			size.x = nameWidth + 6;
 		else
-			scope.rectWidth = portsSize + 6;
+			size.x = portsSize + 6;
 
-		var portCount = Math.max(scope.c.inputPorts.length, scope.c.outputPorts.length);
-		scope.rectHeight = (portCount + 1) * scope.portGap + 5;
+		var portCount = Math.max(submodel.inputPorts.length, submodel.outputPorts.length);
+		size.y = (portCount + 1) * submodelPortGap + 5;
+		return size;
 	}
 
-	return {
-		restrict: 'AC',
-		link: linkFn
-	};
-});
+	return computeSize;
+}]);
 
-clientApp.directive('uiCoupledSubmodelCoupling', function() {
+clientApp.factory('computeCouplingSegments', function() {
 	function pointsDist(p1, p2) {
 		var dx = p2.x - p1.x;
 		var dy = p2.y - p1.y;
@@ -138,11 +262,5 @@ clientApp.directive('uiCoupledSubmodelCoupling', function() {
 		return 'M' + path.substr(2);
 	}
 
-	return {
-		restrict: 'AC',
-		scope: {data: '=ngModel'},
-		link: function(scope, elm, attrs) {
-			attrs.$set('d', computeSegments(scope.data));
-		}
-	};
+	return computeSegments;
 });

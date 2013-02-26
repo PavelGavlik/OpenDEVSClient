@@ -178,9 +178,9 @@ module.exports = function( grunt ) {
     });
   });
 
-  grunt.registerHelper('reload:inject', function () {
-    return function inject(req, res, next) {
-        return next();
-    };
-  });
+  // grunt.registerHelper('reload:inject', function () {
+  //   return function inject(req, res, next) {
+  //       return next();
+  //   };
+  // });
 };
