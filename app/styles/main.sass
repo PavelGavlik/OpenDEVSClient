@@ -4,16 +4,69 @@ $inputPort: rgb(0, 209, 0)
 $outputPort: red
 
 body
-	padding-top: 60px
-	padding-bottom: 40px
+	padding-bottom: 20px
 .sidebar-nav
 	padding: 9px 0
 
 [ng-cloak]
 	display: none
 
+[ui-window]
+	@extend .thumbnail
+	padding: 0
+	@include box-shadow(2px 2px 20px rgba(0,0,0,0.1))
+	background-color: rgb(228, 228, 228)
+	border-color: rgba(0,0,0,0.1)
+	@include transition(none)
+
+	.win-header, .win-statusbar
+		@extend .nav-header
+		font-weight: normal
+		text-transform: none
+		font-size: 14px
+		padding: 4px
+		margin: 0
+		@include gradient-vertical($startColor: rgba(255,255,255,0.5), $endColor: rgba(255,255,255,0.5))
+		background-color: inherit
+
+	.win-header
+		text-align: center
+		border-bottom: 1px solid rgba(0,0,0,0.1)
+		@include border-top-right-radius(4px)
+		@include border-top-left-radius(4px)
+
+	.win-content
+		background-color: white
+
+	.win-statusbar
+		font-size: 12px
+		border-top: 1px solid rgba(0,0,0,0.1)
+		@include border-bottom-right-radius(4px)
+		@include border-bottom-left-radius(4px)
+
+	*:last-child
+		@include border-bottom-right-radius(4px)
+		@include border-bottom-left-radius(4px)
+
+	&.active
+		@include box-shadow(2px 2px 20px rgba(0,0,0,0.2))
+		border-color: rgba(0,0,0,0.3)
+
+		.win-header, .win-statusbar
+			background-color: inherit
+			color: black
+			@include gradient-vertical($startColor: rgba(255,255,255,0.15), $endColor: rgba(0,0,0,0.15))
+			border-color: rgba(0,0,0,0.5)
+
+	&.atomic
+		background-color: lightblue
+	&.simulation, &.coupled
+		background-color: rgb(196, 236, 196)
+
 // no padding for nested items in tree
 [ui-tree]
+	padding: 10px 0
+
 	ul ul
 		padding-right: 0
 	li a > span:before
@@ -28,14 +81,27 @@ body
 	li.closed ul
 		display: none
 
+	[ui-tree]
+		padding: 0
+
+
+[ui-run-block]
+	padding: 0 3px
+
+	.btn
+		margin-right: 5px
+
 
 [ui-coupled-explorer]
 	font-size: 12px
 
+	svg
+		height: 350px
+
 
 [ui-atomic-explorer]
 	.ports, .options-tree
-		float: left
+		// float: left
 		padding: 10px
 
 	.port

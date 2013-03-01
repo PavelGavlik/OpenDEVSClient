@@ -8,8 +8,8 @@ var clientApp = angular.module('clientApp', [])
 		templateUrl: 'views/main.html',
 	})
 	.when('/coupled/:name', {
-		controller: 'NewCtrl',
-		templateUrl: 'views/new.html'
+		controller: 'MainCtrl',
+		templateUrl: 'views/main.html'
 	})
 	.otherwise({
 		redirectTo: '/'

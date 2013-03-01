@@ -1,6 +1,6 @@
 'use strict';
 
-clientApp.controller('MainCtrl', ['$rootScope', 'api', function($scope, api) {
+clientApp.controller('MainCtrl', ['$rootScope', '$routeParams', 'api', function($scope, $routeParams, api) {
 	function openItem(newItem) {
 		function isNotSameItem(item) {
 			var isNotSame = item.name !== newItem.name;
@@ -51,6 +51,10 @@ clientApp.controller('MainCtrl', ['$rootScope', 'api', function($scope, api) {
 	$scope.pass = passToScope;
 
 	$scope.$on('openWindow', openItemFromEvent);
+	$scope.$on('MyRepository:ready', function() {
+		$scope.$emit('openWindow', $routeParams.name);
+	});
+
 	api.simulations()
 	.success(function() {
 		setTimeout($scope.$broadcast.bind($scope, 'MyRepository:ready'), 1000);

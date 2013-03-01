@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>SmallDEVS Client</title>
+    <title>DEVS Client</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" href="styles/main.css"/>
@@ -17,10 +17,10 @@
 <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
 <![endif]-->
 
-<div class="navbar navbar-fixed-top">
+<div class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="brand" href="#">SmallDEVS Client</a>
+            <a class="brand" href="#">DEVS Client</a>
             <div class="nav-collapse collapse">
                 <ul ng-repeat="i in items" class="nav">
                     <li ng-class="{active: currentItemName == i.name}">
@@ -30,46 +30,41 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container-fluid">
-        <div ng-view></div>
-        <div class="row-fluid">
-            <div class="span3">
-                <div ui-tree ng-model="simulations" item-dblclick="openItem" title="My Repository" class="well sidebar-nav"></div>
-                <!--<script type="text/ng-template"  id="template-category">
-                <a ng-click="this[$index] = !this[$index]">
-                    <span>{{data.name}}</span>
-                </a>
-                <ul class="nav nav-list">
-                    <li ng-repeat="data in data.components" ng-include="'template-category'" ng-class="{closed: !this[$index], end: !data.components.length}"></li>
-                </ul>
-                </script>  
-                <ul class="nav nav-list well" ng-cloak>
-                  <li class="nav-header">My Repository</li>
-                  <li ng-repeat="data in simulations.components" ng-include="'template-category'" ng-class="{closed: !this[$index], end: !data.components.length}"></li>
-              </ul>-->
-          </div>
-          <div class="span9">
-            <div ng-show="currentItemName == ''" class="hero-unit">
+<div class="container-fluid">
+    <div ng-view></div>
+    <div class="row-fluid">
+        <div class="span3">
+            <div ui-window>
+                <div class="win-header">My Repository</div>
+                <div class="win-content">
+                    <div ui-tree ng-model="simulations" item-dblclick="openItem"></div>
+                </div>
+            </div>
+        </div>
+        <div class="span9">
+            <!-- <div ng-show="currentItemName == ''" class="hero-unit">
                 <h1>Welcome!</h1>
-                <p>Start by selecting simulation in sidebar<!-- or by creating a new one -->.</p>
-                <!-- <p><a class="btn btn-primary btn-large">Create new simulation</a></p> -->
-            </div>
-            <div ng-repeat="i in items" ng-show="currentItemName == i.name">
-                <h2>{{i.name}}</h2>
-            </div>
-            <div ng-repeat="i in items" ng-show="currentItemName == i.name && i.type == 'simulation'">
-                <div ui-run-block ng-model="i.state"></div>
-            </div>
-            <div ng-repeat="i in items" ng-show="currentItemName == i.name && i.type == 'coupled'">
-                <div ui-coupled-explorer ng-model="i"></div>
-            </div>
-            <div ng-repeat="i in items" ng-show="currentItemName == i.name && i.type == 'atomic'">
-                <div ui-atomic-explorer ng-model="i"></div>
+                <p>Start by selecting simulation in sidebaror by creating a new one.</p>
+                <p><a class="btn btn-primary btn-large">Create new simulation</a></p>
+            </div> -->
+            <div ng-cloak ng-repeat="i in items" ng-show="currentItemName == i.name" ui-window class="active" ng-class="i.type">
+                <div ng-bind="i.name" class="win-header"></div>
+                <div class="win-content">
+                    <div ng-show="i.type == 'coupled' || i.type == 'simulation'">
+                        <div ui-coupled-explorer ng-model="i"></div>
+                    </div>
+                    <div ng-show="i.type == 'atomic'">
+                        <div ui-atomic-explorer ng-model="i"></div>
+                    </div>
+                 </div>
+                 <div class="win-statusbar">
+                    <div ui-run-block ng-model="i"></div>
+                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 <script src="scripts/vendor/angular.js"></script>
@@ -78,7 +73,6 @@
 <!-- build:js scripts/scripts.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/new.js"></script>
 <script src="scripts/directives/uiAtomicExplorer.js"></script>
 <script src="scripts/directives/uiCoupledExplorer.js"></script>
 <script src="scripts/directives/uiTree.js"></script>
