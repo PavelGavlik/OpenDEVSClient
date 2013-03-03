@@ -1,4 +1,4 @@
-<div class="ports input-ports">
+<div ng-show="data.inputPorts" class="ports input-ports">
 	<div ng-repeat="p in data.inputPorts" class="port">{{p.name}}</div>
 </div>
 
@@ -15,7 +15,7 @@
 		<h3>Methods</h3>
 		<div ng-repeat="(mName, mSource) in data.methods">
 			<h4>{{mName}}</h4>
-			<code>{{mSource}}</code>
+			<textarea ui-codemirror="{ mode: 'smalltalk', lineNumbers: true, lineWrapping: true }" ng-model="mSource"></textarea>
 		</div>
 	</div>
 	<div ng-show="data.comment">
@@ -24,6 +24,6 @@
 	</div>
 </div>
 
-<div class="ports output-ports">
+<div ng-show="data.outputPorts" class="ports output-ports">
 	<div ng-repeat="p in data.outputPorts" class="port">{{p.name}}</div>
 </div>

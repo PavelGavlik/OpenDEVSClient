@@ -11,6 +11,7 @@ files = [
   JASMINE_ADAPTER,
   'scripts/vendor/es5-shim.min.js',
   'scripts/vendor/angular.js',
+  'scripts/vendor/codemirror.js',
   '../test/vendor/angular-mocks.js',
   'templates/**/*.html',
   'scripts/*.js',

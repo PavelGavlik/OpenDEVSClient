@@ -2,6 +2,4 @@
 <button ng-click="data.running = false" ng-show="data.running" class="btn btn-small">Stop</button>
 <button class="btn btn-small">Reset</button>
 
-time: TODO, timeLast: {{data.timeLast}}, timeNext: {{data.timeNext}},
-
-RT Factor: {{data.rtFactor}}
+time: TODO, timeLast: {{data.timeLast}}, timeNext: {{data.timeNext}}<span ng-show="data.type == 'simulation'">, RT Factor: {{data.rtFactor}}</span>
