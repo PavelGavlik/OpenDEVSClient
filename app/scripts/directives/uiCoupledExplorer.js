@@ -25,7 +25,7 @@ clientApp.directive('uiCoupledSubmodel', ['$parse', 'computeSubmodelSize', funct
 
 clientApp.directive('uiCoupledSubmodelCoupling', ['$parse', 'computeCouplingSegments', function($parse, computeCouplingSegments) {
 	return function(scope, element, attrs) {
-		var vertices = $parse(attrs.ngModel)(scope);
+		var vertices = $parse(attrs.model)(scope);
 		attrs.$set('d', computeCouplingSegments(vertices));
 	};
 }]);
