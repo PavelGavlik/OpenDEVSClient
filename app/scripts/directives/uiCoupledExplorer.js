@@ -34,7 +34,7 @@ clientApp.factory('computeSubmodelSize', ['submodelPortGap', function(submodelPo
 	function computeSize(svgRoot, submodel) {
 		function getTextWidth(node, text) {
 			node.textContent = text;
-			return node.clientWidth;
+			return node.getBBox().width;
 		}
 
 		function getCollectionTextWidth(collection) {
