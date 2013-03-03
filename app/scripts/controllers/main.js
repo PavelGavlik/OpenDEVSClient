@@ -26,8 +26,10 @@ clientApp.controller('MainCtrl', ['$rootScope', '$routeParams', 'api', function(
 			return hash;
 		}
 		var item = makeHash(itemName, $scope.simulations, [])[itemName];
-		$scope.openItem(item);
-		$scope.$apply();
+		if (item) {
+			$scope.openItem(item);
+			$scope.$apply();
+		}
 	}
 
 	function selectItem(item) {

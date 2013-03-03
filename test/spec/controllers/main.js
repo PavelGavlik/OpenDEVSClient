@@ -8,7 +8,7 @@ describe('Controller: MainCtrl', function() {
 
 	// initialize the controller and a mock scope
 	beforeEach(inject(function($controller, $rootScope, apiMock) {
-		scope = $rootScope.$new();
+		scope = $rootScope;
 		api = apiMock;
 		routeParams = {};
 
@@ -32,15 +32,13 @@ describe('Controller: MainCtrl', function() {
 
 	it('should add item with openItem', function() {
 		scope.openItem({ name: 'New item' });
-		scope.$apply();
-
 		expect(scope.items.length).toBe(1);
 		expect(scope.items[0].name).toBe('New item');
 	});
 
-	xit('should add item with event request', function() {
+	it('should add item with event request', function() {
 		scope.simulations = { name: 'New item' };
-		scope.$broadcast('openWindow', 'New item');
+		scope.$emit('openWindow', 'New item');
 		expect(scope.items.length).toBe(1);
 		expect(scope.items[0].name).toBe('New item');
 	});
@@ -48,16 +46,12 @@ describe('Controller: MainCtrl', function() {
 	it('should open only items that are not yet in menu', function() {
 		scope.openItem({ name: 'New item' });
 		scope.openItem({ name: 'New item' });
-		scope.$apply();
-
 		expect(scope.items.length).toBe(1);
 		expect(scope.items[0].name).toBe('New item');
 	});
 
 	it('should select newly added item', function() {
 		scope.openItem({ name: 'New itemitem' });
-		scope.$apply();
-
 		expect(scope.currentItemName).toBe('New itemitem');
 	});
 
@@ -65,7 +59,6 @@ describe('Controller: MainCtrl', function() {
 		var item = { name: 'Another item' };
 		scope.openItem(item);
 		scope.openItem({ name: 'New item' });
-		scope.$apply();
 
 		scope.selectItem(item);
 		expect(scope.currentItemName).toBe(item.name);
