@@ -31,4 +31,6 @@ describe('Directive: uiTree', function() {
 		build();
 		expect(element.find('li').length).toEqual(2);
 	});
+
+	xit('should fire event handler when item clicked');
 });

@@ -54,7 +54,7 @@ clientApp.controller('MainCtrl', ['$rootScope', '$routeParams', 'api', function(
 
 	$scope.$on('openWindow', openItemFromEvent);
 	$scope.$on('MyRepository:ready', function() {
-		$scope.$emit('openWindow', $routeParams.name);
+		$scope.$broadcast('openWindow', $routeParams.name);
 	});
 
 	api.simulations()

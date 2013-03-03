@@ -15,11 +15,13 @@ clientApp.directive('uiAtomicExplorer', function() {
 var lastWin = null;
 clientApp.directive('uiWindow', function() {
 	return function(scope, element) {
-		element.bind('click', function() {
-			if (lastWin !== this)
+		function raiseWindow() {
+			if (lastWin !== element)
 				angular.element(lastWin).removeClass('active');
-			angular.element(this).addClass('active');
-			lastWin = this;
-		});
+			angular.element(element).addClass('active');
+			lastWin = element;
+		}
+		element.bind('click', raiseWindow);
+		setTimeout(raiseWindow, 0);
 	};
 });

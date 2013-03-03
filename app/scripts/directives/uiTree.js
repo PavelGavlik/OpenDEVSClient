@@ -18,7 +18,7 @@ clientApp.directive('uiTree', function($compile, $http, $templateCache) {
 
 	return {
 		restrict: 'AE',
-		scope: {val:'=ngModel', itemDblclick: '=', title: '@'},
+		scope: {val:'=ngModel', itemClick: '=', title: '@'},
 		link: linkFn
 	};
 });
