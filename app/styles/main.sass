@@ -76,9 +76,8 @@ body
 	li.closed a > span:before
 		content: '▸ '
 	li.end a > span:before
-		content: '● '
-		font-size: 90%
-		position: relative
+		content: ''
+		padding-left: 11px
 	li.closed ul
 		display: none
 
@@ -98,22 +97,16 @@ body
 
 	svg
 		height: 350px
+		width: 100%
 
 
 [ui-atomic-explorer]
-	.ports, .options-tree
-		display: table-cell
-		padding: 10px
+	padding: 10px 20px
 
-	.options-tree
-		width: 100%
-
-	.ports
-		vertical-align: middle
-
-	.port
-		text-align: center
-		margin-top: 10px
+	.port, .btn
+		float: left
+		margin-right: 20px
+		margin-bottom: 10px
 
 	.port:before
 		background: $outputPort
@@ -130,5 +123,5 @@ body
 		background: $inputPort
 
 	.CodeMirror
-		width: 600px
 		height: 140px
+		border: 1px solid #ddd
