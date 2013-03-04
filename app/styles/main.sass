@@ -6,8 +6,8 @@ $outputPort: red
 
 body
 	padding-bottom: 20px
-.sidebar-nav
-	padding: 9px 0
+.navbar .nav > li > a:hover, .navbar .nav > .active > a:hover
+	text-decoration: underline
 
 [ng-cloak]
 	display: none
@@ -31,7 +31,7 @@ body
 		background-color: inherit
 
 	.win-header
-		text-align: center
+		padding: 4px 30px
 		border-bottom: 1px solid rgba(0,0,0,0.1)
 		@include border-top-right-radius(4px)
 		@include border-top-left-radius(4px)
@@ -59,6 +59,7 @@ body
 			@include gradient-vertical($startColor: rgba(255,255,255,0.15), $endColor: rgba(0,0,0,0.15))
 			border-color: rgba(0,0,0,0.5)
 
+	// window colors
 	&.atomic
 		background-color: lightblue
 	&.simulation, &.coupled
@@ -77,25 +78,23 @@ body
 		clear: both
 	li > a:hover
 		text-decoration: none
-		background-color: #eeeeee
-	li a:first-child
+		background-color: #eee
+	li a
 		display: block
-		float: left
-		width: 20px
-		height: 26px
-		padding: 0
-		margin-left: -20px
-	li a:nth-child(2)
-		display: block
-		padding: 3px 10px 3px 3px
-	li a:first-child:before
-		padding-left: 5px
 		line-height: 26px
+		padding: 0 10px
+		margin-left: -20px
+	li a span
+		display: inline-block
+		width: 16px
+	li a span::before
+		padding-right: 5px
 		content: '▾ '
-	li.closed a:first-child:before
+	li.closed a span::before
 		content: '▸ '
-	li.end a:first-child:before
+	li.end a span::before
 		content: ''
+		padding-right: 16px
 	li.closed ul
 		display: none
 
