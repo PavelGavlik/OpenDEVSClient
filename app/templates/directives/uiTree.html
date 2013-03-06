@@ -1,9 +1,7 @@
-<ul>
-	<h2 ng-show="title">{{title}}</h2>
-	<li ng-repeat="item in val.components" ng-class="{closed: !this[$index], end: !item.components.length}">
-		<!-- <a ng-show="item.components" ng-click="this[$index] = !this[$index]"></a> -->
-		
-		<a ng-click="this[$index] = !this[$index]" ng-dblclick="itemClick(item)"><span></span>{{item.name}}</a>
-		<div ui-tree ng-model="item" item-click="itemClick"></div>
+<!--<ul>-->
+	<li ng-class="{closed: closed}">
+		<a ng-click="closed = !closed"><span></span>{{name}}{{modelName}}</a>
+		<!--<div ui-tree></div>-->
+        <div class="content" ng-transclude></div>
 	</li>
-</ul>
+<!--</ul>-->

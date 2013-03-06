@@ -13,7 +13,7 @@
 
 </head>
 <body ng-app="clientApp" ng-controller="MainCtrl">
-<!--[if lt IE 7]>
+<!--[if lt IE 10]>
 <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
 <![endif]-->
 
@@ -39,7 +39,7 @@
             <div ui-window>
                 <div class="win-header">My Repository</div>
                 <div class="win-content">
-                    <div ui-tree ng-model="simulations" item-click="openItem"></div>
+                    <div ui-my-repository ng-model="simulations" item-click="openItem"></div>
                 </div>
             </div>
         </div>
@@ -80,6 +80,7 @@
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/directives/uiAtomicExplorer.js"></script>
 <script src="scripts/directives/uiCoupledExplorer.js"></script>
+<script src="scripts/directives/uiMyRepository.js"></script>
 <script src="scripts/directives/uiTree.js"></script>
 <script src="scripts/directives/uiRunBlock.js"></script>
 <script src="scripts/services/api.js"></script>

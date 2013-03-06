@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: uiRunBlock', function() {
+describe('Directive: uiCoupledExplorer', function() {
 	var element, $scope, $compile;
 
 	beforeEach(module('clientApp'));

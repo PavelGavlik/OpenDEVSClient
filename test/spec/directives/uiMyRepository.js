@@ -1,24 +1,19 @@
 'use strict';
 
-describe('Directive: uiTree', function() {
+describe('Directive: uiMyRepository', function() {
 	var element, $scope, $compile, $httpBackend;
 
 	beforeEach(module('clientApp'));
-	beforeEach(module('templates/directives/uiTree.html'));
-	beforeEach(inject(['$rootScope', '$compile', '$httpBackend', '$templateCache', function($r, $c, $h, $templateCache) {
+	beforeEach(module('templates/directives/uiMyRepository.html'));
+	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
 		$scope = $r;
 		$compile = $c;
-		$httpBackend = $h;
-
-		var template = $templateCache.get('templates/directives/uiTree.html');
-		$httpBackend.when('GET', '/templates/directives/uiTree.html').respond(template);
 	}]));
 
 	function build() {
-		element = angular.element('<div ui-tree ng-model="tree" />');
+		element = angular.element('<div ui-my-repository ng-model="tree" />');
 		$compile(element)($scope);
 		$scope.$digest();
-		$httpBackend.flush();
 	}
 
 	it('should compile', function() {

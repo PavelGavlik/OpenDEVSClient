@@ -1,10 +1,11 @@
 'use strict';
 
-describe('Directive: uiRunBlock', function() {
+describe('Directive: uiAtomicExplorer', function() {
 	var element, $scope, $compile;
 
 	beforeEach(module('clientApp'));
 	beforeEach(module('templates/directives/uiAtomicExplorer.html'));
+    beforeEach(module('templates/directives/uiTree.html'));
 	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
 		$scope = $r;
 		$compile = $c;

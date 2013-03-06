@@ -1,31 +1,29 @@
-<div class="ports">
-	<h3>Ports</h3>
-	<div ng-show="data.inputPorts" class="input-ports">
-		<div ng-repeat="p in data.inputPorts" class="port">{{p.name}}</div>
+<div ui-tree><ul>
+	<div ui-tree-item title="Ports">
+        <div ng-show="data.inputPorts" class="input-ports">
+            <div ng-repeat="p in data.inputPorts" class="port">{{p.name}}</div>
+        </div>
+        <button class="btn">Add Input Port</button>
+        <div ng-show="data.outputPorts" class="output-ports">
+            <div ng-repeat="p in data.outputPorts" class="port">{{p.name}}</div>
+        </div>
+        <button class="btn">Add Output Port</button>
+        <div class="clearfix"></div>
 	</div>
-	<button class="btn">Add Input Port</button>
-	<div ng-show="data.outputPorts" class="output-ports">
-		<div ng-repeat="p in data.outputPorts" class="port">{{p.name}}</div>
-	</div>
-	<button class="btn">Add Output Port</button>
-	<div class="clearfix"></div>
-</div>
-<div ng-show="data.slots">
-	<h3>Slots</h3>
-	<div ng-repeat="(sName, sValue) in data.slots">{{sName}} -> {{sValue}}</div>
-</div>
-<div ng-show="data.delegates">
-	<h3>Delegates</h3>
-	<div ng-repeat="d in data.delegates">{{d}}</div>
-</div>
-<div ng-show="data.methods">
-	<h3>Methods</h3>
-	<div ng-repeat="(mName, mSource) in data.methods">
-		<h4>{{mName}}</h4>
-		<textarea ui-codemirror="{ mode: 'smalltalk', lineNumbers: true, lineWrapping: true, closeBrackets: true, matchBrackets: true }" ng-model="mSource"></textarea>
-	</div>
-</div>
-<div ng-show="data.comment">
-	<h3>Comment</h3>
-	<textarea ui-codemirror="{ mode: 'none', lineNumbers: true, lineWrapping: true }" ng-model="data.comment"></textarea>
-</div>
+    <div ui-tree-item title="Slots">
+        <div ng-repeat="(sName, sValue) in data.slots">{{sName}} -> {{sValue}}</div>
+    </div>
+    <div ui-tree-item title="Delegates">
+        <div ng-repeat="d in data.delegates">{{d}}</div>
+    </div>
+    <div ui-tree-item title="Methods">
+        <div ng-repeat="(mName, mSource) in data.methods" ui-tree><ul>
+            <div ui-tree-item ng-model="mName">
+                <textarea ui-codemirror="{ mode: 'smalltalk', lineNumbers: true, lineWrapping: true, closeBrackets: true, matchBrackets: true }" ng-model="mSource"></textarea>
+            </div>
+        </ul></div>
+    </div>
+    <div ui-tree-item title="Comment">
+        <textarea ui-codemirror="{ mode: 'none', lineNumbers: true, lineWrapping: true }" ng-model="data.comment"></textarea>
+    </div>
+</ul></div>
