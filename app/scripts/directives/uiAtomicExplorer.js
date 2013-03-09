@@ -1,6 +1,6 @@
 'use strict';
 
-clientApp.directive('uiAtomicExplorer', function() {
+App.directive.uiAtomicExplorer = function() {
 	function linkFn(scope, element, attrs, ctrl) {
 	}
 
@@ -10,10 +10,10 @@ clientApp.directive('uiAtomicExplorer', function() {
 		restrict: 'AE',
 		link: linkFn
 	};
-});
+};
 
 var lastWin = null;
-clientApp.directive('uiWindow', function() {
+App.directive.uiWindow = function() {
 	return function(scope, element) {
 		function raiseWindow() {
 			if (lastWin !== element)
@@ -24,4 +24,4 @@ clientApp.directive('uiWindow', function() {
 		element.bind('click', raiseWindow);
 		setTimeout(raiseWindow, 0);
 	};
-});
+};

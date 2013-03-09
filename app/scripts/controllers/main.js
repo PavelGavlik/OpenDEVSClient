@@ -1,6 +1,6 @@
 'use strict';
 
-clientApp.controller('MainCtrl', ['$rootScope', '$routeParams', 'api', function($scope, $routeParams, api) {
+App.controller.MainCtrl = function($scope, $routeParams, api) {
 	function openItem(newItem) {
 		function isNotSameItem(item) {
 			var isNotSame = item.name !== newItem.name;
@@ -65,4 +65,4 @@ clientApp.controller('MainCtrl', ['$rootScope', '$routeParams', 'api', function(
 	.error(function() {
 		window.alert('Unable to load MyRepository.');
 	});
-}]);
+};

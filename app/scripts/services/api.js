@@ -1,10 +1,10 @@
 'use strict';
 
-clientApp.factory('api', ['$http', '$location', '$q', function($http, $location, $q) {
+App.service.api = function($http, $location) {
 	var host = $location.host();
 	return {
 		simulations: function() {
 			return $http.get('http://'+ host +':9004/Simulations/');
 		}
 	};
-}]);
+};

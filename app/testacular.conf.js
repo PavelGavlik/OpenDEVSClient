@@ -14,6 +14,7 @@ files = [
   'scripts/vendor/codemirror.js',
   '../test/vendor/angular-mocks.js',
   'templates/**/*.html',
+  'scripts/app.js',
   'scripts/*.js',
   'scripts/**/*.js',
   '../test/mock/**/*.js',

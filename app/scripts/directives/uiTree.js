@@ -1,6 +1,6 @@
 'use strict';
 
-clientApp.directive('uiTreeItem', function() {
+App.directive.uiTreeItem = function() {
 	return {
 		link: function(scope, element, attrs) {
 			scope.closed = 'closed' in attrs;
@@ -9,4 +9,4 @@ clientApp.directive('uiTreeItem', function() {
 		templateUrl: 'templates/directives/uiTree.html',
 		transclude: true
 	};
-});
+};

@@ -1,6 +1,6 @@
 'use strict';
 
-clientApp.directive('uiMyRepository', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {
+App.directive.uiMyRepository = function($compile, $http, $templateCache) {
 
 
 	function linkFn(scope, element) {
@@ -20,4 +20,4 @@ clientApp.directive('uiMyRepository', ['$compile', '$http', '$templateCache', fu
 		scope: {val:'=ngModel', itemClick: '=', title: '@'},
 		link: linkFn
 	};
-}]);
+};

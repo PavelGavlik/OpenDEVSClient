@@ -1,36 +1,36 @@
 'use strict';
 
-clientApp.value('submodelPortGap', 15);
+App.value.submodelPortGap = 15;
 
-clientApp.directive('uiCoupledExplorer', ['submodelPortGap', function(submodelPortGap) {
+App.directive.uiCoupledExplorer = function() {
 	return {
 		scope: {data: '=ngModel'},
 		templateUrl: 'templates/directives/uiCoupledExplorer.html',
 		controller: ['$scope', '$element', function($scope, $element) {
-			$scope.portGap = submodelPortGap;
+			$scope.portGap = App.value.submodelPortGap;
 			$scope.rectHeight = $scope.rectWidth = 0;
 			$scope.svgRoot = $element.find('svg')[0];
 		}]
 	};
-}]);
+};
 
-clientApp.directive('uiCoupledSubmodel', ['$parse', 'computeSubmodelSize', function($parse, computeSubmodelSize) {
-	return function(scope, element, attrs) {
+App.directive.uiCoupledSubmodel = function(computeSubmodelSize) {
+	return function(scope) {
 		var submodel = scope.c;
 		var size = computeSubmodelSize(scope.svgRoot, submodel);
 		scope.rectWidth = size.x;
 		scope.rectHeight = size.y;
 	};
-}]);
+};
 
-clientApp.directive('uiCoupledSubmodelCoupling', ['$parse', 'computeCouplingSegments', function($parse, computeCouplingSegments) {
+App.directive.uiCoupledSubmodelCoupling = function($parse, computeCouplingSegments) {
 	return function(scope, element, attrs) {
 		var vertices = $parse(attrs.model)(scope);
 		attrs.$set('d', computeCouplingSegments(vertices));
 	};
-}]);
+};
 
-clientApp.factory('computeSubmodelSize', ['submodelPortGap', function(submodelPortGap) {
+App.service.computeSubmodelSize = function() {
 	function computeSize(svgRoot, submodel) {
 		function getTextWidth(node, text) {
 			node.textContent = text;
@@ -56,40 +56,44 @@ clientApp.factory('computeSubmodelSize', ['submodelPortGap', function(submodelPo
 
 		// compute final rectangle dimensions
 		var size = {};
-		var portsSize = inputPortsWidth + submodelPortGap + outputPortsWidth;
+		var portsSize = inputPortsWidth + App.value.submodelPortGap + outputPortsWidth;
 		if (nameWidth > portsSize)
 			size.x = nameWidth + 6;
 		else
 			size.x = portsSize + 6;
 
 		var portCount = Math.max(submodel.inputPorts.length, submodel.outputPorts.length);
-		size.y = (portCount + 1) * submodelPortGap + 5;
+		size.y = (portCount + 1) * App.value.submodelPortGap + 5;
 		return size;
 	}
 
 	return computeSize;
-}]);
+};
 
-clientApp.factory('computeCouplingSegments', function() {
-	/** @type {{x: number, y: number}} */
-	var PointRecord;
-
+App.service.Point = function() {
 	/**
 	 * Class representing a point
 	 * @param {number} x
 	 * @param {number} y
 	 * @constructor
 	 */
-	function Point(x, y) {
-		/** @type {number} */
+	var Point = function(x, y) {
 		this.x = x;
-		/** @type {number} */
 		this.y = y;
-	}
+	};
+
+	/** @typedef {{x: number, y: number}} */
+	Point.Record;
+
+	/** @type {number} */
+	Point.prototype.x = 0;
+
+	/** @type {number} */
+	Point.prototype.y = 0;
 
 	/**
 	 * Creates new Point instance from regular object
-	 * @param {PointRecord} p
+	 * @param {Point.Record} p
 	 * @return {Point}
 	 */
 	Point.fromObject = function(p) {
@@ -162,10 +166,13 @@ clientApp.factory('computeCouplingSegments', function() {
 		return this.x === p.x && this.y === p.y;
 	}
 
+	return Point;
+};
 
+App.service.computeCouplingSegments = function(Point) {
 	/**
 	 * Returns a line segment of SVG path
-	 * @param {PointRecord|Point} p
+	 * @param {Point.Record|Point} p
 	 * @return {string}
 	 */
 	function lineSegment(p) {
@@ -174,8 +181,8 @@ clientApp.factory('computeCouplingSegments', function() {
 
 	/**
 	 * Returns a bezier segment of SVG path
-	 * @param {PointRecord|Point} p1
-	 * @param {PointRecord|Point} p2
+	 * @param {Point.Record|Point} p1
+	 * @param {Point.Record|Point} p2
 	 * @return {string}
 	 */
 	function bezierSegment(p1, p2) {
@@ -184,10 +191,10 @@ clientApp.factory('computeCouplingSegments', function() {
 
 	/**
 	 * Computes connected SVG path from points it should go through
-	 * @param {Array<PointRecord>} vertices
+	 * @param {Array<Point.Record>} vertices
 	 * @return {string}
 	 */
-	function computeSegments(vertices) {
+	function computeCouplingSegments(vertices) {
 		// algorithm adapted from NcLineMorph#computeSegments
 		var path = '';
 		if (vertices.length === 2)
@@ -225,5 +232,5 @@ clientApp.factory('computeCouplingSegments', function() {
 		return 'M' + path.substr(2);
 	}
 
-	return computeSegments;
-});
+	return computeCouplingSegments;
+};
