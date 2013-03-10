@@ -58,10 +58,12 @@ App.controller.MainCtrl = function($scope, $routeParams, api) {
 	});
 
 	api.simulations()
+	.success(function(data) {
+		$scope.simulations = new App.model.MyRepository(data);
+	})
 	.success(function() {
 		setTimeout($scope.$broadcast.bind($scope, 'MyRepository:ready'), 1000);
 	})
-	.success($scope.pass('simulations'))
 	.error(function() {
 		window.alert('Unable to load MyRepository.');
 	});
