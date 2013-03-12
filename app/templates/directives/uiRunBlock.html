@@ -1,7 +1,10 @@
-<button ng-click="data.running = true" ng-hide="data.running" class="btn btn-small">Start</button>
-<button ng-click="data.running = false" ng-show="data.running" class="btn btn-small">Stop</button>
-<button class="btn btn-small">Reset</button>
+<div>
+    <button ng-click="start()" ng-hide="data.running" ng-disabled="loading" class="btn btn-small">Start</button>
+    <button ng-click="stop()" ng-show="data.running" ng-disabled="loading"  class="btn btn-small">Stop</button>
+    <button ng-disabled="loading" class="btn btn-small">Reset</button>
 
-time: {{data.rootSolver().time}},
-timeLast: {{data.timeLast}},
-timeNext: {{data.timeNext}}<span ng-show="data.type == 'simulation'">, RT Factor: {{data.rtFactor}}</span>
+    time: <span>{{data.rootSolver().time}}</span>,
+    timeLast: <span>{{data.timeLast}}</span>,
+    timeNext: <span>{{data.timeNext}}</span>,
+    RT Factor: <span>{{data.rootSolver().rtFactor}}</span>
+</div>

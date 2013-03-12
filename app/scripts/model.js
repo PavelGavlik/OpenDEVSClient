@@ -15,6 +15,12 @@ App.model.MyRepository = function(data) {
 App.model.MyRepository.prototype.parent = null;
 
 /**
+ * MyRepository name
+ * @type {string}
+ */
+App.model.MyRepository.prototype.name = '';
+
+/**
  * Children of this item
  * @type {Array}
  */
@@ -50,6 +56,16 @@ App.model.MyRepository.prototype.load = function(data) {
 	}, this);
 };
 
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.MyRepository.prototype.path = function() {
+	return (this.parent === null) ?
+		'/' + this.name :
+		this.parent.path() + '/' + this.name;
+};
+
 
 /**
  *
@@ -65,6 +81,12 @@ App.model.DEVSRootSolverRT = function(data) {
  * @type {Object}
  */
 App.model.DEVSRootSolverRT.prototype.parent = null;
+
+/**
+ * Solver name
+ * @type {string}
+ */
+App.model.DEVSRootSolverRT.prototype.name = '';
 
 /**
  * Rewrite data in object with new data
@@ -89,6 +111,12 @@ App.model.DEVSRootSolverRT.prototype.load = function(data) {
 	}, this);
 };
 
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.DEVSRootSolverRT.prototype.path = App.model.MyRepository.prototype.path;
+
 
 /**
  * Common parent of CoupledDEVSPrototype and AtomicDEVSPrototype
@@ -104,10 +132,16 @@ App.model.BaseDEVS = function() {
 App.model.BaseDEVS.prototype.parent = null;
 
 /**
+ * DEVS name
+ * @type {string}
+ */
+App.model.DEVSRootSolverRT.prototype.name = '';
+
+/**
  * @return {App.model.DEVSRootSolverRT}
  */
 App.model.BaseDEVS.prototype.rootSolver = function() {
-	if (this.parent.type == 'simulation')
+	if (this.parent instanceof App.model.DEVSRootSolverRT)
 		return this.parent;
 	else
 		return this.parent.rootSolver();
@@ -120,6 +154,12 @@ App.model.BaseDEVS.prototype.rootSolver = function() {
 App.model.BaseDEVS.prototype.load = function(data) {
 	angular.extend(this, data);
 };
+
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.BaseDEVS.prototype.path = App.model.MyRepository.prototype.path;
 
 
 /**

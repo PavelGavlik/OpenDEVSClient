@@ -16,11 +16,21 @@ describe('Directive: uiRunBlock', function() {
 		$scope.$digest();
 	}
 
-	it('should show start button when stopped', function() {
-		$scope.data = { running: false };
+	it('should show timeLast and timeNext', function() {
+		$scope.data = { timeLast: 2, timeNext: 3 };
 		build();
-		expect(element.find('button')[1].style.display).toBe('none');
+		expect(element.find('span')[1].innerHTML).toBe('2');
+		expect(element.find('span')[2].innerHTML).toBe('3');
 	});
+
+	it('should show time and RT factor for simulations', function() {
+		$scope.data = { type: 'simulation', rtFactor: 0, time: 20,
+			rootSolver: function() { return this; }
+		};
+		build();
+		expect(element.find('span')[0].innerHTML).toBe('20');
+		expect(element.find('span')[3].innerHTML).toBe('0');
+	})
 
 	it('should show stop button when running', function() {
 		$scope.data = { running: true };
