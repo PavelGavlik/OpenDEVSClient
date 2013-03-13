@@ -1,0 +1,7 @@
+<div class="win-header">
+    <span ng-show="model.name == 'Root'">My Repository</span>
+    <span ng-hide="model.name == 'Root'">{{model.name}}</span>
+</div>
+<div ng-controller="MyRepositoryItemCtrl" class="win-content">
+    <div ui-my-repository ng-model="model" item-click="openWindow"></div>
+</div>

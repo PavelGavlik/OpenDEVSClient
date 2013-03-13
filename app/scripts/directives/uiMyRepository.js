@@ -1,8 +1,6 @@
 'use strict';
 
 App.directive.uiMyRepository = function($compile, $http, $templateCache) {
-
-
 	function linkFn(scope, element) {
 		var tplUrl = 'templates/directives/uiMyRepository.html';
 		$http.get(tplUrl, { cache: $templateCache }).success(function render(template) {

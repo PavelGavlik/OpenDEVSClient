@@ -11,7 +11,7 @@ describe('Service: api', function () {
 
 	it('should list MyRepository items', inject(function(api, $httpBackend) {
 		$httpBackend.expectGET('http://server:9004/Simulations/');
-		api.simulations();
+		api.MyRepository('/Simulations/');
 		$httpBackend.flush();
 	}));
 });

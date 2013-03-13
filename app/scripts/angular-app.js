@@ -2,14 +2,18 @@
 
 // Declare app level module which depends on filters, and services
 var clientApp = angular.module('clientApp', ['ui']);
+
 clientApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
 	.when('/', {
-		templateUrl: 'views/main.html'
+			templateUrl: 'views/main.html'
 	})
 	.when('/item/:name', {
-		controller: 'MainCtrl',
-		templateUrl: 'views/main.html'
+			controller: 'Main',
+			templateUrl: 'views/main.html'
+//			resolve: {
+//				a: function($route) {console.log($route.current.params.name);}
+//			}
 	})
 	.otherwise({
 		redirectTo: '/'
@@ -22,3 +26,6 @@ clientApp.config(['$routeProvider', function($routeProvider) {
 clientApp.controller(App.controller);
 clientApp.directive(App.directive);
 clientApp.factory(App.service);
+clientApp.factory('model', function() {
+	return new App.model.MyRepository();
+});
