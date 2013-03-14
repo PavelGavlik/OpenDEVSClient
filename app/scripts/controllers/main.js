@@ -20,5 +20,9 @@ App.controller.Main = function($rootScope, model) {
 
 	$rootScope.$on('WindowManager:ready', function() {
 		$rootScope.$broadcast('WindowManager:openWindow', '/', model);
+		setTimeout(function() {
+			var path = '/Simulations/Generator and Processor/generator/';
+			$rootScope.$broadcast('WindowManager:openWindow', path, model.at(path));
+		}, 2000)
 	});
 };

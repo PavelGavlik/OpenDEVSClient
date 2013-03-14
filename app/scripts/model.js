@@ -89,7 +89,7 @@ App.model.MyRepository.prototype.getPath = function() {
 };
 
 /**
- *
+ * Find MyRepository item in current subtree from its name
  * @param {string} name
  */
 App.model.MyRepository.prototype.componentNamed = function(name) {
@@ -102,6 +102,11 @@ App.model.MyRepository.prototype.componentNamed = function(name) {
 	return found;
 };
 
+/**
+ * Find MyRepository item from its path
+ * @param {string} path
+ * @returns {*}
+ */
 App.model.MyRepository.prototype.at = function(path) {
 	var pathNames = path.substr(1, path.length-2).split('/');
 	var component = this;
@@ -113,6 +118,12 @@ App.model.MyRepository.prototype.at = function(path) {
 	return component;
 };
 
+/**
+ * Find MyRepository item with given path and rewrite it with item
+ * @param {string} path
+ * @param {object} item
+ * @returns {*}
+ */
 App.model.MyRepository.prototype.put = function(path, item) {
 	var component = this.at(path);
 	component.load(item);

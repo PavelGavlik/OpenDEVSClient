@@ -66,13 +66,13 @@ singleRun = false;
 
 // test results reporter to use
 // possible values: dots || progress
-reporter = 'progress';
-// reporters = ['progress', 'coverage'];
+//reporter = 'progress';
+reporters = ['progress', 'coverage'];
 
-// coverageReporter = {
-//   type : 'html',
-//   dir : '../test/coverage/'
-// };
+coverageReporter = {
+   type : 'html',
+   dir : '../test/coverage/'
+};
 
 preprocessors = {
   '**/*.html': 'html2js',

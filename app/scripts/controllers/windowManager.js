@@ -2,21 +2,45 @@
 
 App.controller.WindowManager = function($scope) {
 	function openWindow(path, model) {
-		function isNotSameItem(item) {
-			var isNotSame = item.path !== path;
+		function isNotSameWindow(window) {
+			var isNotSame = window.path !== path;
 			if (!isNotSame)
-				$scope.selectWindow(item);
+				$scope.selectWindow(window);
 			return isNotSame;
 		}
 
-		if ($scope.items.every(isNotSameItem)) {
-			$scope.items.push(model);
-			$scope.currentItemName = path;
+		if ($scope.windows.every(isNotSameWindow)) {
+			$scope.windows.push(model);
+			$scope.selectWindow(model);
+			$scope.safeApply();
 		}
 	}
 
 	function selectWindow(model) {
-		$scope.currentItemName = model.path;
+		$scope.currentWindowName = model.path;
+		$scope.safeApply();
+	}
+
+	function closeWindow(model) {
+		/**
+		 * Removes specific item from array
+		 * @param {Array} arr
+		 * @param {*} item
+		 */
+		function removeArrayItem(arr, item) {
+			arr.splice(arr.indexOf(item), 1);
+		}
+
+		/**
+		 * Return last item of given array
+		 * @param {Array} arr
+		 * @returns {*}
+		 */
+		function lastArrayItem(arr) {
+			return arr[arr.length - 1];
+		}
+		removeArrayItem($scope.windows, model);
+		$scope.selectWindow(lastArrayItem($scope.windows));
 		$scope.safeApply();
 	}
 
@@ -28,15 +52,21 @@ App.controller.WindowManager = function($scope) {
 		selectWindow(model);
 	}
 
+	function closeWindowFromEvent(e, model) {
+		closeWindow(model);
+	}
 
-	$scope.items = [];
-	$scope.currentItemName = '';
+
+	$scope.windows = [];
+	$scope.currentWindowName = '';
 
 	$scope.openWindow = openWindow;
 	$scope.selectWindow = selectWindow;
+	$scope.closeWindow = closeWindow;
 
 	$scope.$on('WindowManager:openWindow', openWindowFromEvent);
 	$scope.$on('WindowManager:selectWindow', selectWindowFromEvent);
+	$scope.$on('WindowManager:closeWindow', closeWindowFromEvent);
 	$scope.$emit('WindowManager:ready');
 };
 
@@ -74,5 +104,9 @@ App.controller.MyRepositoryItemCtrl = function($scope, api, model) {
 
 	$scope.openWindow = function(model) {
 		$scope.$emit('WindowManager:openWindow', model.path, model);
+	}
+
+	$scope.closeWindow = function(model) {
+		$scope.$emit('WindowManager:closeWindow', model);
 	}
 };

@@ -23,8 +23,8 @@
         <div class="container-fluid">
             <a class="brand" href="#">DEVS Client</a>
             <div class="nav-collapse collapse">
-                <ul ng-repeat="i in items" class="nav">
-                    <li ng-class="{active: currentItemName == i.path}">
+                <ul ng-repeat="i in windows" class="nav">
+                    <li ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
                         <a ng-bind="i.name" ng-click="selectWindow(i)"></a>
                     </li>
                 </ul>
@@ -37,17 +37,17 @@
     <div ng-view></div>
     <div class="row-fluid">
         <div class="span3">
-            <div ng-cloak ng-repeat="i in items" ng-hide="$index" ng-class="{active: currentItemName == i.path}">
+            <div ng-cloak ng-repeat="i in windows" ng-hide="$index" ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
                 <div ui-window ng-model="i"></div>
             </div>
         </div>
         <div class="span9">
-            <!-- <div ng-show="currentItemName == ''" class="hero-unit">
+            <div ng-show="windows.length <= 1" class="hero-unit">
                 <h1>Welcome!</h1>
-                <p>Start by selecting simulation in sidebaror by creating a new one.</p>
+                <p>Start by selecting simulation in sidebar by creating a new one.</p>
                 <p><a class="btn btn-primary btn-large">Create new simulation</a></p>
-            </div> ng-show="currentItemName == i.name"-->
-            <div ng-cloak ng-repeat="i in items" ng-show="$index && currentItemName == i.path" ng-class="{active: currentItemName == i.path}">
+            </div>
+            <div ng-cloak ng-repeat="i in windows" ng-show="$index && currentWindowName == i.path" ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
                 <div ui-window ng-model="i"></div>
             </div>
         </div>
