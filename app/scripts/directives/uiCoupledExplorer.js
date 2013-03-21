@@ -164,19 +164,30 @@ App.service.Point = function() {
 	 */
 	Point.prototype.isEqual = function(p) {
 		return this.x === p.x && this.y === p.y;
-	}
+	};
 
 	return Point;
 };
 
 App.service.computeCouplingSegments = function(Point) {
 	/**
+	 * Returns part rounded if it's number
+	 * @param {String|Number} part
+	 * @returns {*}
+	 */
+	function roundedPart(part) {
+		return angular.isString(part) ?
+			part :
+			Math.round(part)
+	}
+
+	/**
 	 * Returns a line segment of SVG path
 	 * @param {Point.Record|Point} p
 	 * @return {string}
 	 */
 	function lineSegment(p) {
-		return [' L', p.x, p.y].join(' ');
+		return [' L', p.x, p.y].map(roundedPart).join(' ');
 	}
 
 	/**
@@ -186,7 +197,7 @@ App.service.computeCouplingSegments = function(Point) {
 	 * @return {string}
 	 */
 	function bezierSegment(p1, p2) {
-		return [' Q', p1.x, p1.y, p2.x, p2.y].join(' ');
+		return [' Q', p1.x, p1.y, p2.x, p2.y].map(roundedPart).join(' ');
 	}
 
 	/**

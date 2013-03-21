@@ -1,47 +1,49 @@
 'use strict';
 
+/** @extends {Scope} */
+App.type.WindowManagerScope = {
+	closeWindow: function(model) {},
+	currentWindowName: '',
+	openWindow: function(path, model) {},
+	selectWindow: function(window) {},
+	windows: []
+};
+
+/**
+ *
+ * @param {App.type.WindowManagerScope} $scope
+ * @constructor
+ */
 App.controller.WindowManager = function($scope) {
 	function openWindow(path, model) {
-		function isNotSameWindow(window) {
-			var isNotSame = window.path !== path;
+		/**
+		 *
+		 * @param {App.model.MyRepository} win
+		 * @returns {boolean}
+		 */
+		function isNotSameWindow(win) {
+			var isNotSame = win.path !== path;
 			if (!isNotSame)
-				$scope.selectWindow(window);
+				$scope.selectWindow(win);
 			return isNotSame;
 		}
 
 		if ($scope.windows.every(isNotSameWindow)) {
 			$scope.windows.push(model);
 			$scope.selectWindow(model);
-			$scope.safeApply();
+			Util.safeApply($scope);
 		}
 	}
 
 	function selectWindow(model) {
 		$scope.currentWindowName = model.path;
-		$scope.safeApply();
+		Util.safeApply($scope);
 	}
 
 	function closeWindow(model) {
-		/**
-		 * Removes specific item from array
-		 * @param {Array} arr
-		 * @param {*} item
-		 */
-		function removeArrayItem(arr, item) {
-			arr.splice(arr.indexOf(item), 1);
-		}
-
-		/**
-		 * Return last item of given array
-		 * @param {Array} arr
-		 * @returns {*}
-		 */
-		function lastArrayItem(arr) {
-			return arr[arr.length - 1];
-		}
-		removeArrayItem($scope.windows, model);
-		$scope.selectWindow(lastArrayItem($scope.windows));
-		$scope.safeApply();
+		Util.removeArrayItem($scope.windows, model);
+		$scope.selectWindow(Util.lastArrayItem($scope.windows));
+		Util.safeApply($scope);
 	}
 
 	function openWindowFromEvent(e, path, model) {
@@ -99,14 +101,23 @@ App.controller.MyRepositoryItemCtrl = function($scope, api, model) {
 			$scope.model = model.put($scope.model.path, item);
 		}).
 		error(function() {
-			window.alert('Unable to load MyRepository.');
+			window.alert('Unable to load item from server.');
 		});
 
-	$scope.openWindow = function(model) {
+	function openWindow(model) {
 		$scope.$emit('WindowManager:openWindow', model.path, model);
 	}
 
-	$scope.closeWindow = function(model) {
+	function closeWindow(model) {
 		$scope.$emit('WindowManager:closeWindow', model);
 	}
+
+	function deleteItem() {
+//		api.MyRepository($scope.model.path).delete()
+		closeWindow($scope.model);
+	}
+
+	$scope.openWindow = openWindow;
+	$scope.closeWindow = closeWindow;
+	$scope.deleteItem = deleteItem;
 };

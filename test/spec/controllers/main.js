@@ -13,10 +13,4 @@ describe('Controller: Main', function() {
 			$scope: scope
 		});
 	}));
-
-	it('should update simulations when needed', function() {
-		var simulations = {myKey: 'value'};
-		scope.pass('simulations')(simulations);
-		expect(scope.simulations).toBe(simulations);
-	});
 });

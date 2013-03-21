@@ -12,10 +12,16 @@ App.service.api = function($http, $location) {
 	/**
 	 * @param {App.model.DEVSRootSolverRT} solver
 	 * @param {boolean} willBeRunning
-	 * @returns {*|HttpPromise}
 	 */
 	api.DEVSRootSolverRT.changeRunningState = function(solver, willBeRunning) {
-		return $http.put(host + solver.getPath(), { running: willBeRunning});
+		return $http.put(host + solver.getPath(), {running: willBeRunning});
+	};
+
+	/**
+	 * @param {App.model.DEVSRootSolverRT} solver
+	 */
+	api.DEVSRootSolverRT.resetSimulation = function(solver) {
+		return $http.put(host + solver.getPath(), {reset: true});
 	};
 
 	return api;

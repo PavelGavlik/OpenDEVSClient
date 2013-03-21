@@ -1,7 +1,7 @@
 <div>
     <button ng-click="start()" ng-hide="data.running" ng-disabled="loading" class="btn btn-small">Start</button>
     <button ng-click="stop()" ng-show="data.running" ng-disabled="loading"  class="btn btn-small">Stop</button>
-    <button ng-disabled="loading" class="btn btn-small">Reset</button>
+    <button ng-click="reset()" ng-disabled="loading" class="btn btn-small">Reset</button>
 
     time: <span>{{data.rootSolver().time}}</span>,
     timeLast: <span>{{data.timeLast}}</span>,

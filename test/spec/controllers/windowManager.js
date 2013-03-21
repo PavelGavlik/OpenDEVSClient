@@ -105,4 +105,22 @@ describe('Controller: WindowManager', function() {
 		expect(scope.windows.length).toBe(1);
 		expect(scope.currentWindowName).toBe(win.path);
 	});
+});'use strict';
+
+describe('Directive: uiWindow', function() {
+	var element, $scope, $compile;
+
+	beforeEach(module('clientApp'));
+	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
+		$scope = $r;
+		$compile = $c;
+	}]));
+
+	it('should compile', function() {
+		$scope.model = { type: 'stub' };
+		element = angular.element('<div ui-window ng-model="model" />');
+		element = $compile(element)($scope);
+		$scope.$digest();
+	});
 });
+

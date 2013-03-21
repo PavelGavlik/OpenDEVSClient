@@ -3,8 +3,7 @@
         <button ng-click="closeWindow(model)" class="btn btn-small close">
             <span>&#x2a2f</span>
         </button>
-        <div ng-show="model.name == 'Root'" class="name">My Repository</div>
-        <div ng-hide="model.name == 'Root'" ng-bind="model.name" class="name"></div>
+        <div ng-bind="model.name" class="name"></div>
         <div class="clearfix"></div>
     </div>
     <div class="win-content">

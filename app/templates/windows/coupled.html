@@ -4,7 +4,7 @@
             <span>&#x2a2f</span>
         </button>
         <div ng-bind="model.name" class="name"></div>
-        <button class="btn btn-small btn-danger">Delete</button>
+        <button ng-click="deleteItem(model)" class="btn btn-small btn-danger">Delete</button>
         <div class="clearfix"></div>
     </div>
     <div class="win-content">

@@ -21,10 +21,10 @@
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="brand" href="#">DEVS Client</a>
             <div class="nav-collapse collapse">
-                <ul ng-repeat="i in windows" class="nav">
-                    <li ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
+                <ul class="nav">
+                    <a class="brand" href="#">DEVS Client</a>
+                    <li ng-repeat="i in windows" ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
                         <a ng-bind="i.name" ng-click="selectWindow(i)"></a>
                     </li>
                 </ul>
@@ -44,7 +44,7 @@
         <div class="span9">
             <div ng-show="windows.length <= 1" class="hero-unit">
                 <h1>Welcome!</h1>
-                <p>Start by selecting simulation in sidebar by creating a new one.</p>
+                <p>Start by selecting simulation in My Repository by creating a new one.</p>
                 <p><a class="btn btn-primary btn-large">Create new simulation</a></p>
             </div>
             <div ng-cloak ng-repeat="i in windows" ng-show="$index && currentWindowName == i.path" ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
@@ -52,6 +52,8 @@
             </div>
         </div>
     </div>
+</div>
+
 </div>
 
 <script src="scripts/vendor/codemirror.js"></script>
@@ -76,6 +78,5 @@
 <script src="scripts/directives/ngSvg.js"></script>
 <script src="scripts/angular-app.js"></script>
 <!-- endbuild -->
-</div>
 </body>
 </html>

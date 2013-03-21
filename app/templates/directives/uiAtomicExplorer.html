@@ -1,29 +1,53 @@
 <div ui-tree><ul>
-	<div ui-tree-item title="Ports">
-        <div ng-show="data.inputPorts" class="input-ports">
-            <div ng-repeat="p in data.inputPorts" class="port">{{p.name}}</div>
-        </div>
-        <button class="btn">Add Input</button>
-        <div ng-show="data.outputPorts" class="output-ports">
-            <div ng-repeat="p in data.outputPorts" class="port">{{p.name}}</div>
-        </div>
-        <button class="btn">Add Output</button>
-        <div class="clearfix"></div>
-	</div>
-    <div ui-tree-item title="Slots">
-        <div ng-repeat="(sName, sValue) in data.slots">{{sName}} -> {{sValue}}</div>
-    </div>
-    <div ui-tree-item title="Delegates">
-        <div ng-repeat="d in data.delegates">{{d}}</div>
-    </div>
-    <div ui-tree-item title="Methods">
-        <div ng-repeat="(mName, mSource) in data.methods" ui-tree><ul>
-            <div ui-tree-item ng-model="mName">
-                <textarea ui-codemirror="{ mode: 'smalltalk', lineNumbers: true, lineWrapping: true, closeBrackets: true, matchBrackets: true }" ng-model="mSource"></textarea>
+	<li ui-tree-item title="Ports">
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <button ng-click="addInputPort()" class="btn">Add Input</button>
+                <button ng-click="addOutputPort()" class="btn">Add Output</button>
+                <button ng-click="renamePort()" ng-disabled="!selectedPort" class="btn">Rename</button>
+                <button ng-click="deletePort()" ng-disabled="!selectedPort" class="btn">Delete</button>
             </div>
+        </div>
+        <div ng-show="model.inputPorts" class="input-ports">
+            <div ng-repeat="p in model.inputPorts | orderBy:'name'" ng-click="selectPort(p)" ng-class="{selected: selectedPort == p}" class="port">{{p.name}}</div>
+        </div>
+        <div ng-show="model.outputPorts" class="output-ports">
+            <div ng-repeat="p in model.outputPorts | orderBy:'name'" ng-click="selectPort(p)" ng-class="{selected: selectedPort == p}" class="port">{{p.name}}</div>
+        </div>
+        <div class="clearfix"></div>
+	</li>
+
+    <li ui-tree-item title="Slots">
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <button ng-click="addSlot()" class="btn">Add Slot</button>
+                <button ng-click="injectSlotWithValue()" ng-disabled="!selectedSlot" class="btn">Inject Value</button>
+                <button ng-click="renameSlot()" ng-disabled="!selectedSlot" class="btn">Rename</button>
+                <button ng-click="deleteSlot()" ng-disabled="!selectedSlot" class="btn">Delete</button>
+            </div>
+        </div>
+        <div ng-repeat="s in model.slots | orderBy:'name'" ng-click="selectSlot(s)" ng-class="{selected: selectedSlot == s}" class="slot">{{s.name}} &rarr; {{s.value}}</div>
+    </li>
+
+    <li ui-tree-item closed title="Delegates">
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <button ng-click="addDelegate()" class="btn">Add Existing Delegate</button>
+                <button ng-click="deleteDelegate()" ng-disabled="!selectedDelegate" class="btn">Delete</button>
+            </div>
+        </div>
+        <div ng-repeat="d in model.delegates" ng-click="selectDelegate(d)" ng-class="{selected: selectedDelegate == d}" class="delegate">{{d}}</div>
+    </li>
+
+    <li ui-tree-item title="Methods">
+        <div ng-repeat="(mName, mSource) in model.methods" ui-tree><ul>
+            <li ui-tree-item ng-model="mName">
+                <textarea ui-codemirror="{ mode: 'smalltalk', lineNumbers: true, lineWrapping: true, closeBrackets: true, matchBrackets: true }" ng-model="mSource"></textarea>
+            </li>
         </ul></div>
-    </div>
-    <div ui-tree-item title="Comment">
-        <textarea ui-codemirror="{ mode: 'none', lineNumbers: true, lineWrapping: true }" ng-model="data.comment"></textarea>
-    </div>
+    </li>
+
+    <li ui-tree-item title="Comment">
+        <textarea ui-codemirror="{ mode: 'none', lineNumbers: true, lineWrapping: true }" ng-model="model.comment"></textarea>
+    </li>
 </ul></div>
