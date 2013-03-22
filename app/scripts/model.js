@@ -60,7 +60,7 @@ App.model.MyRepository.prototype.load = function(data) {
 		else if (child.type == 'PrototypeObject')
 			childObj = {parent: this};
 		else
-			throw new Error('Unknown child type.');
+			throw new Error('Unknown child type: ' + child.type);
 
 		return childObj;
 	}, this);
@@ -199,7 +199,7 @@ App.model.CoupledDEVSPrototype.prototype.load = function(data) {
 		else if (child.type === 'atomic')
 			childObj = new App.model.AtomicDEVSPrototype(child, this);
 		else
-			throw new Error('Unknown child type.');
+			throw new Error('Unknown child type: ' + child.type);
 
 		return childObj;
 	}, this);

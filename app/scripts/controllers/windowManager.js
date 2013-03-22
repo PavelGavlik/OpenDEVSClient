@@ -2,10 +2,13 @@
 
 /** @extends {Scope} */
 App.type.WindowManagerScope = {
-	closeWindow: function(model) {},
+	/** @type {function(model)} */
+	closeWindow: null,
 	currentWindowName: '',
-	openWindow: function(path, model) {},
-	selectWindow: function(window) {},
+	/** @type {function(path, model)} */
+	openWindow: null,
+	/** @type {function(window)} */
+	selectWindow: null,
 	windows: []
 };
 

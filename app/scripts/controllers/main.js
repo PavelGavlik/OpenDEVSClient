@@ -3,14 +3,15 @@
 /**
  * Handles initialization after loading the application
  * @param {Scope} $rootScope
+ * @param $timeout
  * @param {App.model.MyRepository} model
  * @constructor
  */
-App.controller.Main = function($rootScope, model) {
+App.controller.Main = function($rootScope, $timeout, model) {
 	$rootScope.$on('WindowManager:ready', function() {
 		$rootScope.$broadcast('WindowManager:openWindow', '/', model);
-		setTimeout(function() {
-			var path = '/Simulations/Generator and Processor/processor/';
+		$timeout(function() {
+			var path = '/Simulations/Cart-Pole-Control System/';
 			$rootScope.$broadcast('WindowManager:openWindow', path, model.at(path));
 		}, 2000);
 	});

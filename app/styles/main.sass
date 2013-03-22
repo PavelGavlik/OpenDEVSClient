@@ -27,11 +27,20 @@ body
 
 [ui-window]
 	@extend .thumbnail
+	width: 65%
+	position: absolute
+	top: 60px
+	left: 20px
 	padding: 0
 	@include box-shadow(2px 2px 20px rgba(0,0,0,0.1))
 	background-color: rgb(228, 228, 228)
 	border-color: rgba(0,0,0,0.1)
 	@include transition(none)
+
+	.root &
+		width: 28%
+		left: inherit
+		right: 20px
 
 	.win-header, .win-statusbar
 		@extend .nav-header
@@ -78,6 +87,7 @@ body
 		@include border-bottom-left-radius(4px)
 
 	.active &
+		z-index: 20
 		border-color: rgba(0,0,0,0.3)
 		@include box-shadow(2px 2px 20px rgba(0,0,0,0.2))
 
@@ -190,5 +200,6 @@ body
 		background: $inputPort
 
 	.CodeMirror
+		@include border-radius(2px)
 		height: 125px
 		border: 1px solid #ddd

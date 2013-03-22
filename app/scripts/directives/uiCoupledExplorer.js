@@ -2,31 +2,46 @@
 
 App.value.submodelPortGap = 15;
 
+App.controller.uiCoupledExplorer = function($scope, $element, computeSubmodelSize, computeCouplingSegments) {
+	$scope.portGap = App.value.submodelPortGap;
+	$scope.rectHeight = $scope.rectWidth = 0;
+	$scope.svgRoot = $element.find('svg')[0];
+
+	/**
+	 * @param {Array<App.model.CoupledDEVSPrototype|App.model.AtomicDEVSPrototype>} submodels
+	 */
+	function redrawSubmodels(submodels) {
+		if (!submodels || !submodels.length)
+			return;
+
+		submodels.forEach(function(submodel) {
+			var size = computeSubmodelSize($scope.svgRoot, submodel);
+			submodel.rectWidth = size.x;
+			submodel.rectHeight = size.y;
+		});
+	}
+
+	/**
+	 * @param {Array} couplings
+	 */
+	function redrawCouplings(couplings) {
+		if (!couplings || !couplings.length)
+			return;
+
+		couplings.forEach(function(coupling) {
+			coupling.segments = computeCouplingSegments(coupling);
+		});
+	}
+
+	$scope.$watch('data.components', redrawSubmodels);
+	$scope.$watch('data.couplings', redrawCouplings);
+};
+
 App.directive.uiCoupledExplorer = function() {
 	return {
+		controller: App.controller.uiCoupledExplorer,
 		scope: {data: '=ngModel'},
-		templateUrl: 'templates/directives/uiCoupledExplorer.html',
-		controller: ['$scope', '$element', function($scope, $element) {
-			$scope.portGap = App.value.submodelPortGap;
-			$scope.rectHeight = $scope.rectWidth = 0;
-			$scope.svgRoot = $element.find('svg')[0];
-		}]
-	};
-};
-
-App.directive.uiCoupledSubmodel = function(computeSubmodelSize) {
-	return function(scope) {
-		var submodel = scope.c;
-		var size = computeSubmodelSize(scope.svgRoot, submodel);
-		scope.rectWidth = size.x;
-		scope.rectHeight = size.y;
-	};
-};
-
-App.directive.uiCoupledSubmodelCoupling = function($parse, computeCouplingSegments) {
-	return function(scope, element, attrs) {
-		var vertices = $parse(attrs.model)(scope);
-		attrs.$set('d', computeCouplingSegments(vertices));
+		templateUrl: 'templates/directives/uiCoupledExplorer.html'
 	};
 };
 
