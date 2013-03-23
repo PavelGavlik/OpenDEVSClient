@@ -1,5 +1,41 @@
 'use strict';
 
+describe('Controller: uiRunBlock', function() {
+	var $scope, api;
+
+	// load the controller's module
+	beforeEach(module('clientApp'));
+
+	// initialize the controller and a mock scope
+	beforeEach(inject(function($controller, $rootScope, $q, apiMock) {
+		$scope = $rootScope;
+		$scope.model = new App.model.DEVSRootSolverRT({components: [
+			{name: 'comp', type: 'coupled'}
+		]});
+		api = apiMock;
+
+		$controller('uiRunBlock', {
+			$scope: $scope,
+			api: apiMock
+		});
+	}));
+
+	it("should be able to start simulation", function () {
+		$scope.start();
+		expect(api.DEVSRootSolverRT.changeRunningState.calls).toBe(1);
+	});
+
+	it("should be able to stop simulation", function () {
+		$scope.stop();
+		expect(api.DEVSRootSolverRT.changeRunningState.calls).toBe(1);
+	});
+
+	it("should be able to stop simulation", function () {
+		$scope.reset();
+		expect(api.DEVSRootSolverRT.resetSimulation.calls).toBe(1);
+	});
+});
+
 describe('Directive: uiRunBlock', function() {
 	var element, $scope, $compile;
 

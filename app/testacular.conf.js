@@ -9,7 +9,7 @@ basePath = '';
 files = [
   JASMINE,
   JASMINE_ADAPTER,
-  'scripts/vendor/es5-shim.min.js',
+  '../test/vendor/es5-shim.js',
   'scripts/vendor/angular.js',
   'scripts/vendor/codemirror.js',
   '../test/vendor/angular-mocks.js',

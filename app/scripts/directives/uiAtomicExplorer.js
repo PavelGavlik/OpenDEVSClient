@@ -37,14 +37,18 @@ App.type.uiAtomicExplorerScope = {
  *
  * @param {App.type.uiAtomicExplorerScope} $scope
  * @param {Window} $window
+ * @param {App.service.api} api
  */
-App.controller.uiAtomicExplorer = function($scope, $window) {
+App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	function addInputPort() {
 		var name = $window.prompt('Enter input port name:');
-		if (name)
+		if (name) {
 			$scope.selectedPort = $scope.model.addInputPort(name);
+//			var portResource = new api.Port();
+//			angular.extend(portResource, $scope.selectedPort, {path: $scope.model.path});
+//			portResource.$save(portResource);
+		}
 	}
-
 	function addOutputPort() {
 		var name = $window.prompt('Enter output port name:');
 		if (name)

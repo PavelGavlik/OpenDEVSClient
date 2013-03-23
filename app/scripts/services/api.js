@@ -6,9 +6,8 @@ App.service.api = function($http, $location) {
 		MyRepository: function(path) {
 			return $http.get(host + path);
 		},
-		DEVSRootSolverRT: {}
+		DEVSRootSolverRT: {},
 	};
-
 	/**
 	 * @param {App.model.DEVSRootSolverRT} solver
 	 * @param {boolean} willBeRunning
@@ -23,6 +22,5 @@ App.service.api = function($http, $location) {
 	api.DEVSRootSolverRT.resetSimulation = function(solver) {
 		return $http.put(host + solver.getPath(), {reset: true});
 	};
-
 	return api;
 };

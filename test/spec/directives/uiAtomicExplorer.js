@@ -7,14 +7,15 @@ describe('Controller: uiAtomicExplorer', function() {
 	beforeEach(module('clientApp'));
 
 	// initialize the controller and a mock scope
-	beforeEach(inject(function($controller, $rootScope) {
+	beforeEach(inject(function($controller, $rootScope, api) {
 		$scope = $rootScope;
 		$scope.model = new App.model.AtomicDEVSPrototype();
 		var $window = { prompt: function() { return 'name' } };
 
 		$controller('uiAtomicExplorer', {
 			$scope: $scope,
-			$window: $window
+			$window: $window,
+			api: api
 		});
 	}));
 

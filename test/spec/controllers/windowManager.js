@@ -105,7 +105,7 @@ describe('Controller: WindowManager', function() {
 		expect(scope.windows.length).toBe(1);
 		expect(scope.currentWindowName).toBe(win.path);
 	});
-});'use strict';
+});
 
 describe('Directive: uiWindow', function() {
 	var element, $scope, $compile;
@@ -124,3 +124,25 @@ describe('Directive: uiWindow', function() {
 	});
 });
 
+describe('Controller: MyRepositoryItem', function() {
+	var $scope, api;
+
+	// load the controller's module
+	beforeEach(module('clientApp'));
+
+	// initialize the controller and a mock scope
+	beforeEach(inject(function($controller, $rootScope, apiMock) {
+		$scope = $rootScope;
+		api = apiMock;
+		var model = $scope.model = new App.model.MyRepository();
+
+		$controller('MyRepositoryItem', {
+			$scope: $scope,
+			api: api,
+			model: model
+		});
+	}));
+
+	it("should work", function () {
+	});
+});

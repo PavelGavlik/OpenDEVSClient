@@ -98,7 +98,7 @@ App.directive.uiWindow = function() {
 	};
 };
 
-App.controller.MyRepositoryItemCtrl = function($scope, api, model) {
+App.controller.MyRepositoryItem = function($scope, api, model) {
 	api.MyRepository($scope.model.path).
 		success(function(item) {
 			$scope.model = model.put($scope.model.path, item);

@@ -10,8 +10,22 @@ describe('Model: AtomicDEVSPrototype', function () {
 
 	it('should be able to load new data', function() {
 		expect(atomic.name).toBe('');
-		atomic.load({name: 'new'});
+		atomic.load({
+			name: 'new',
+			inputPorts: [{name: 'input'}],
+			outputPorts: [{name: 'output'}],
+			slots: [{name: 'slot'}]
+		});
 		expect(atomic.name).toBe('new');
+		expect(atomic.inputPorts.length).toBe(1);
+		expect(atomic.outputPorts.length).toBe(1);
+		expect(atomic.slots.length).toBe(1);
+	});
+
+	it("should be able to load data via constructor", function () {
+		atomic = new App.model.AtomicDEVSPrototype({name: 'new'}, new App.model.MyRepository());
+		expect(atomic.name).toBe('new');
+		expect(atomic.parent instanceof App.model.MyRepository).toBe(true);
 	});
 
 	it("should be able to add input port", function () {

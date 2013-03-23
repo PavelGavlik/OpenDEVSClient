@@ -11,7 +11,7 @@ App.controller.Main = function($rootScope, $timeout, model) {
 	$rootScope.$on('WindowManager:ready', function() {
 		$rootScope.$broadcast('WindowManager:openWindow', '/', model);
 		$timeout(function() {
-			var path = '/Simulations/Cart-Pole-Control System/';
+			var path = '/Simulations/Cart-Pole-Control System/cart and pole/';
 			$rootScope.$broadcast('WindowManager:openWindow', path, model.at(path));
 		}, 2000);
 	});

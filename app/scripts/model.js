@@ -135,6 +135,12 @@ App.model.BaseDEVS = function() {
 App.model.BaseDEVS.prototype.parent = null;
 
 /**
+ * Full path in MyRepository hierarchy
+ * @type {string}
+ */
+App.model.BaseDEVS.prototype.path = '/';
+
+/**
  * DEVS name
  * @type {string}
  */
