@@ -102,8 +102,6 @@ App.model.MyRepository.prototype.at = function(path) {
 	var component = this;
 	if (pathNames[0] !== "") pathNames.forEach(function(pathName) {
 		component = component.componentNamed(pathName);
-		if (!component)
-			return null;
 	}, this);
 	return component;
 };

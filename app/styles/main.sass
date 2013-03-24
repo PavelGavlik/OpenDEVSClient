@@ -25,11 +25,14 @@ body
 		color: white
 		background-color: $blueDark
 
+.windows-container
+	position: relative
+	padding-top: 20px
+
 [ui-window]
 	@extend .thumbnail
 	width: 65%
 	position: absolute
-	top: 60px
 	left: 20px
 	padding: 0
 	@include box-shadow(2px 2px 20px rgba(0,0,0,0.1))
