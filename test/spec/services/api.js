@@ -16,7 +16,15 @@ describe('Service: api', function () {
 			resource = new api._resource('/URL/');
 		});
 
-		it("have default methods", function () {
+		it("should save path", function () {
+			expect(resource.path).toBe('http://server:9004/URL/');
+		});
+
+		xit("should have path getter", function () {
+			expect(resource.getPath()).toBe(resource.path);
+		});
+
+		it("should have default methods", function () {
 			expect(typeof resource.get).toBe('function');
 			expect(typeof resource.post).toBe('function');
 			expect(typeof resource.put).toBe('function');
@@ -53,22 +61,41 @@ describe('Service: api', function () {
 	});
 
 	describe("DEVSRootSolverRTResource", function () {
-		it("should create internal resource", function () {
-			var solver = new api.DEVSRootSolverRT(new App.model.DEVSRootSolverRT());
-			expect(solver._resource instanceof api._resource).toBe(true);
-		});
+		var resource;
 
-		it("should be able to change simulation state", function () {
+		beforeEach(function() {
 			var model = new App.model.MyRepository({name: 'Root', type: 'MyRepository', components: [
 				{name: 'Simulations', type: 'MyRepository', components: [
 					{name: 'sim', type: 'simulation', running: true}
 				]}
 			]});
+			resource = new api.DEVSRootSolverRT(model.at('/Simulations/sim/'));
+		});
+
+		it("should be able to change simulation state", function () {
 			$httpBackend.when('PUT', 'http://server:9004/Simulations/sim/').respond({});
 			$httpBackend.expectPUT('http://server:9004/Simulations/sim/', {running: true});
-			var resource = new api.DEVSRootSolverRT(model.at('/Simulations/sim/'));
 			resource.changeRunningState(true);
 			$httpBackend.flush();
+		});
+
+		it("should be able to reset simulation", function () {
+			$httpBackend.when('PUT', 'http://server:9004/Simulations/sim/').respond({});
+			$httpBackend.expectPUT('http://server:9004/Simulations/sim/', {reset: true});
+			resource.resetSimulation();
+			$httpBackend.flush();
+		});
+	});
+
+	describe("PortResource", function () {
+		var resource;
+
+		beforeEach(function() {
+			resource = new api.Port(new App.model.Port());
+		});
+
+		xit("should be able to get port over network", function () {
+			resource.get();
 		});
 	});
 

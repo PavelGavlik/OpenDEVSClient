@@ -16,6 +16,7 @@ describe('Controller: uiRunBlock', function() {
 
 		$controller('uiRunBlock', {
 			$scope: $scope,
+			$window: {alert: angular.noop},
 			api: api
 		});
 	}]));

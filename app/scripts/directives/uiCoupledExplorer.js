@@ -46,7 +46,7 @@ App.directive.uiCoupledExplorer = function() {
 };
 
 App.service.computeSubmodelSize = function() {
-	function computeSize(svgRoot, submodel) {
+	return function computeSubmodelSize(svgRoot, submodel) {
 		function getTextWidth(node, text) {
 			node.textContent = text;
 			return node.getBBox().width;
@@ -81,8 +81,6 @@ App.service.computeSubmodelSize = function() {
 		size.y = (portCount + 1) * App.value.submodelPortGap + 5;
 		return size;
 	}
-
-	return computeSize;
 };
 
 App.service.Point = function() {

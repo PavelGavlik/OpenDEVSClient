@@ -10,7 +10,7 @@ App.service.api = function($http, $location) {
 	 */
 	function Resource(path) {
 		/** @type {string} */
-		this.path = host +  path;
+		this.path = host + path;
 	}
 
 	Resource.prototype.get = function() {
@@ -28,26 +28,39 @@ App.service.api = function($http, $location) {
 
 
 	/**
+	 * @param {App.model.Port} port
+	 * @extends {Resource}
+	 */
+	function MyRepositoryItemResource(port) {
+		this.path = host + port.path;
+	}
+	Util.inherits(MyRepositoryItemResource, Resource);
+
+
+	/**
 	 * @param {App.model.DEVSRootSolverRT} solver
+	 * @extends {Resource}
 	 */
 	function DEVSRootSolverRTResource(solver) {
-		this._resource = new Resource(solver.path);
+		MyRepositoryItemResource.call(this, solver);
 	}
+	Util.inherits(DEVSRootSolverRTResource, MyRepositoryItemResource);
 
 	/**
 	 * @param {Boolean} willBeRunning
 	 */
 	DEVSRootSolverRTResource.prototype.changeRunningState = function(willBeRunning) {
-		return this._resource.put({running: willBeRunning});
+		return this.put({running: willBeRunning});
+	};
+	DEVSRootSolverRTResource.prototype.resetSimulation = function() {
+		return this.put({reset: true});
 	};
 
-	DEVSRootSolverRTResource.prototype.resetSimulation = function() {
-		return this._resource.put({reset: true});
-	};
 
 	return {
 		_resource: Resource,
+		DEVSRootSolverRT: DEVSRootSolverRTResource,
 		MyRepository: Resource,
-		DEVSRootSolverRT: DEVSRootSolverRTResource
+		Port: MyRepositoryItemResource
 	};
 };

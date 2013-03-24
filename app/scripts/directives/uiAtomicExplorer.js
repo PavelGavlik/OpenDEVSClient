@@ -43,7 +43,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	function addInputPort() {
 		var name = $window.prompt('Enter input port name:');
 		if (name) {
-			$scope.selectedPort = $scope.model.addInputPort(name);
+			$scope.selectedPort = $scope.model.addInputPortWithName(name);
 //			var portResource = new api.Port();
 //			angular.extend(portResource, $scope.selectedPort, {path: $scope.model.path});
 //			portResource.$save(portResource);
@@ -52,7 +52,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	function addOutputPort() {
 		var name = $window.prompt('Enter output port name:');
 		if (name)
-			$scope.selectedPort = $scope.model.addOutputPort(name);
+			$scope.selectedPort = $scope.model.addOutputPortWithName(name);
 	}
 
 	function addSlot() {

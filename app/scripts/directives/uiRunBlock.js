@@ -19,14 +19,14 @@ App.type.uiRunBlockScope = {
  * @param {App.type.uiRunBlockScope} $scope
  * @param {App.service.api} api
  */
-App.controller.uiRunBlock = function($scope, api) {
+App.controller.uiRunBlock = function($scope, $window, api) {
 	function changeRunningState(willBeRunning) {
 		$scope.loading = true;
 		$scope.solverResource.changeRunningState(willBeRunning).success(function() {
 			$scope.loading = false;
 			$scope.model.running = willBeRunning;
 		}).error(function() {
-			alert('Unable to change simulation running state.');
+			$window.alert('Unable to change simulation running state.');
 			$scope.loading = false;
 		});
 	}
@@ -37,7 +37,7 @@ App.controller.uiRunBlock = function($scope, api) {
 			$scope.loading = false;
 			$scope.model.running = false;
 		}).error(function() {
-			alert('Unable to reset simulation.');
+			$window.alert('Unable to reset simulation.');
 			$scope.loading = false;
 		});
 	}

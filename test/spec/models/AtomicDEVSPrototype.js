@@ -30,7 +30,15 @@ describe('Model: AtomicDEVSPrototype', function () {
 
 	it("should be able to add input port", function () {
 		expect(atomic.inputPorts.length).toBe(0);
-		var returnedPort = atomic.addInputPort('myInput');
+		var returnedPort = atomic.addInputPort(new App.model.Port({name: 'myInput'}));
+		expect(returnedPort).toBe(atomic.inputPorts[0]);
+		expect(atomic.inputPorts.length).toBe(1);
+		expect(atomic.inputPorts[0].name).toBe('myInput');
+	});
+
+	it("should be able to add input port with name", function () {
+		expect(atomic.inputPorts.length).toBe(0);
+		var returnedPort = atomic.addInputPortWithName('myInput');
 		expect(returnedPort).toBe(atomic.inputPorts[0]);
 		expect(atomic.inputPorts.length).toBe(1);
 		expect(atomic.inputPorts[0].name).toBe('myInput');
@@ -38,17 +46,25 @@ describe('Model: AtomicDEVSPrototype', function () {
 
 	it("should be able to add output port", function () {
 		expect(atomic.outputPorts.length).toBe(0);
-		var returnedPort = atomic.addOutputPort('myOutput');
+		var returnedPort = atomic.addOutputPort(new App.model.Port({name: 'myOutput'}));
+		expect(returnedPort).toBe(atomic.outputPorts[0]);
+		expect(atomic.outputPorts.length).toBe(1);
+		expect(atomic.outputPorts[0].name).toBe('myOutput');
+	});
+
+	it("should be able to add output port with name", function () {
+		expect(atomic.outputPorts.length).toBe(0);
+		var returnedPort = atomic.addOutputPortWithName('myOutput');
 		expect(returnedPort).toBe(atomic.outputPorts[0]);
 		expect(atomic.outputPorts.length).toBe(1);
 		expect(atomic.outputPorts[0].name).toBe('myOutput');
 	});
 
 	it("should be able to delete port", function () {
-		atomic.addInputPort('myPort');
-		atomic.addInputPort('myPort2');
-		atomic.addOutputPort('myPort');
-		atomic.addOutputPort('myPort2');
+		atomic.addInputPortWithName('myPort');
+		atomic.addInputPortWithName('myPort2');
+		atomic.addOutputPortWithName('myPort');
+		atomic.addOutputPortWithName('myPort2');
 
 		atomic.deletePort(atomic.inputPorts[0]);
 		expect(atomic.inputPorts.length).toBe(1);

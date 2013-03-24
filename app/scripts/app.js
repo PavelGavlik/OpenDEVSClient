@@ -25,17 +25,6 @@ Util.inherits = function(childCtor, parentCtor)
 };
 
 /**
- * Remove specific item from array
- * @param {Array} arr
- * @param {*} item
- */
-Util.removeArrayItem = function(arr, item) {
-	var index = arr.indexOf(item);
-	if (index !== -1)
-		arr.splice(index, 1);
-};
-
-/**
  * Return last item of given array
  * @param {Array} arr
  * @returns {*}
@@ -45,12 +34,14 @@ Util.lastArrayItem = function(arr) {
 };
 
 /**
- * Apply new data to scope when not already applying
- * @param {Scope} scope
+ * Remove specific item from array
+ * @param {Array} arr
+ * @param {*} item
  */
-Util.safeApply = function(scope) {
-	if (scope.$$phase !== '$apply')
-		scope.$apply();
+Util.removeArrayItem = function(arr, item) {
+	var index = arr.indexOf(item);
+	if (index !== -1)
+		arr.splice(index, 1);
 };
 
 /**
@@ -63,4 +54,13 @@ Util.passToObj = function(obj, propName) {
 	return function(propValue) {
 		obj[propName] = propValue;
 	};
+};
+
+/**
+ * Apply new data to scope when not already applying
+ * @param {Scope} scope
+ */
+Util.safeApply = function(scope) {
+	if (scope.$$phase !== '$apply')
+		scope.$apply();
 };

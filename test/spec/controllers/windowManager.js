@@ -133,7 +133,7 @@ describe('Controller: MyRepositoryItem', function() {
 		var model = $scope.model = new App.model.MyRepository();
 
 		$scope.modelResource = new api.MyRepository('/');
-		spyOn($scope.modelResource, 'get').andReturn(successPromise );
+		spyOn($scope.modelResource, 'get').andReturn(allPromise );
 
 		$controller('MyRepositoryItem', {
 			$scope: $scope,
