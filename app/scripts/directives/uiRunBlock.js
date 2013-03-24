@@ -5,6 +5,7 @@ App.type.uiRunBlockScope = {
 	loading: false,
 	/** @type {App.model.AtomicDEVSPrototype} */
 	model: null,
+	solverResource: null,
 	/** @type {function} */
 	start: null,
 	/** @type {function} */
@@ -21,7 +22,7 @@ App.type.uiRunBlockScope = {
 App.controller.uiRunBlock = function($scope, api) {
 	function changeRunningState(willBeRunning) {
 		$scope.loading = true;
-		api.DEVSRootSolverRT.changeRunningState($scope.model.rootSolver(), willBeRunning).success(function() {
+		$scope.solverResource.changeRunningState(willBeRunning).success(function() {
 			$scope.loading = false;
 			$scope.model.running = willBeRunning;
 		}).error(function() {
@@ -32,7 +33,7 @@ App.controller.uiRunBlock = function($scope, api) {
 
 	function resetSimulation() {
 		$scope.loading = true;
-		api.DEVSRootSolverRT.resetSimulation($scope.model.rootSolver()).success(function() {
+		$scope.solverResource.resetSimulation().success(function() {
 			$scope.loading = false;
 			$scope.model.running = false;
 		}).error(function() {
@@ -41,6 +42,7 @@ App.controller.uiRunBlock = function($scope, api) {
 		});
 	}
 
+	$scope.solverResource = new api.DEVSRootSolverRT($scope.model.rootSolver());
 	$scope.start = changeRunningState.bind(null, true);
 	$scope.stop = changeRunningState.bind(null, false);
 	$scope.reset = resetSimulation;

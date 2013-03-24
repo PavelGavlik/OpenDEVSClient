@@ -7,32 +7,35 @@ describe('Controller: uiRunBlock', function() {
 	beforeEach(module('clientApp'));
 
 	// initialize the controller and a mock scope
-	beforeEach(inject(function($controller, $rootScope, $q, apiMock) {
+	beforeEach(inject(['$controller', '$rootScope', '$q', 'api', function($controller, $rootScope, $q, a) {
 		$scope = $rootScope;
 		$scope.model = new App.model.DEVSRootSolverRT({components: [
 			{name: 'comp', type: 'coupled'}
 		]});
-		api = apiMock;
+		api = a;
 
 		$controller('uiRunBlock', {
 			$scope: $scope,
-			api: apiMock
+			api: api
 		});
-	}));
+	}]));
 
 	it("should be able to start simulation", function () {
+		spyOn($scope.solverResource, 'changeRunningState').andReturn(allPromise);
 		$scope.start();
-		expect(api.DEVSRootSolverRT.changeRunningState.calls).toBe(1);
+		expect($scope.solverResource.changeRunningState).toHaveBeenCalled();
 	});
 
 	it("should be able to stop simulation", function () {
+		spyOn($scope.solverResource, 'changeRunningState').andReturn(allPromise);
 		$scope.stop();
-		expect(api.DEVSRootSolverRT.changeRunningState.calls).toBe(1);
+		expect($scope.solverResource.changeRunningState).toHaveBeenCalled();
 	});
 
-	it("should be able to stop simulation", function () {
+	it("should be able to reset simulation", function () {
+		spyOn($scope.solverResource, 'resetSimulation').andReturn(allPromise);
 		$scope.reset();
-		expect(api.DEVSRootSolverRT.resetSimulation.calls).toBe(1);
+		expect($scope.solverResource.resetSimulation).toHaveBeenCalled();
 	});
 });
 
@@ -44,6 +47,12 @@ describe('Directive: uiRunBlock', function() {
 	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
 		$scope = $r;
 		$compile = $c;
+		$scope.data = {
+			type: 'simulation', running: true,
+			rtFactor: 0, time: 20,
+			timeLast: 2, timeNext: 3,
+			rootSolver: function() { return this; }
+		};
 	}]));
 
 	function build() {
@@ -53,23 +62,18 @@ describe('Directive: uiRunBlock', function() {
 	}
 
 	it('should show timeLast and timeNext', function() {
-		$scope.data = { timeLast: 2, timeNext: 3 };
 		build();
 		expect(element.find('span')[1].innerHTML).toBe('2');
 		expect(element.find('span')[2].innerHTML).toBe('3');
 	});
 
 	it('should show time and RT factor for simulations', function() {
-		$scope.data = { type: 'simulation', rtFactor: 0, time: 20,
-			rootSolver: function() { return this; }
-		};
 		build();
 		expect(element.find('span')[0].innerHTML).toBe('20');
 		expect(element.find('span')[3].innerHTML).toBe('0');
 	})
 
 	it('should show stop button when running', function() {
-		$scope.data = { running: true };
 		build();
 		expect(element.find('button')[0].style.display).toBe('none');
 	});

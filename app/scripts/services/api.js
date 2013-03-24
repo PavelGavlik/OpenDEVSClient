@@ -2,25 +2,52 @@
 
 App.service.api = function($http, $location) {
 	var host = 'http://'+ $location.host() +':9004';
-	var api = {
-		MyRepository: function(path) {
-			return $http.get(host + path);
-		},
-		DEVSRootSolverRT: {},
-	};
+
 	/**
-	 * @param {App.model.DEVSRootSolverRT} solver
-	 * @param {boolean} willBeRunning
+	 *
+	 * @param {string} path
+	 * @constructor
 	 */
-	api.DEVSRootSolverRT.changeRunningState = function(solver, willBeRunning) {
-		return $http.put(host + solver.getPath(), {running: willBeRunning});
+	function Resource(path) {
+		/** @type {string} */
+		this.path = host +  path;
+	}
+
+	Resource.prototype.get = function() {
+		return $http.get(this.path);
 	};
+	Resource.prototype.post = function() {
+		return $http.post(this.path);
+	};
+	Resource.prototype.put = function(data) {
+		return $http.put(this.path, data);
+	};
+	Resource.prototype.delete = function() {
+		return $http.delete(this.path);
+	};
+
 
 	/**
 	 * @param {App.model.DEVSRootSolverRT} solver
 	 */
-	api.DEVSRootSolverRT.resetSimulation = function(solver) {
-		return $http.put(host + solver.getPath(), {reset: true});
+	function DEVSRootSolverRTResource(solver) {
+		this._resource = new Resource(solver.path);
+	}
+
+	/**
+	 * @param {Boolean} willBeRunning
+	 */
+	DEVSRootSolverRTResource.prototype.changeRunningState = function(willBeRunning) {
+		return this._resource.put({running: willBeRunning});
 	};
-	return api;
+
+	DEVSRootSolverRTResource.prototype.resetSimulation = function() {
+		return this._resource.put({reset: true});
+	};
+
+	return {
+		_resource: Resource,
+		MyRepository: Resource,
+		DEVSRootSolverRT: DEVSRootSolverRTResource
+	};
 };

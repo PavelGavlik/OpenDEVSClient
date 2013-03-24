@@ -99,14 +99,6 @@ App.directive.uiWindow = function() {
 };
 
 App.controller.MyRepositoryItem = function($scope, api, model) {
-	api.MyRepository($scope.model.path).
-		success(function(item) {
-			$scope.model = model.put($scope.model.path, item);
-		}).
-		error(function() {
-			window.alert('Unable to load item from server.');
-		});
-
 	function openWindow(model) {
 		$scope.$emit('WindowManager:openWindow', model.path, model);
 	}
@@ -120,7 +112,16 @@ App.controller.MyRepositoryItem = function($scope, api, model) {
 		closeWindow($scope.model);
 	}
 
+	$scope.modelResource = $scope.modelResource || new api.MyRepository($scope.model.path);
 	$scope.openWindow = openWindow;
 	$scope.closeWindow = closeWindow;
 	$scope.deleteItem = deleteItem;
+
+	$scope.modelResource.get().
+	success(function(item) {
+		$scope.model = model.put($scope.model.path, item);
+	}).
+	error(function() {
+		window.alert('Unable to load item from server.');
+	});
 };

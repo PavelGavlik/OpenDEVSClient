@@ -12,12 +12,11 @@ files = [
   '../test/vendor/es5-shim.js',
   'scripts/vendor/angular.js',
   'scripts/vendor/codemirror.js',
-  '../test/vendor/angular-mocks.js',
+  '../test/vendor/*.js',
   'templates/**/*.html',
   'scripts/app.js',
   'scripts/*.js',
   'scripts/**/*.js',
-  '../test/mock/**/*.js',
   '../test/spec/**/*.js'
 ];
 
