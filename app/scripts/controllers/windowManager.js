@@ -98,7 +98,7 @@ App.directive.uiWindow = function() {
 	};
 };
 
-App.controller.MyRepositoryItem = function($scope, api, model) {
+App.controller.MyRepositoryItem = function($scope, $window, api, model) {
 	function openWindow(model) {
 		$scope.$emit('WindowManager:openWindow', model.path, model);
 	}
@@ -122,6 +122,6 @@ App.controller.MyRepositoryItem = function($scope, api, model) {
 		$scope.model = model.put($scope.model.path, item);
 	}).
 	error(function() {
-		window.alert('Unable to load item from server.');
+		$window.alert('Unable to load item from server.');
 	});
 };

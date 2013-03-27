@@ -137,6 +137,7 @@ describe('Controller: MyRepositoryItem', function() {
 
 		$controller('MyRepositoryItem', {
 			$scope: $scope,
+			$window: {alert: angular.noop},
 			api: api,
 			model: model
 		});
