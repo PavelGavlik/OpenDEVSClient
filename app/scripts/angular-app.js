@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module
-var clientApp = angular.module('clientApp', ['ui']);
+var clientApp = angular.module('clientApp', ['templates-main', 'ui']);
 
 clientApp.controller(App.controller);
 clientApp.directive(App.directive);

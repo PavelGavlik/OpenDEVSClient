@@ -12,8 +12,9 @@ files = [
   '../test/vendor/es5-shim.js',
   'scripts/vendor/angular.js',
   'scripts/vendor/codemirror.js',
-  '../test/vendor/*.js',
-  'templates/**/*.html',
+  '../test/vendor/angular-mocks.js',
+  '../test/vendor/test-helpers.js',
+  '../.tmp/scripts/templates.js',
   'scripts/app.js',
   'scripts/*.js',
   'scripts/**/*.js',
@@ -74,7 +75,7 @@ coverageReporter = {
 };
 
 preprocessors = {
-  '**/*.html': 'html2js',
+//  '**/*.html': 'html2js',
   '**/scripts/*.js': 'coverage',
   '**/scripts/controllers/*.js': 'coverage',
   '**/scripts/directives/*.js': 'coverage',

@@ -13,6 +13,6 @@ App.controller.Main = function($rootScope, $timeout, model) {
 		$timeout(function() {
 			var path = '/Simulations/Cart-Pole-Control System/cart and pole/';
 			$rootScope.$broadcast('WindowManager:openWindow', path, model.at(path));
-		}, 2000);
+		}, 1000);
 	});
 };
