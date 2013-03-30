@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>DEVS Client</title>
+    <title>OpenDEVSClient</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" href="styles/main.css"/>
@@ -23,7 +23,7 @@
         <div class="container-fluid">
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <a class="brand" href="#">DEVS Client</a>
+                    <a class="brand" href="#">OpenDEVSClient</a>
                     <li ng-repeat="i in windows" ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
                         <a ng-bind="i.name" ng-click="selectWindow(i)"></a>
                     </li>
@@ -46,6 +46,7 @@
 
 </div>
 
+<!-- build:js scripts/scripts.js -->
 <script src="scripts/vendor/codemirror.js"></script>
 <script src="scripts/vendor/codemirror-smalltalk.js"></script>
 <script src="scripts/vendor/codemirror-closebrackets.js"></script>
@@ -55,7 +56,6 @@
 
 <script src="scripts/templates.js"></script>
 
-<!-- build:js scripts/scripts.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/model.js"></script>
 <script src="scripts/controllers/main.js"></script>

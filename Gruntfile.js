@@ -134,8 +134,15 @@ module.exports = function (grunt) {
 			dist: {
 				files: {
 					'<%= yeoman.dist %>/scripts/scripts.js': [
+						'<%= yeoman.app %>/scripts/vendor/angular.min.js',
+						'<%= yeoman.app %>/scripts/vendor/*.min.js',
 						'.tmp/scripts/{,*/}*.js',
-						'<%= yeoman.app %>/scripts/{,*/}*.js'
+						'<%= yeoman.app %>/scripts/app.js',
+						'<%= yeoman.app %>/scripts/model.js',
+						'<%= yeoman.app %>/scripts/controllers/*.js',
+						'<%= yeoman.app %>/scripts/directives/*.js',
+						'<%= yeoman.app %>/scripts/services/*.js',
+						'<%= yeoman.app %>/scripts/angular-app.js'
 					]
 				}
 			}
@@ -229,7 +236,8 @@ module.exports = function (grunt) {
 						'*.{ico,txt}',
 						'.htaccess',
 						'components/**/*',
-						'images/{,*/}*.{gif,webp}'
+						'images/{,*/}*.{gif,webp}',
+						'styles/codemirror.css'
 					]
 				}]
 			}
@@ -273,8 +281,9 @@ module.exports = function (grunt) {
 //		'jshint',
 //		'test',
 //		'coffee',
+		'html2js',
 		'compass:dist',
-		'useminPrepare',
+//		'useminPrepare',
 		'imagemin',
 		'cssmin',
 		'htmlmin',
@@ -282,8 +291,8 @@ module.exports = function (grunt) {
 		'copy',
 //		'cdnify',
 		'usemin',
-		'ngmin',
-		'uglify'
+//		'ngmin',
+//		'uglify'
 	]);
 
 	grunt.registerTask('default', ['build']);
