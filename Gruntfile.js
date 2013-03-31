@@ -257,6 +257,14 @@ module.exports = function (grunt) {
 	// remove when mincss task is renamed
 	grunt.renameTask('mincss', 'cssmin');
 
+	grunt.registerTask('count', 'count all lines of my project', function () {
+		var done = this.async();
+		require('child_process').exec('cd app; wc -l scripts/{controllers,directives,services,.}/*.js templates/*/* index.html styles/main.sass ../test/spec/{*,*/*}.js', function (err, stdout) {
+			grunt.log.write(stdout);
+			done(err);
+		});
+	});
+
 	grunt.registerTask('server', [
 		'clean:server',
 //		'coffee:dist',
