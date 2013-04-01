@@ -105,6 +105,16 @@ App.controller.MyRepositoryItem = function($scope, $window, api, model) {
 		$scope.$emit('WindowManager:openWindow', model.path, model);
 	}
 
+	function refreshWindow() {
+		$scope.modelResource.get()
+			.success(function (item) {
+				$scope.model = model.put($scope.model.path, item);
+			})
+			.error(function () {
+				$window.alert('Unable to load item from server.');
+			});
+	}
+
 	function closeWindow(model) {
 		$scope.$emit('WindowManager:closeWindow', model);
 	}
@@ -116,14 +126,9 @@ App.controller.MyRepositoryItem = function($scope, $window, api, model) {
 
 	$scope.modelResource = $scope.modelResource || new api.MyRepository($scope.model.path);
 	$scope.openWindow = openWindow;
+	$scope.refreshWindow = refreshWindow;
 	$scope.closeWindow = closeWindow;
 	$scope.deleteItem = deleteItem;
 
-	$scope.modelResource.get().
-	success(function(item) {
-		$scope.model = model.put($scope.model.path, item);
-	}).
-	error(function() {
-		$window.alert('Unable to load item from server.');
-	});
+	refreshWindow();
 };

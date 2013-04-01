@@ -63,15 +63,16 @@ body
 		@include border-top-right-radius(4px)
 		@include border-top-left-radius(4px)
 
-		.name, .close
+		.name, .btn-toolbar
 			float: left
+			margin: 0
 		.name
 			padding: 3px 0 3px 10px
-		.close
+		.btn-toolbar .btn
 			height: 26px
 			padding: 0 6px
 
-			.icon-remove
+			.icon-remove, .icon-refresh
 				vertical-align: middle
 
 		.btn-danger
@@ -114,7 +115,7 @@ body
 	&.PrototypeObject
 		background-color: lightyellow
 	&.MyRepository
-		.btn-toolbar
+		.win-content .btn-toolbar
 			margin: 0
 			padding: 10px
 
