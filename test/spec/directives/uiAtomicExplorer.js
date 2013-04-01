@@ -10,13 +10,13 @@ describe('Controller: uiAtomicExplorer', function() {
 	beforeEach(inject(function($controller, $rootScope, api) {
 		$scope = $rootScope;
 		$scope.model = new App.model.AtomicDEVSPrototype();
-		var $window = { prompt: function() { return 'name' } };
 
 		$controller('uiAtomicExplorer', {
 			$scope: $scope,
 			$window: $window,
 			api: api
 		});
+		spyOn($window, 'prompt').andReturn('name');
 	}));
 
 	it('should be able to add port', function() {

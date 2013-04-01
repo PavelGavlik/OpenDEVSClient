@@ -14,3 +14,9 @@ var allPromise = {
 	success: function(fn) {fn(); return allPromise;},
 	error: function(fn) {fn(); return allPromise;}
 };
+
+
+var $window = {
+	alert: angular.noop,
+	prompt: angular.noop
+};
