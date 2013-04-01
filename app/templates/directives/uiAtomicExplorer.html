@@ -1,11 +1,19 @@
 <div ui-tree><ul>
-	<li ui-tree-item title="Ports">
+	<li ng-show="model.type == 'atomic'" ui-tree-item title="Ports">
         <div class="btn-toolbar">
             <div class="btn-group">
-                <button ng-click="addInputPort()" class="btn">Add Input</button>
-                <button ng-click="addOutputPort()" class="btn">Add Output</button>
-                <button ng-click="renamePort()" ng-disabled="!selectedPort" class="btn">Rename</button>
-                <button ng-click="deletePort()" ng-disabled="!selectedPort" class="btn">Delete</button>
+                <button ng-click="addInputPort()" class="btn">
+                    <i class="icon-plus"></i> Add Input
+                </button>
+                <button ng-click="addOutputPort()" class="btn">
+                    <i class="icon-plus"></i> Add Output
+                </button>
+                <button ng-click="renamePort()" ng-disabled="!selectedPort" class="btn">
+                    <i class="icon-pencil"></i> Rename
+                </button>
+                <button ng-click="deletePort()" ng-disabled="!selectedPort" class="btn">
+                    <i class="icon-minus"></i> Delete
+                </button>
             </div>
         </div>
         <div ng-show="model.inputPorts" class="input-ports">
@@ -20,10 +28,16 @@
     <li ui-tree-item title="Slots">
         <div class="btn-toolbar">
             <div class="btn-group">
-                <button ng-click="addSlot()" class="btn">Add Slot</button>
+                <button ng-click="addSlot()" class="btn">
+                    <i class="icon-plus"></i> Add Slot
+                </button>
                 <button ng-click="injectSlotWithValue()" ng-disabled="!selectedSlot" class="btn">Inject Value</button>
-                <button ng-click="renameSlot()" ng-disabled="!selectedSlot" class="btn">Rename</button>
-                <button ng-click="deleteSlot()" ng-disabled="!selectedSlot" class="btn">Delete</button>
+                <button ng-click="renameSlot()" ng-disabled="!selectedSlot" class="btn">
+                    <i class="icon-pencil"></i> Rename
+                </button>
+                <button ng-click="deleteSlot()" ng-disabled="!selectedSlot" class="btn">
+                    <i class="icon-minus"></i> Delete
+                </button>
             </div>
         </div>
         <div ng-repeat="s in model.slots | orderBy:'name'" ng-click="selectSlot(s)" ng-class="{selected: selectedSlot == s}" class="slot">{{s.name}} &rarr; {{s.value}}</div>
@@ -32,8 +46,12 @@
     <li ui-tree-item closed title="Delegates">
         <div class="btn-toolbar">
             <div class="btn-group">
-                <button ng-click="addDelegate()" class="btn">Add Existing Delegate</button>
-                <button ng-click="deleteDelegate()" ng-disabled="!selectedDelegate" class="btn">Delete</button>
+                <button ng-click="addDelegate()" class="btn">
+                    <i class="icon-plus"></i> Add Existing Delegate
+                </button>
+                <button ng-click="deleteDelegate()" ng-disabled="!selectedDelegate" class="btn">
+                    <i class="icon-minus"></i> Delete
+                </button>
             </div>
         </div>
         <div ng-repeat="d in model.delegates" ng-click="selectDelegate(d)" ng-class="{selected: selectedDelegate == d}" class="delegate">{{d}}</div>
@@ -47,7 +65,7 @@
         </ul></div>
     </li>
 
-    <li ui-tree-item title="Comment">
+    <li ng-show="model.type == 'atomic'" ui-tree-item title="Comment">
         <textarea ui-codemirror="{ mode: 'none', lineNumbers: true, lineWrapping: true }" ng-model="model.comment"></textarea>
     </li>
 </ul></div>

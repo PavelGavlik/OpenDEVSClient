@@ -1,12 +1,28 @@
 <div ng-controller="MyRepositoryItem">
     <div class="win-header">
-        <button ng-click="closeWindow(model)" class="btn btn-small close">
+        <button ng-click="closeWindow(model)" class="btn close">
             <i class="icon-remove"></i>
         </button>
         <div ng-bind="model.name" class="name"></div>
         <div class="clearfix"></div>
     </div>
     <div class="win-content">
+        <div class="btn-toolbar">
+            <button class="btn" ng-disabled="true">
+                <i class="icon-folder-open"></i> Open
+            </button>
+            <div class="btn-group">
+                <button class="btn">
+                    <i class="icon-plus"></i> Add
+                </button>
+                <button class="btn" ng-disabled="true">
+                    <i class="icon-pencil"></i> Rename
+                </button>
+                <button class="btn" ng-disabled="true">
+                    <i class="icon-minus"></i> Delete
+                </button>
+            </div>
+        </div>
         <div ui-my-repository ng-model="model" item-click="openWindow"></div>
     </div>
 </div>

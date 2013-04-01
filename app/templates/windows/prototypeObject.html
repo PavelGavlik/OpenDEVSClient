@@ -3,13 +3,10 @@
         <button ng-click="closeWindow(model)" class="btn close">
             <i class="icon-remove"></i>
         </button>
-        <div ng-bind="model.name" class="name"></div>
+        <div class="name">{{model.name}}</div>
         <div class="clearfix"></div>
     </div>
     <div class="win-content">
-        <div ui-coupled-explorer ng-model="model"></div>
-    </div>
-    <div class="win-statusbar">
-        <div ui-run-block ng-model="model"></div>
+        <div ui-atomic-explorer ng-model="model"></div>
     </div>
 </div>

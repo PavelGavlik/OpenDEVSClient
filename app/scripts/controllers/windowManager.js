@@ -80,10 +80,12 @@ App.directive.uiWindow = function() {
 		var type = scope.model.type;
 		if (type == 'MyRepository')
 			scope.tpl = 'templates/windows/myRepository.html';
-		if (type == 'coupled' || type == 'simulation')
+		else if (type == 'coupled' || type == 'simulation')
 			scope.tpl = 'templates/windows/coupled.html';
 		else if (type == 'atomic')
 			scope.tpl = 'templates/windows/atomic.html';
+		else if (type == 'PrototypeObject')
+			scope.tpl = 'templates/windows/prototypeObject.html';
 
 		element.addClass(type);
 		element.bind('click', function() {

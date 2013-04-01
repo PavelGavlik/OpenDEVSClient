@@ -51,18 +51,14 @@ App.model.MyRepository.prototype.load = function(data) {
 		return;
 
 	this.components = this.components.map(function(child) {
-		var childObj = null;
-
 		if (child.type === 'MyRepository')
-			childObj = new App.model.MyRepository(child, this);
+			return new App.model.MyRepository(child, this);
 		else if (child.type === 'simulation')
-			childObj = new App.model.DEVSRootSolverRT(child, this);
+			return new App.model.DEVSRootSolverRT(child, this);
 		else if (child.type == 'PrototypeObject')
-			childObj = {parent: this};
+			return new App.model.PrototypeObject(child, this);
 		else
 			throw new Error('Unknown child type: ' + child.type);
-
-		return childObj;
 	}, this);
 };
 
@@ -197,15 +193,12 @@ App.model.CoupledDEVSPrototype.prototype.load = function(data) {
 		return;
 
 	this.components = this.components.map(function(child) {
-		var childObj = null;
 		if (child.type === 'coupled')
-			childObj = new App.model.CoupledDEVSPrototype(child, this);
+			return new App.model.CoupledDEVSPrototype(child, this);
 		else if (child.type === 'atomic')
-			childObj = new App.model.AtomicDEVSPrototype(child, this);
+			return new App.model.AtomicDEVSPrototype(child, this);
 		else
 			throw new Error('Unknown child type: ' + child.type);
-
-		return childObj;
 	}, this);
 };
 
@@ -423,3 +416,51 @@ App.model.Slot.prototype.load = function(data) {
 		angular.extend(this, data);
 	}
 };
+
+
+/**
+ * Prototype Object
+ * @param {Object=} data
+ * @param {Object=} parent
+ * @constructor
+ */
+App.model.PrototypeObject = function(data, parent) {
+	if (parent)
+		this.parent = parent;
+	this.load(data);
+};
+
+/**
+ * Parent object of this item
+ * @type {App.model.MyRepository}
+ */
+App.model.PrototypeObject.prototype.parent = null;
+
+/**
+ * Full path in MyRepository hierarchy
+ * @type {string}
+ */
+App.model.PrototypeObject.prototype.path = '/';
+
+/**
+ * Prototype Object name
+ * @type {string}
+ */
+App.model.PrototypeObject.prototype.name = '';
+
+/**
+ * Rewrite data in object with new data
+ * @param {Object} data
+ */
+App.model.PrototypeObject.prototype.load = function(data) {
+	if (data) {
+		angular.extend(this, data);
+		this.getPath();
+	}
+};
+
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.PrototypeObject.prototype.getPath = App.model.MyRepository.prototype.getPath;

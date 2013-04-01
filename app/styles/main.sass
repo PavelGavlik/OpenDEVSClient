@@ -10,6 +10,8 @@ body
 	width: 100%
 .navbar .nav > li > a:hover, .navbar .nav > .active > a:hover
 	text-decoration: underline
+.btn
+	@extend .btn-small
 
 [ng-cloak]
 	display: none
@@ -104,11 +106,17 @@ body
 			background-image: none
 			@include box-shadow(none)
 
-	// window colors
+	// window types
 	&.atomic
 		background-color: lightblue
 	&.simulation, &.coupled
 		background-color: rgb(196, 236, 196)
+	&.PrototypeObject
+		background-color: lightyellow
+	&.MyRepository
+		.btn-toolbar
+			margin: 0
+			padding: 10px
 
 [ui-my-repository], [ui-tree]
 	padding: 5px 0
@@ -134,9 +142,13 @@ body
 		position: absolute
 		left: 10px
 		width: 16px
-	li a span::before
-		padding-right: 5px
-		content: '▾ '
+		top: -2px
+
+		&::before
+			padding-right: 5px
+			content: '▾ '
+	li.closed a span
+		top: inherit
 	li.closed a span::before
 		content: '▸ '
 	li.end a span::before
@@ -174,8 +186,7 @@ body
 
 
 [ui-atomic-explorer]
-	& > [ui-tree]
-		padding-bottom: 20px
+	padding-bottom: 20px
 
 	.btn-toolbar
 		margin-top: 0
