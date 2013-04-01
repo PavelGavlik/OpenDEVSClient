@@ -2,12 +2,12 @@
     <div class="win-header">
         <div class="btn-toolbar">
             <div class="btn-group">
-                <button ng-click="closeWindow(model)" class="btn close">
+                <button ng-hide="model.name == 'Root'" ng-click="closeWindow(model)" class="btn close">
                     <i class="icon-remove"></i>
                 </button>
             </div>
         </div>
-        <div ng-bind="model.name" class="name"></div>
+        <div class="name">{{model.name}} (MyRepository folder)</div>
         <div class="clearfix"></div>
     </div>
     <div class="win-content">

@@ -51,8 +51,8 @@ module.exports = function (grunt) {
 			livereload: {
 				options: {
 					port: 3501,
-					// Change this to '0.0.0.0' to access the server from outside.
-					hostname: 'localhost',
+					// Change this to 'localhost' to access the server only from inside.
+					hostname: '0.0.0.0',
 					middleware: function (connect) {
 						return [
 							lrSnippet,
