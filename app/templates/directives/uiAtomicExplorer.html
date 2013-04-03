@@ -65,7 +65,9 @@
         </ul></div>
     </li>
 
-    <li ng-show="model.type == 'atomic'" ui-tree-item title="Comment">
+    <div ng-show="model.type == 'atomic'">
+    <li ui-tree-item title="Comment">
         <textarea ui-codemirror="{ mode: 'none', lineNumbers: true, lineWrapping: true }" ng-model="model.comment"></textarea>
     </li>
+    </div>
 </ul></div>

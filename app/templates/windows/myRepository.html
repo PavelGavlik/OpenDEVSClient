@@ -1,4 +1,4 @@
-<div ng-controller="MyRepositoryItem">
+<div>
     <div class="win-header">
         <div class="btn-toolbar">
             <div class="btn-group">
@@ -7,7 +7,10 @@
                 </button>
             </div>
         </div>
-        <div class="name">{{model.name}} (MyRepository folder)</div>
+        <div class="name">
+            {{model.name}}
+            <span class="type">(MyRepository folder)</span>
+        </div>
         <div class="clearfix"></div>
     </div>
     <div class="win-content">

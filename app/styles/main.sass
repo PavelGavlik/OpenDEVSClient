@@ -33,7 +33,7 @@ body
 
 [ui-window]
 	@extend .thumbnail
-	width: 65%
+	width: 60%
 	position: absolute
 	left: 20px
 	padding: 0
@@ -53,7 +53,7 @@ body
 		font-weight: normal
 		text-transform: none
 		font-size: 14px
-		padding: 3px 4px
+		padding: 1px
 		margin: 0
 		@include gradient-vertical($startColor: rgba(255,255,255,0.5), $endColor: rgba(255,255,255,0.5))
 		background-color: inherit
@@ -67,7 +67,10 @@ body
 			float: left
 			margin: 0
 		.name
-			padding: 3px 0 3px 10px
+			padding: 3px 0 2px 10px
+
+			.type
+				font-size: 80%
 		.btn-toolbar .btn
 			height: 26px
 			padding: 0 6px
@@ -92,7 +95,7 @@ body
 		@include border-bottom-left-radius(4px)
 
 	.active &
-		z-index: 20
+		z-index: 9999 !important
 		border-color: rgba(0,0,0,0.3)
 		@include box-shadow(2px 2px 20px rgba(0,0,0,0.2))
 

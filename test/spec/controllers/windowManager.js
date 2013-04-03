@@ -107,13 +107,14 @@ describe('Directive: uiWindow', function() {
 	var element, $scope, $compile;
 
 	beforeEach(module('clientApp'));
-	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
+	beforeEach(inject(['$rootScope', '$compile', '$httpBackend', function($r, $c, $h) {
 		$scope = $r;
 		$compile = $c;
+		$h.when('GET', 'http://server:9004/').respond({});
 	}]));
 
 	it('should compile', function() {
-		$scope.model = { type: 'stub' };
+		$scope.model = new App.model.MyRepository();
 		element = angular.element('<div ui-window ng-model="model" />');
 		element = $compile(element)($scope);
 		$scope.$digest();
@@ -138,6 +139,7 @@ describe('Controller: MyRepositoryItem', function() {
 		$controller('MyRepositoryItem', {
 			$scope: $scope,
 			$window: $window,
+			$element: angular.element('<div />'),
 			api: api,
 			model: model
 		});

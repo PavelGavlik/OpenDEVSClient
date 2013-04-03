@@ -61,6 +61,6 @@ Util.passToObj = function(obj, propName) {
  * @param {Scope} scope
  */
 Util.safeApply = function(scope) {
-	if (scope.$$phase !== '$apply')
+	if (!scope.$root.$$phase)
 		scope.$apply();
 };

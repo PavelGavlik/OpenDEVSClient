@@ -75,32 +75,9 @@ App.controller.WindowManager = function($scope) {
 	$scope.$emit('WindowManager:ready');
 };
 
-App.directive.uiWindow = function() {
-	function linkFn(scope, element) {
-		var type = scope.model.type;
-		if (type == 'MyRepository')
-			scope.tpl = 'templates/windows/myRepository.html';
-		else if (type == 'coupled' || type == 'simulation')
-			scope.tpl = 'templates/windows/coupled.html';
-		else if (type == 'atomic')
-			scope.tpl = 'templates/windows/atomic.html';
-		else if (type == 'PrototypeObject')
-			scope.tpl = 'templates/windows/prototypeObject.html';
+var i = 0;
 
-		element.addClass(type);
-		element.bind('click', function() {
-			scope.$emit('WindowManager:selectWindow', scope.model);
-		});
-	}
-
-	return {
-		link: linkFn,
-		scope: {model: '=ngModel'},
-		template: '<div ng-include="tpl"></div>'
-	};
-};
-
-App.controller.MyRepositoryItem = function($scope, $window, api, model) {
+App.controller.MyRepositoryItem = function($scope, $window, $element, api, model) {
 	function openWindow(model) {
 		$scope.$emit('WindowManager:openWindow', model.path, model);
 	}
@@ -119,16 +96,39 @@ App.controller.MyRepositoryItem = function($scope, $window, api, model) {
 		$scope.$emit('WindowManager:closeWindow', model);
 	}
 
-	function deleteItem() {
-//		api.MyRepository($scope.model.path).delete()
-		closeWindow($scope.model);
+	function setWindowTemplate(type) {
+		if (type == 'simulation')
+			type = 'coupled';
+		$scope.tpl = 'templates/windows/'+ type +'.html';
 	}
 
 	$scope.modelResource = $scope.modelResource || new api.MyRepository($scope.model.path);
 	$scope.openWindow = openWindow;
 	$scope.refreshWindow = refreshWindow;
 	$scope.closeWindow = closeWindow;
-	$scope.deleteItem = deleteItem;
 
+	var type = $scope.model.type;
 	refreshWindow();
+	setWindowTemplate(type);
+	$element.addClass(type);
+	if (i == 0) {
+		$element.parent().addClass('root');
+	}
+	else {
+		$element[0].style.left = i * 20 + 'px';
+		$element[0].style.top = i * 28 - 8 + 'px';
+	}
+	$element[0].style.zIndex = i;
+	i++;
+	$element.bind('click', function() {
+		$scope.$emit('WindowManager:selectWindow', $scope.model);
+	});
+};
+
+App.directive.uiWindow = function() {
+	return {
+		controller: App.controller.MyRepositoryItem,
+		scope: {model: '=ngModel'},
+		template: '<div ng-include="tpl"></div>'
+	};
 };
