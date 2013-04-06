@@ -67,7 +67,7 @@ singleRun = false;
 // test results reporter to use
 // possible values: dots || progress
 //reporter = 'progress';
-reporters = ['progress', 'coverage'];
+reporters = ['dots', 'coverage'];
 
 coverageReporter = {
    type : 'html',

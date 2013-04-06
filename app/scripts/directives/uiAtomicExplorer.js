@@ -4,7 +4,7 @@
 App.type.uiAtomicExplorerScope = {
 	/** @type {App.model.AtomicDEVSPrototype} */
 	model: null,
-	/** @type {App.model.Port} */
+	/** @type {App.model.InputPort|App.model.OutputPort} */
 	selectedPort: null,
 	/** @type {App.model.Slot} */
 	selectedSlot: null,
@@ -15,7 +15,7 @@ App.type.uiAtomicExplorerScope = {
 	addOutputPort: null,
 	/** @type {function()} */
 	addSlot: null,
-	/** @type {function(App.model.Port)} */
+	/** @type {function(App.model.InputPort|App.model.OutputPort)} */
 	selectPort: null,
 	/** @type {function(App.model.Slot)} */
 	selectSlot: null,
@@ -44,15 +44,17 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 		var name = $window.prompt('Enter input port name:');
 		if (name) {
 			$scope.selectedPort = $scope.model.addInputPortWithName(name);
-//			var portResource = new api.Port();
-//			angular.extend(portResource, $scope.selectedPort, {path: $scope.model.path});
-//			portResource.$save(portResource);
+			var portResource = new api.InputPort($scope.selectedPort);
+			portResource.post();
 		}
 	}
 	function addOutputPort() {
 		var name = $window.prompt('Enter output port name:');
-		if (name)
+		if (name) {
 			$scope.selectedPort = $scope.model.addOutputPortWithName(name);
+			var portResource = new api.OutputPort($scope.selectedPort);
+			portResource.post();
+		}
 	}
 
 	function addSlot() {
@@ -67,8 +69,15 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 
 	function renamePort() {
 		var name = $window.prompt('Enter new port name for "' + $scope.selectedPort.name + '":');
-		if (name)
-			$scope.selectedPort.name = name;
+		if (name) {
+			var portResource;
+			if ($scope.selectedPort instanceof App.model.InputPort)
+				portResource = new api.InputPort($scope.selectedPort);
+			else
+				portResource = new api.OutputPort($scope.selectedPort);
+			portResource.rename(name);
+			$scope.selectedPort.rename(name);
+		}
 	}
 
 	function renameSlot() {
@@ -83,14 +92,20 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 			$scope.selectedSlot.value = value;
 	}
 
+	function deletePort() {
+		var portResource;
+		$scope.model.deletePort($scope.selectedPort);
+		if ($scope.selectedPort instanceof App.model.InputPort)
+			portResource = new api.InputPort($scope.selectedPort);
+		else
+			portResource = new api.OutputPort($scope.selectedPort);
+		portResource.delete();
+		$scope.selectedPort = null;
+	}
+
 	function deleteSlot() {
 		$scope.model.deleteSlot($scope.selectedSlot);
 		$scope.selectedSlot = null;
-	}
-
-	function deletePort() {
-		$scope.model.deletePort($scope.selectedPort);
-		$scope.selectedPort = null;
 	}
 
 	$scope.selectedPort = null;

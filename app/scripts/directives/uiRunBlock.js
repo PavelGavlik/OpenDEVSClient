@@ -17,6 +17,7 @@ App.type.uiRunBlockScope = {
 /**
  * 
  * @param {App.type.uiRunBlockScope} $scope
+ * @param {Window} $window
  * @param {App.service.api} api
  */
 App.controller.uiRunBlock = function($scope, $window, api) {

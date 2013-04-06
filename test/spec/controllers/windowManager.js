@@ -131,21 +131,19 @@ describe('Controller: MyRepositoryItem', function() {
 	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
 		api = a;
-		var model = $scope.model = new App.model.MyRepository();
-
-		$scope.modelResource = new api.MyRepository('/');
-		spyOn($scope.modelResource, 'get').andReturn(allPromise );
+		$scope.model = new App.model.MyRepository();
+		spyOn(api.MyRepository.prototype, 'get').andReturn(allPromise);
 
 		$controller('MyRepositoryItem', {
 			$scope: $scope,
 			$window: $window,
 			$element: angular.element('<div />'),
 			api: api,
-			model: model
+			model: $scope.model
 		});
 	}]));
 
 	it("should work", function () {
-		expect($scope.modelResource.get).toHaveBeenCalled();
+		expect(api.MyRepository.prototype.get).toHaveBeenCalled();
 	});
 });

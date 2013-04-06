@@ -11,7 +11,6 @@ App.model.MyRepository = function(data, parent) {
 	 * @type {App.model.MyRepository}
 	 */
 	this.parent = parent || null;
-
 	if (data)
 		this.load(data);
 };
@@ -265,7 +264,7 @@ App.model.AtomicDEVSPrototype.prototype.inputPorts = [];
 
 /**
  * Contains all output ports
- * @type {Array<App.model.Slot>}
+ * @type {Array<App.model.Port>}
  */
 App.model.AtomicDEVSPrototype.prototype.outputPorts = [];
 
@@ -283,22 +282,22 @@ App.model.AtomicDEVSPrototype.prototype.load = function(data) {
 	App.model.BaseDEVS.prototype.load.call(this, data);
 	if (this.inputPorts)
 		this.inputPorts = this.inputPorts.map(function(port) {
-			return new App.model.Port(port);
-		});
+			return new App.model.InputPort(port, this);
+		}, this);
 	if (this.outputPorts)
 		this.outputPorts = this.outputPorts.map(function(port) {
-			return new App.model.Port(port);
-		});
+			return new App.model.OutputPort(port, this);
+		}, this);
 	if (this.slots)
 		this.slots = this.slots.map(function(slot) {
 			return new App.model.Slot(slot);
-		});
+		}, this);
 };
 
 /**
  * Factory method that adds an input port
- * @param {App.model.Port} port
- * @returns {App.model.Port}
+ * @param {App.model.InputPort} port
+ * @returns {App.model.InputPort}
  */
 App.model.AtomicDEVSPrototype.prototype.addInputPort = function(port) {
 	this.inputPorts.push(port);
@@ -308,16 +307,16 @@ App.model.AtomicDEVSPrototype.prototype.addInputPort = function(port) {
 /**
  * Factory method that adds an input port with given name
  * @param {String} portName
- * @returns {App.model.Port}
+ * @returns {App.model.InputPort}
  */
 App.model.AtomicDEVSPrototype.prototype.addInputPortWithName = function(portName) {
-	return this.addInputPort(new App.model.Port({ name: portName }));
+	return this.addInputPort(new App.model.InputPort({ name: portName }, this));
 };
 
 /**
  * Factory method that adds an output port
- * @param {App.model.Port} port
- * @returns {App.model.Port}
+ * @param {App.model.OutputPort} port
+ * @returns {App.model.OutputPort}
  */
 App.model.AtomicDEVSPrototype.prototype.addOutputPort = function(port) {
 	this.outputPorts.push(port);
@@ -327,9 +326,10 @@ App.model.AtomicDEVSPrototype.prototype.addOutputPort = function(port) {
 /**
  * Factory method that adds an output port with given name
  * @param {String} portName
+ * @returns {App.model.OutputPort}
  */
 App.model.AtomicDEVSPrototype.prototype.addOutputPortWithName = function(portName) {
-	return this.addOutputPort(new App.model.Port({ name: portName }));
+	return this.addOutputPort(new App.model.OutputPort({ name: portName }, this));
 };
 
 /**
@@ -363,9 +363,12 @@ App.model.AtomicDEVSPrototype.prototype.deleteSlot = function(slot) {
 /**
  *
  * @param {Object=} data
+ * @param {App.model.BaseDEVS} parent
  * @constructor
  */
-App.model.Port = function(data) {
+App.model.Port = function(data, parent) {
+	if (parent)
+		this.parent = parent;
 	this.load(data);
 };
 
@@ -376,13 +379,72 @@ App.model.Port = function(data) {
 App.model.Port.prototype.name = '';
 
 /**
+ * Parent object of this item
+ * @type {App.model.BaseDEVS}
+ */
+App.model.Port.prototype.parent = null;
+
+/**
+ * Full path in MyRepository hierarchy
+ * @type {string}
+ */
+App.model.Port.prototype.path = '/';
+
+/**
  * Rewrite data in object with new data
  * @param {Object} data
  */
 App.model.Port.prototype.load = function(data) {
 	if (data) {
 		angular.extend(this, data);
+		this.getPath();
 	}
+};
+
+/**
+ * @param {String} newName
+ */
+App.model.Port.prototype.rename = function(newName) {
+	this.name = newName;
+	this.getPath();
+};
+
+
+/**
+ * Input Port
+ * @inheritDoc
+ */
+App.model.InputPort = function(data, parent) {
+	this.resourcePath = 'input_ports/';
+	App.model.Port.call(this, data, parent);
+};
+Util.inherits(App.model.InputPort, App.model.Port);
+
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.InputPort.prototype.getPath = function() {
+	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
+};
+
+
+/**
+ * Output Port
+ * @inheritDoc
+ */
+App.model.OutputPort = function(data, parent) {
+	this.resourcePath = 'output_ports/';
+	App.model.Port.call(this, data, parent);
+};
+Util.inherits(App.model.OutputPort, App.model.Port);
+
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.OutputPort.prototype.getPath = function() {
+	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
 };
 
 

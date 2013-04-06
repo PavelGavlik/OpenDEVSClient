@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Model: AtomicDEVSPrototype', function () {
+describe('Model: PrototypeObject', function () {
 	/** @type{App.model.PrototypeObject} */
 	var prototype;
 

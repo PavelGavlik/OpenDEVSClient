@@ -1,6 +1,6 @@
 {
   "author": "Pavel Gavlík",
-  "name": "DEVSClient",
+  "name": "OpenDEVSClient",
   "version": "0.5.0",
   "dependencies": {},
   "devDependencies": {

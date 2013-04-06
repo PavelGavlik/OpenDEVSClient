@@ -60,6 +60,28 @@ describe('Service: api', function () {
 		});
 	});
 
+	describe("MyRepositoryItemResource", function () {
+		var resource;
+
+		beforeEach(function() {
+			resource = new api.MyRepository(new App.model.MyRepository());
+		});
+
+		it('should list MyRepository items', function() {
+			$httpBackend.when('GET', 'http://server:9004/').respond({});
+			$httpBackend.expectGET('http://server:9004/');
+			resource.get();
+			$httpBackend.flush();
+		});
+
+		it("should be able to rename MyRepository item", function () {
+			$httpBackend.when('PATCH', 'http://server:9004/').respond({});
+			$httpBackend.expectPATCH('http://server:9004/', {name: 'renamed'});
+			resource.rename('renamed');
+			$httpBackend.flush();
+		});
+	});
+
 	describe("DEVSRootSolverRTResource", function () {
 		var resource;
 
@@ -87,23 +109,51 @@ describe('Service: api', function () {
 		});
 	});
 
-	describe("PortResource", function () {
+	describe("InputPortResource", function () {
 		var resource;
 
 		beforeEach(function() {
-			resource = new api.Port(new App.model.Port());
+			var atomic = new App.model.AtomicDEVSPrototype({name: 'atomic'}, new App.model.MyRepository());
+			var port = new App.model.InputPort({name: 'newPort'}, atomic);
+			resource = new api.InputPort(port);
 		});
 
-		xit("should be able to get port over network", function () {
-			resource.get();
+		it("should implement POST request", function () {
+			$httpBackend.when('POST', 'http://server:9004/atomic/input_ports/').respond({});
+			$httpBackend.expectPOST('http://server:9004/atomic/input_ports/', resource);
+			resource.post();
+			$httpBackend.flush();
+		});
+
+		it("should implement DELETE request", function () {
+			$httpBackend.when('DELETE', 'http://server:9004/atomic/input_ports/newPort/').respond({});
+			$httpBackend.expectDELETE('http://server:9004/atomic/input_ports/newPort/');
+			resource.delete();
+			$httpBackend.flush();
 		});
 	});
 
-	it('should list MyRepository items', function() {
-		$httpBackend.when('GET', 'http://server:9004/Simulations/').respond({});
-		$httpBackend.expectGET('http://server:9004/Simulations/');
-		var resource = new api.MyRepository('/Simulations/');
-		resource.get();
-		$httpBackend.flush();
+	describe("OutputPortResource", function () {
+		var resource;
+
+		beforeEach(function() {
+			var atomic = new App.model.AtomicDEVSPrototype({name: 'atomic'}, new App.model.MyRepository());
+			var port = new App.model.OutputPort({name: 'newPort'}, atomic);
+			resource = new api.OutputPort(port);
+		});
+
+		it("should implement POST request", function () {
+			$httpBackend.when('POST', 'http://server:9004/atomic/output_ports/').respond({});
+			$httpBackend.expectPOST('http://server:9004/atomic/output_ports/', resource);
+			resource.post();
+			$httpBackend.flush();
+		});
+
+		it("should implement DELETE request", function () {
+			$httpBackend.when('DELETE', 'http://server:9004/atomic/output_ports/newPort/').respond({});
+			$httpBackend.expectDELETE('http://server:9004/atomic/output_ports/newPort/');
+			resource.delete();
+			$httpBackend.flush();
+		});
 	});
 });

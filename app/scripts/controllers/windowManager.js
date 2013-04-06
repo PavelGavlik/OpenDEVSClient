@@ -83,7 +83,8 @@ App.controller.MyRepositoryItem = function($scope, $window, $element, api, model
 	}
 
 	function refreshWindow() {
-		$scope.modelResource.get()
+		var modelResource = new api.MyRepository($scope.model);
+		modelResource.get()
 			.success(function (item) {
 				$scope.model = model.put($scope.model.path, item);
 			})
@@ -100,40 +101,29 @@ App.controller.MyRepositoryItem = function($scope, $window, $element, api, model
 		if (type == 'simulation')
 			type = 'coupled';
 		$scope.tpl = 'templates/windows/'+ type +'.html';
+		$element.addClass(type);
 	}
 
-	$scope.modelResource = $scope.modelResource || new api.MyRepository($scope.model.path);
+	function setWindowPosition() {
+		if (i == 0) {
+			$element.parent().addClass('root');
+		}
+		else {
+			$element[0].style.left = i * 20 + 'px';
+			$element[0].style.top = i * 28 - 8 + 'px';
+		}
+		$element[0].style.zIndex = i;
+		i++;
+	}
+
 	$scope.openWindow = openWindow;
 	$scope.refreshWindow = refreshWindow;
 	$scope.closeWindow = closeWindow;
 
-	var type = $scope.model.type;
 	refreshWindow();
-	setWindowTemplate(type);
-	$element.addClass(type);
-	if (i == 0) {
-		$element.parent().addClass('root');
-	}
-	else {
-		$element[0].style.left = i * 20 + 'px';
-		$element[0].style.top = i * 28 - 8 + 'px';
-	}
-	$element[0].style.zIndex = i;
-	i++;
-	var initX, initY;
-	$element.bind('dragstart', function(e) {
-		console.log(e);
-		initX = e.screenX;
-		initY = e.screenY;
-		e.dataTransfer.setData('a', 'b');
-		e.dataTransfer.dropEffect = 'none';
-	});
-	$element.bind('dragend', function(e) {
-		console.log(e);
-		var compStyle = document.defaultView.getComputedStyle($element[0]);
-		$element[0].style.left = parseInt(compStyle.left, 10) + e.screenX - initX + 'px';
-		$element[0].style.top = parseInt(compStyle.top, 10) + e.screenY - initY + 'px';
-	});
+	setWindowTemplate($scope.model.type);
+	setWindowPosition();
+
 	$element.bind('click', function() {
 		$scope.$emit('WindowManager:selectWindow', $scope.model);
 	});

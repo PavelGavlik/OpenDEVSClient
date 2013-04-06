@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Model: slot', function () {
+describe('Model: Slot', function () {
 	var slot;
 
 	beforeEach(function () {

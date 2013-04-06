@@ -11,7 +11,7 @@ var errorPromise = {
 };
 
 var allPromise = {
-	success: function(fn) {fn(); return allPromise;},
+	success: function(fn) {	fn(); return allPromise;},
 	error: function(fn) {fn(); return allPromise;}
 };
 

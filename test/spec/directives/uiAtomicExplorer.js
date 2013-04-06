@@ -1,14 +1,15 @@
 'use strict';
 
 describe('Controller: uiAtomicExplorer', function() {
-	var $scope;
+	var $scope, api;
 
 	// load the controller's module
 	beforeEach(module('clientApp'));
 
 	// initialize the controller and a mock scope
-	beforeEach(inject(function($controller, $rootScope, api) {
+	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
+		api = a;
 		$scope.model = new App.model.AtomicDEVSPrototype();
 
 		$controller('uiAtomicExplorer', {
@@ -17,7 +18,13 @@ describe('Controller: uiAtomicExplorer', function() {
 			api: api
 		});
 		spyOn($window, 'prompt').andReturn('name');
-	}));
+		spyOn(api.InputPort.prototype, 'post');
+		spyOn(api.InputPort.prototype, 'rename');
+		spyOn(api.InputPort.prototype, 'delete');
+		spyOn(api.OutputPort.prototype, 'post');
+		spyOn(api.OutputPort.prototype, 'rename');
+		spyOn(api.OutputPort.prototype, 'delete');
+	}]));
 
 	it('should be able to add port', function() {
 		expect($scope.model.inputPorts.length).toBe(0);
@@ -25,12 +32,14 @@ describe('Controller: uiAtomicExplorer', function() {
 		expect($scope.model.inputPorts.length).toBe(1);
 		expect($scope.model.inputPorts[0].name).toBe('name');
 		expect($scope.selectedPort).toBe($scope.model.inputPorts[0]);
+		expect(api.InputPort.prototype.post).toHaveBeenCalled();
 
 		expect($scope.model.outputPorts.length).toBe(0);
 		$scope.addOutputPort();
 		expect($scope.model.outputPorts.length).toBe(1);
 		expect($scope.model.outputPorts[0].name).toBe('name');
 		expect($scope.selectedPort).toBe($scope.model.outputPorts[0]);
+		expect(api.OutputPort.prototype.post).toHaveBeenCalled();
 	});
 
 	it("should be able to select port", function () {
@@ -44,15 +53,21 @@ describe('Controller: uiAtomicExplorer', function() {
 		$scope.selectPort($scope.model.inputPorts[0]);
 		$scope.renamePort();
 		expect($scope.model.inputPorts[0].name).toBe('name');
+		expect(api.InputPort.prototype.rename).toHaveBeenCalled();
 	});
 
 	it("should be able to delete port", function () {
 		$scope.model.addInputPortWithName('a');
 		$scope.model.addOutputPortWithName('b');
+
 		$scope.selectPort($scope.model.inputPorts[0]);
 		$scope.deletePort();
+		expect(api.InputPort.prototype.delete).toHaveBeenCalled();
+
 		$scope.selectPort($scope.model.outputPorts[0]);
 		$scope.deletePort();
+		expect(api.OutputPort.prototype.delete).toHaveBeenCalled();
+
 		expect($scope.selectedPort).toBe(null);
 	});
 
