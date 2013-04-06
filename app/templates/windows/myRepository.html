@@ -2,7 +2,7 @@
     <div class="win-header">
         <div class="btn-toolbar">
             <div class="btn-group">
-                <button ng-hide="model.name == 'Root'" ng-click="closeWindow(model)" class="btn close">
+                <button ng-hide="model.name == 'Root'" ng-click="closeWindow(model)" title="Close Window" class="btn close">
                     <i class="icon-remove"></i>
                 </button>
             </div>
@@ -13,7 +13,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="win-content">
+    <div class="win-content" draggable="false">
         <div class="btn-toolbar">
             <button class="btn" ng-disabled="true">
                 <i class="icon-folder-open"></i> Open

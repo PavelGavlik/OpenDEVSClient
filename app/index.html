@@ -40,7 +40,7 @@
 <!--</div>-->
 <div class="container-fluid windows-container">
     <div ng-cloak ng-repeat="i in windows" ng-class="{active: currentWindowName == i.path, inactive: currentWindowName != i.path}">
-        <div ui-window ng-model="i"></div>
+        <div ui-window ng-model="i" draggable="true"></div>
     </div>
 </div>
 

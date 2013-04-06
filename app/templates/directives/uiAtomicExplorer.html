@@ -1,5 +1,6 @@
 <div ui-tree><ul>
-	<li ng-show="model.type == 'atomic'" ui-tree-item title="Ports">
+    <div ng-show="model.type == 'atomic'">
+	<li ui-tree-item title="Ports">
         <div class="btn-toolbar">
             <div class="btn-group">
                 <button ng-click="addInputPort()" class="btn">
@@ -24,6 +25,7 @@
         </div>
         <div class="clearfix"></div>
 	</li>
+    </div>
 
     <li ui-tree-item title="Slots">
         <div class="btn-toolbar">

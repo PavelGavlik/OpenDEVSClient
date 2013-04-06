@@ -120,6 +120,20 @@ App.controller.MyRepositoryItem = function($scope, $window, $element, api, model
 	}
 	$element[0].style.zIndex = i;
 	i++;
+	var initX, initY;
+	$element.bind('dragstart', function(e) {
+		console.log(e);
+		initX = e.screenX;
+		initY = e.screenY;
+		e.dataTransfer.setData('a', 'b');
+		e.dataTransfer.dropEffect = 'none';
+	});
+	$element.bind('dragend', function(e) {
+		console.log(e);
+		var compStyle = document.defaultView.getComputedStyle($element[0]);
+		$element[0].style.left = parseInt(compStyle.left, 10) + e.screenX - initX + 'px';
+		$element[0].style.top = parseInt(compStyle.top, 10) + e.screenY - initY + 'px';
+	});
 	$element.bind('click', function() {
 		$scope.$emit('WindowManager:selectWindow', $scope.model);
 	});
