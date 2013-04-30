@@ -20,10 +20,10 @@ describe('Controller: uiAtomicExplorer', function() {
 		spyOn($window, 'prompt').andReturn('name');
 		spyOn(api.InputPort.prototype, 'post');
 		spyOn(api.InputPort.prototype, 'rename');
-		spyOn(api.InputPort.prototype, 'delete');
+		spyOn(api.InputPort.prototype, 'delete').andReturn(allPromise);
 		spyOn(api.OutputPort.prototype, 'post');
 		spyOn(api.OutputPort.prototype, 'rename');
-		spyOn(api.OutputPort.prototype, 'delete');
+		spyOn(api.OutputPort.prototype, 'delete').andReturn(allPromise);
 	}]));
 
 	it('should be able to add port', function() {

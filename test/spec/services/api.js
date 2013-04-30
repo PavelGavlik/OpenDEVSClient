@@ -27,7 +27,7 @@ describe('Service: api', function () {
 		it("should have default methods", function () {
 			expect(typeof resource.get).toBe('function');
 			expect(typeof resource.post).toBe('function');
-			expect(typeof resource.put).toBe('function');
+			expect(typeof resource.patch).toBe('function');
 			expect(typeof resource['delete']).toBe('function');
 		});
 
@@ -48,9 +48,9 @@ describe('Service: api', function () {
 			resource.post();
 			$httpBackend.flush();
 
-			$httpBackend.when('PUT', 'http://server:9004/URL/').respond({});
-			$httpBackend.expectPUT('http://server:9004/URL/');
-			resource.put();
+			$httpBackend.when('PATCH', 'http://server:9004/URL/').respond({});
+			$httpBackend.expectPATCH('http://server:9004/URL/');
+			resource.patch();
 			$httpBackend.flush();
 
 			$httpBackend.when('DELETE', 'http://server:9004/URL/').respond({});
@@ -95,15 +95,15 @@ describe('Service: api', function () {
 		});
 
 		it("should be able to change simulation state", function () {
-			$httpBackend.when('PUT', 'http://server:9004/Simulations/sim/').respond({});
-			$httpBackend.expectPUT('http://server:9004/Simulations/sim/', {running: true});
+			$httpBackend.when('PATCH', 'http://server:9004/Simulations/sim/').respond({});
+			$httpBackend.expectPATCH('http://server:9004/Simulations/sim/', {running: true});
 			resource.changeRunningState(true);
 			$httpBackend.flush();
 		});
 
 		it("should be able to reset simulation", function () {
-			$httpBackend.when('PUT', 'http://server:9004/Simulations/sim/').respond({});
-			$httpBackend.expectPUT('http://server:9004/Simulations/sim/', {reset: true});
+			$httpBackend.when('PATCH', 'http://server:9004/Simulations/sim/').respond({});
+			$httpBackend.expectPATCH('http://server:9004/Simulations/sim/', {reset: true});
 			resource.resetSimulation();
 			$httpBackend.flush();
 		});

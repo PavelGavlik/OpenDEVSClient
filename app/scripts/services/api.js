@@ -27,8 +27,8 @@ App.service.api = function($http, $location) {
 	Resource.prototype.post = function() {
 		return $http.post(this.path, this);
 	};
-	Resource.prototype.put = function(data) {
-		return $http.put(this.path, data);
+	Resource.prototype.patch = function(data) {
+		return $http.patch(this.path, data);
 	};
 	Resource.prototype.delete = function() {
 		return $http.delete(this.path);
@@ -71,10 +71,10 @@ App.service.api = function($http, $location) {
 	 * @param {Boolean} willBeRunning
 	 */
 	DEVSRootSolverRTResource.prototype.changeRunningState = function(willBeRunning) {
-		return this.put({running: willBeRunning});
+		return this.patch({running: willBeRunning});
 	};
 	DEVSRootSolverRTResource.prototype.resetSimulation = function() {
-		return this.put({reset: true});
+		return this.patch({reset: true});
 	};
 
 

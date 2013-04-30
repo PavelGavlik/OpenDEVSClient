@@ -37,6 +37,10 @@ App.controller.uiCoupledExplorer = function($scope, $element, computeSubmodelSiz
 	$scope.$watch('data.couplings', redrawCouplings);
 };
 
+/**
+ * Directive for manipulation with coupled models
+ * Shows graphical model representation using SVG
+ */
 App.directive.uiCoupledExplorer = function() {
 	return {
 		controller: App.controller.uiCoupledExplorer,
@@ -219,7 +223,7 @@ App.service.computeCouplingSegments = function(Point) {
 	 * @return {string}
 	 */
 	function computeCouplingSegments(vertices) {
-		// algorithm adapted from NcLineMorph#computeSegments
+		// algorithm adapted from NCLineMorph#computeSegments
 		var path = '';
 		if (vertices.length === 2)
 			path = lineSegment(vertices[0]) + lineSegment(vertices[1]);

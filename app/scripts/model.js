@@ -402,6 +402,14 @@ App.model.Port.prototype.load = function(data) {
 };
 
 /**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.Port.prototype.getPath = function() {
+	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
+};
+
+/**
  * @param {String} newName
  */
 App.model.Port.prototype.rename = function(newName) {
@@ -420,14 +428,6 @@ App.model.InputPort = function(data, parent) {
 };
 Util.inherits(App.model.InputPort, App.model.Port);
 
-/**
- * Return full Myrepository path in form '/path/to/object'
- * @returns {string}
- */
-App.model.InputPort.prototype.getPath = function() {
-	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
-};
-
 
 /**
  * Output Port
@@ -438,14 +438,6 @@ App.model.OutputPort = function(data, parent) {
 	App.model.Port.call(this, data, parent);
 };
 Util.inherits(App.model.OutputPort, App.model.Port);
-
-/**
- * Return full Myrepository path in form '/path/to/object'
- * @returns {string}
- */
-App.model.OutputPort.prototype.getPath = function() {
-	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
-};
 
 
 /**

@@ -94,13 +94,18 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 
 	function deletePort() {
 		var portResource;
-		$scope.model.deletePort($scope.selectedPort);
 		if ($scope.selectedPort instanceof App.model.InputPort)
 			portResource = new api.InputPort($scope.selectedPort);
 		else
 			portResource = new api.OutputPort($scope.selectedPort);
-		portResource.delete();
-		$scope.selectedPort = null;
+		portResource.delete()
+			.success(function() {
+				$scope.model.deletePort($scope.selectedPort);
+				$scope.selectedPort = null;
+			})
+			.error(function() {
+				$window.alert('Unable to delete port.');
+			});
 	}
 
 	function deleteSlot() {
@@ -125,6 +130,10 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	$scope.deleteSlot = deleteSlot;
 };
 
+/**
+ * Directive for manipulation with atomic models
+ * Useful for editing ports, slots, delegates, methods and comment
+ */
 App.directive.uiAtomicExplorer = function() {
 	return {
 		controller: App.controller.uiAtomicExplorer,
