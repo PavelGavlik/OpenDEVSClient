@@ -4,7 +4,7 @@ describe('Model: Slot', function () {
 	var slot;
 
 	beforeEach(function () {
-		slot = new App.model.Slot();
+		slot = new App.model.Slot({}, new App.model.AtomicDEVSPrototype());
 	});
 
 	it('should be able to load new data', function() {

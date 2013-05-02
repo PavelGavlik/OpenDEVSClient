@@ -85,6 +85,7 @@ describe('Model: AtomicDEVSPrototype', function () {
 		expect(atomic.slots.length).toBe(0);
 		var returnedSlot = atomic.addSlot('mySlot');
 		expect(returnedSlot).toBe(atomic.slots[0]);
+		expect(returnedSlot.parent).toBe(atomic);
 		expect(atomic.slots.length).toBe(1);
 		expect(atomic.slots[0].name).toBe('mySlot');
 	});
@@ -95,5 +96,22 @@ describe('Model: AtomicDEVSPrototype', function () {
 		atomic.deleteSlot(atomic.slots[0]);
 		expect(atomic.slots.length).toBe(1);
 		expect(atomic.slots[0].name).toBe('mySlot2');
+	});
+
+	it("should be able to add delegate", function () {
+		expect(atomic.delegates.length).toBe(0);
+		var returnedDelegate = atomic.addDelegate('my');
+		expect(returnedDelegate).toBe(atomic.delegates[0]);
+		expect(returnedDelegate.parent).toBe(atomic);
+		expect(atomic.delegates.length).toBe(1);
+		expect(atomic.delegates[0].name).toBe('my');
+	});
+
+	it("should be able to delete delegate", function () {
+		atomic.addDelegate('my');
+		atomic.addDelegate('my2');
+		atomic.deleteDelegate(atomic.delegates[0]);
+		expect(atomic.delegates.length).toBe(1);
+		expect(atomic.delegates[0].name).toBe('my2');
 	});
 });

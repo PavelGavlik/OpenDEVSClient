@@ -156,4 +156,59 @@ describe('Service: api', function () {
 			$httpBackend.flush();
 		});
 	});
+
+	describe("SlotResource", function () {
+		var resource, slot;
+
+		beforeEach(function() {
+			var atomic = new App.model.AtomicDEVSPrototype({name: 'atomic'}, new App.model.MyRepository());
+			slot = new App.model.Slot({name: 'newSlot', value: 'val'}, atomic);
+			resource = new api.Slot(slot);
+		});
+
+		it("should implement POST request", function () {
+			$httpBackend.when('POST', 'http://server:9004/atomic/slots/').respond({});
+			$httpBackend.expectPOST('http://server:9004/atomic/slots/', resource);
+			resource.post();
+			$httpBackend.flush();
+		});
+
+		it("should implement DELETE request", function () {
+			$httpBackend.when('DELETE', 'http://server:9004/atomic/slots/newSlot/').respond({});
+			$httpBackend.expectDELETE('http://server:9004/atomic/slots/newSlot/');
+			resource.delete();
+			$httpBackend.flush();
+		});
+
+		it("should be able to inject value", function() {
+			$httpBackend.when('PATCH', 'http://server:9004/atomic/slots/newSlot/').respond({});
+			$httpBackend.expectPATCH('http://server:9004/atomic/slots/newSlot/', {value: 'new'});
+			resource.injectValue('new');
+			$httpBackend.flush();
+		});
+	});
+
+	describe("DelegateResource", function () {
+		var resource;
+
+		beforeEach(function() {
+			var atomic = new App.model.AtomicDEVSPrototype({name: 'atomic'}, new App.model.MyRepository());
+			var delegate = new App.model.Delegate({name: 'new'}, atomic);
+			resource = new api.Delegate(delegate);
+		});
+
+		it("should implement POST request", function () {
+			$httpBackend.when('POST', 'http://server:9004/atomic/delegates/').respond({});
+			$httpBackend.expectPOST('http://server:9004/atomic/delegates/', resource);
+			resource.post();
+			$httpBackend.flush();
+		});
+
+		it("should implement DELETE request", function () {
+			$httpBackend.when('DELETE', 'http://server:9004/atomic/delegates/new/').respond({});
+			$httpBackend.expectDELETE('http://server:9004/atomic/delegates/new/');
+			resource.delete();
+			$httpBackend.flush();
+		});
+	});
 });

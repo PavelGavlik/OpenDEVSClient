@@ -24,6 +24,11 @@ describe('Controller: uiAtomicExplorer', function() {
 		spyOn(api.OutputPort.prototype, 'post');
 		spyOn(api.OutputPort.prototype, 'rename');
 		spyOn(api.OutputPort.prototype, 'delete').andReturn(allPromise);
+		spyOn(api.Slot.prototype, 'post');
+		spyOn(api.Slot.prototype, 'injectValue');
+		spyOn(api.Slot.prototype, 'delete').andReturn(allPromise);
+		spyOn(api.Delegate.prototype, 'post');
+		spyOn(api.Delegate.prototype, 'delete').andReturn(allPromise);
 	}]));
 
 	it('should be able to add port', function() {
@@ -77,6 +82,7 @@ describe('Controller: uiAtomicExplorer', function() {
 		expect($scope.model.slots.length).toBe(1);
 		expect($scope.model.slots[0].name).toBe('name');
 		expect($scope.selectedSlot).toBe($scope.model.slots[0]);
+		expect(api.Slot.prototype.post).toHaveBeenCalled();
 	});
 
 	it("should be able to select slot", function () {
@@ -85,18 +91,12 @@ describe('Controller: uiAtomicExplorer', function() {
 		expect($scope.selectedSlot).toBe('a');
 	});
 
-	it("should be able to rename slot", function () {
-		$scope.model.addSlot('a');
-		$scope.selectSlot($scope.model.slots[0]);
-		$scope.renameSlot();
-		expect($scope.model.slots[0].name).toBe('name');
-	});
-
 	it("should be able to inject slot value", function () {
 		$scope.model.addSlot('a');
 		$scope.selectSlot($scope.model.slots[0]);
 		$scope.injectSlotWithValue();
 		expect($scope.model.slots[0].value).toBe('name');
+		expect(api.Slot.prototype.injectValue).toHaveBeenCalled();
 	});
 
 	it("should be able to delete slot", function () {
@@ -106,12 +106,32 @@ describe('Controller: uiAtomicExplorer', function() {
 		$scope.deleteSlot();
 		expect($scope.model.slots[0].name).toBe('b');
 		expect($scope.selectedSlot).toBe(null);
+		expect(api.Slot.prototype.delete).toHaveBeenCalled();
+	});
+
+	it("should be able to add delegate", function () {
+		expect($scope.model.delegates.length).toBe(0);
+		$scope.addDelegate();
+		expect($scope.model.delegates.length).toBe(1);
+		expect($scope.model.delegates[0].name).toBe('name');
+		expect($scope.selectedDelegate).toBe($scope.model.delegates[0]);
+		expect(api.Delegate.prototype.post).toHaveBeenCalled();
 	});
 
 	it("should be able to select delegate", function () {
 		expect($scope.selectedDelegate).toBe(null);
 		$scope.selectDelegate('a');
 		expect($scope.selectedDelegate).toBe('a');
+	});
+
+	it("should be able to delete delegate", function () {
+		$scope.model.addDelegate('a');
+		$scope.model.addDelegate('b');
+		$scope.selectDelegate($scope.model.delegates[0]);
+		$scope.deleteDelegate();
+		expect($scope.model.delegates[0].name).toBe('b');
+		expect($scope.selectedDelegate).toBe(null);
+		expect(api.Delegate.prototype.delete).toHaveBeenCalled();
 	});
 });
 

@@ -8,6 +8,7 @@ App.type.uiAtomicExplorerScope = {
 	selectedPort: null,
 	/** @type {App.model.Slot} */
 	selectedSlot: null,
+	/** @type {App.model.Delegate} */
 	selectedDelegate: null,
 	/** @type {function()} */
 	addInputPort: null,
@@ -15,22 +16,24 @@ App.type.uiAtomicExplorerScope = {
 	addOutputPort: null,
 	/** @type {function()} */
 	addSlot: null,
+	/** @type {function()} */
+	addDelegate: null,
 	/** @type {function(App.model.InputPort|App.model.OutputPort)} */
 	selectPort: null,
 	/** @type {function(App.model.Slot)} */
 	selectSlot: null,
-	/** @type {function()} */
+	/** @type {function(App.model.Delegate)} */
 	selectDelegate: null,
 	/** @type {function()} */
 	renamePort: null,
-	/** @type {function()} */
-	renameSlot: null,
 	/** @type {function()} */
 	injectSlotWithValue: null,
 	/** @type {function()} */
 	deletePort: null,
 	/** @type {function()} */
-	deleteSlot: null
+	deleteSlot: null,
+	/** @type {function()} */
+	deleteDelegate: null
 };
 
 /**
@@ -59,8 +62,22 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 
 	function addSlot() {
 		var name = $window.prompt('Enter slot name:');
-		if (name)
+		if (name) {
 			$scope.selectedSlot = $scope.model.addSlot(name);
+			var slotResource = new api.Slot($scope.selectedSlot);
+			slotResource.post();
+		}
+	}
+
+	function addDelegate() {
+		var name = $window.prompt('Enter delegate path:');
+		if (name) {
+			var delegateName = name.match(/\w+$/)[0];
+			$scope.selectedDelegate = $scope.model.addDelegate(name);
+			var delegateResource = new api.Delegate($scope.selectedDelegate);
+			delegateResource.post();
+			$scope.selectedDelegate.rename(delegateName);
+		}
 	}
 
 	var selectPort = Util.passToObj($scope, 'selectedPort');
@@ -80,16 +97,13 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 		}
 	}
 
-	function renameSlot() {
-		var name = $window.prompt('Enter new slot name for "' + $scope.selectedSlot.name + '":');
-		if (name)
-			$scope.selectedSlot.name = name;
-	}
-
 	function injectSlotWithValue() {
 		var value = $window.prompt('Enter new slot value for "' + $scope.selectedSlot.name + '":');
-		if (value)
+		if (value) {
+			var slotResource = new api.Slot($scope.selectedSlot);
+			slotResource.injectValue(value);
 			$scope.selectedSlot.value = value;
+		}
 	}
 
 	function deletePort() {
@@ -109,8 +123,27 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	}
 
 	function deleteSlot() {
-		$scope.model.deleteSlot($scope.selectedSlot);
-		$scope.selectedSlot = null;
+		var slotResource = new api.Slot($scope.selectedSlot);
+		slotResource.delete()
+			.success(function() {
+				$scope.model.deleteSlot($scope.selectedSlot);
+				$scope.selectedSlot = null;
+			})
+			.error(function() {
+				$window.alert('Unable to delete slot.');
+			});
+	}
+
+	function deleteDelegate() {
+		var delegateResource = new api.Delegate($scope.selectedDelegate);
+		delegateResource.delete()
+			.success(function() {
+				$scope.model.deleteDelegate($scope.selectedDelegate);
+				$scope.selectedDelegate = null;
+			})
+			.error(function() {
+				$window.alert('Unable to delete delegate.');
+			});
 	}
 
 	$scope.selectedPort = null;
@@ -120,14 +153,15 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	$scope.addInputPort = addInputPort;
 	$scope.addOutputPort = addOutputPort;
 	$scope.addSlot = addSlot;
+	$scope.addDelegate = addDelegate;
 	$scope.selectPort = selectPort;
 	$scope.selectSlot = selectSlot;
 	$scope.selectDelegate = selectDelegate;
 	$scope.renamePort = renamePort;
-	$scope.renameSlot = renameSlot;
 	$scope.injectSlotWithValue = injectSlotWithValue;
 	$scope.deletePort = deletePort;
 	$scope.deleteSlot = deleteSlot;
+	$scope.deleteDelegate = deleteDelegate;
 };
 
 /**

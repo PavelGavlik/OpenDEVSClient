@@ -100,11 +100,42 @@ App.service.api = function($http, $location) {
 	Util.inherits(OutputPortResource, MyRepositoryItemResource);
 
 
+	/**
+	 * @param {App.model.Slot} slot
+	 * @constructor
+	 * @extends {MyRepositoryItemResource}
+	 */
+	function SlotResource(slot) {
+		MyRepositoryItemResource.call(this, slot);
+	}
+	Util.inherits(SlotResource, MyRepositoryItemResource);
+
+	/**
+	 * @param {String} value
+	 */
+	SlotResource.prototype.injectValue = function(value) {
+		return this.patch({value: value});
+	};
+
+
+	/**
+	 * @param {App.model.Delegate} delegate
+	 * @constructor
+	 * @extends {MyRepositoryItemResource}
+	 */
+	function DelegateResource(delegate) {
+		MyRepositoryItemResource.call(this, delegate);
+	}
+	Util.inherits(DelegateResource, MyRepositoryItemResource);
+
+
 	return {
 		_resource: Resource,
 		DEVSRootSolverRT: DEVSRootSolverRTResource,
 		MyRepository: MyRepositoryItemResource,
 		InputPort: InputPortResource,
-		OutputPort: OutputPortResource
+		OutputPort: OutputPortResource,
+		Slot: SlotResource,
+		Delegate: DelegateResource
 	};
 };

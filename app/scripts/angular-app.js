@@ -9,3 +9,13 @@ clientApp.factory(App.service);
 clientApp.factory('model', function() {
 	return new App.model.MyRepository();
 });
+
+clientApp.value('ui.config', {
+	codemirror: {
+		mode: 'smalltalk',
+		lineNumbers: true,
+		lineWrapping: true,
+		closeBrackets: true,
+		matchBrackets: true
+	}
+});

@@ -275,6 +275,12 @@ App.model.AtomicDEVSPrototype.prototype.outputPorts = [];
 App.model.AtomicDEVSPrototype.prototype.slots = [];
 
 /**
+ * Contains all delegates
+ * @type {Array<App.model.Delegate>}
+ */
+App.model.AtomicDEVSPrototype.prototype.delegates = [];
+
+/**
 * Rewrite data in object with new data
 * @param {Object} data
 */
@@ -290,7 +296,11 @@ App.model.AtomicDEVSPrototype.prototype.load = function(data) {
 		}, this);
 	if (this.slots)
 		this.slots = this.slots.map(function(slot) {
-			return new App.model.Slot(slot);
+			return new App.model.Slot(slot, this);
+		}, this);
+	if (this.delegates)
+		this.delegates = this.delegates.map(function(delegate) {
+			return new App.model.Delegate(delegate, this);
 		}, this);
 };
 
@@ -346,7 +356,7 @@ App.model.AtomicDEVSPrototype.prototype.deletePort = function(port) {
  * @param {String} slotName
  */
 App.model.AtomicDEVSPrototype.prototype.addSlot = function(slotName) {
-	var slot = new App.model.Slot({ name: slotName });
+	var slot = new App.model.Slot({ name: slotName }, this);
 	this.slots.push(slot);
 	return slot;
 };
@@ -357,6 +367,24 @@ App.model.AtomicDEVSPrototype.prototype.addSlot = function(slotName) {
  */
 App.model.AtomicDEVSPrototype.prototype.deleteSlot = function(slot) {
 	Util.removeArrayItem(this.slots, slot);
+};
+
+/**
+ * Factory method that adds a delegate
+ * @param {String} delegateName
+ */
+App.model.AtomicDEVSPrototype.prototype.addDelegate = function(delegateName) {
+	var delegate = new App.model.Delegate({ name: delegateName }, this);
+	this.delegates.push(delegate);
+	return delegate;
+};
+
+/**
+ * Remove given delegate
+ * @param {App.model.Delegate} delegate
+ */
+App.model.AtomicDEVSPrototype.prototype.deleteDelegate = function(delegate) {
+	Util.removeArrayItem(this.delegates, delegate);
 };
 
 
@@ -410,6 +438,7 @@ App.model.Port.prototype.getPath = function() {
 };
 
 /**
+ * Sets new name for this item
  * @param {String} newName
  */
 App.model.Port.prototype.rename = function(newName) {
@@ -443,9 +472,13 @@ Util.inherits(App.model.OutputPort, App.model.Port);
 /**
  *
  * @param {Object=} data
+ * @param {App.model.AtomicDEVSPrototype} parent
  * @constructor
  */
-App.model.Slot = function(data) {
+App.model.Slot = function(data, parent) {
+	this.resourcePath = 'slots/';
+	if (parent)
+		this.parent = parent;
 	this.load(data);
 };
 
@@ -454,6 +487,18 @@ App.model.Slot = function(data) {
  * @type {string}
  */
 App.model.Slot.prototype.name = '';
+
+/**
+ * Parent object of this item
+ * @type {App.model.BaseDEVS}
+ */
+App.model.Slot.prototype.parent = null;
+
+/**
+ * Full path in MyRepository hierarchy
+ * @type {string}
+ */
+App.model.Slot.prototype.path = '/';
 
 /**
  * Slot value
@@ -468,7 +513,76 @@ App.model.Slot.prototype.value = 'nil';
 App.model.Slot.prototype.load = function(data) {
 	if (data) {
 		angular.extend(this, data);
+		this.getPath();
 	}
+};
+
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.Slot.prototype.getPath = function() {
+	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
+};
+
+
+/**
+ *
+ * @param {Object=} data
+ * @param {App.model.AtomicDEVSPrototype} parent
+ * @constructor
+ */
+App.model.Delegate = function(data, parent) {
+	this.resourcePath = 'delegates/';
+	if (parent)
+		this.parent = parent;
+	this.load(data);
+};
+
+/**
+ * Delegate name
+ * @type {string}
+ */
+App.model.Delegate.prototype.name = '';
+
+/**
+ * Parent object of this item
+ * @type {App.model.BaseDEVS}
+ */
+App.model.Delegate.prototype.parent = null;
+
+/**
+ * Full path in MyRepository hierarchy
+ * @type {string}
+ */
+App.model.Delegate.prototype.path = '/';
+
+/**
+ * Rewrite data in object with new data
+ * @param {Object} data
+ */
+App.model.Delegate.prototype.load = function(data) {
+	if (data) {
+		angular.extend(this, data);
+		this.getPath();
+	}
+};
+
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.Delegate.prototype.getPath = function() {
+	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
+};
+
+/**
+ * Sets new name for this item
+ * @param {String} newName
+ */
+App.model.Delegate.prototype.rename = function(newName) {
+	this.name = newName;
+	this.getPath();
 };
 
 
@@ -503,6 +617,18 @@ App.model.PrototypeObject.prototype.path = '/';
 App.model.PrototypeObject.prototype.name = '';
 
 /**
+ * Contains all slots
+ * @type {Array<App.model.Slot>}
+ */
+App.model.PrototypeObject.prototype.slots = [];
+
+/**
+ * Contains all delegates
+ * @type {Array<App.model.Delegate>}
+ */
+App.model.PrototypeObject.prototype.delegates = [];
+
+/**
  * Rewrite data in object with new data
  * @param {Object} data
  */
@@ -510,6 +636,15 @@ App.model.PrototypeObject.prototype.load = function(data) {
 	if (data) {
 		angular.extend(this, data);
 		this.getPath();
+
+		if (this.slots)
+			this.slots = this.slots.map(function(slot) {
+				return new App.model.Slot(slot, this);
+			}, this);
+		if (this.delegates)
+			this.delegates = this.delegates.map(function(delegate) {
+				return new App.model.Delegate(delegate, this);
+			}, this);
 	}
 };
 
@@ -518,3 +653,27 @@ App.model.PrototypeObject.prototype.load = function(data) {
  * @returns {string}
  */
 App.model.PrototypeObject.prototype.getPath = App.model.MyRepository.prototype.getPath;
+
+/**
+ * Factory method that adds a slot
+ * @param {String} slotName
+ */
+App.model.PrototypeObject.prototype.addSlot = App.model.AtomicDEVSPrototype.prototype.addSlot;
+
+/**
+ * Remove given slot
+ * @param {App.model.Slot} slot
+ */
+App.model.PrototypeObject.prototype.deleteSlot = App.model.AtomicDEVSPrototype.prototype.deleteSlot;
+
+/**
+ * Factory method that adds a delegate
+ * @param {String} delegateName
+ */
+App.model.PrototypeObject.prototype.addDelegate = App.model.AtomicDEVSPrototype.prototype.addDelegate;
+
+/**
+ * Remove given delegate
+ * @param {App.model.Delegate} delegate
+ */
+App.model.PrototypeObject.prototype.deleteDelegate = App.model.AtomicDEVSPrototype.prototype.deleteDelegate;

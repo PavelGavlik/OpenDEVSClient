@@ -34,9 +34,6 @@
                     <i class="icon-plus"></i> Add Slot
                 </button>
                 <button ng-click="injectSlotWithValue()" ng-disabled="!selectedSlot" class="btn">Inject Value</button>
-                <button ng-click="renameSlot()" ng-disabled="!selectedSlot" class="btn">
-                    <i class="icon-pencil"></i> Rename
-                </button>
                 <button ng-click="deleteSlot()" ng-disabled="!selectedSlot" class="btn">
                     <i class="icon-minus"></i> Delete
                 </button>
@@ -56,20 +53,20 @@
                 </button>
             </div>
         </div>
-        <div ng-repeat="d in model.delegates" ng-click="selectDelegate(d)" ng-class="{selected: selectedDelegate == d}" class="delegate">{{d}}</div>
+        <div ng-repeat="d in model.delegates" ng-click="selectDelegate(d)" ng-class="{selected: selectedDelegate == d}" class="delegate">{{d.name}}</div>
     </li>
 
     <li ui-tree-item title="Methods">
         <div ng-repeat="(mName, mSource) in model.methods" ui-tree><ul>
             <li ui-tree-item ng-model="mName">
-                <textarea ui-codemirror="{ mode: 'smalltalk', lineNumbers: true, lineWrapping: true, closeBrackets: true, matchBrackets: true }" ng-model="mSource"></textarea>
+                <div ui-method-editor ng-model="mSource"></div>
             </li>
         </ul></div>
     </li>
 
     <div ng-show="model.type == 'atomic'">
     <li ui-tree-item title="Comment">
-        <textarea ui-codemirror="{ mode: 'none', lineNumbers: true, lineWrapping: true }" ng-model="model.comment"></textarea>
+        <div ui-method-editor ng-model="model.comment"></div>
     </li>
     </div>
 </ul></div>
