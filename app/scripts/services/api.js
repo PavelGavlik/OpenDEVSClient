@@ -129,6 +129,21 @@ App.service.api = function($http, $location) {
 	Util.inherits(DelegateResource, MyRepositoryItemResource);
 
 
+	/**
+	 * @param {App.model.Method} method
+	 * @constructor
+	 * @extends {MyRepositoryItemResource}
+	 */
+	function MethodResource(method) {
+		MyRepositoryItemResource.call(this, method);
+	}
+	Util.inherits(MethodResource, MyRepositoryItemResource);
+
+	MethodResource.prototype.updateSource = function() {
+		return this.patch({source: this.source});
+	};
+
+
 	return {
 		_resource: Resource,
 		DEVSRootSolverRT: DEVSRootSolverRTResource,
@@ -136,6 +151,7 @@ App.service.api = function($http, $location) {
 		InputPort: InputPortResource,
 		OutputPort: OutputPortResource,
 		Slot: SlotResource,
-		Delegate: DelegateResource
+		Delegate: DelegateResource,
+		Method: MethodResource
 	};
 };

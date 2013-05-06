@@ -216,7 +216,14 @@ body
 	.input-ports .port:before
 		background: $inputPort
 
-	.CodeMirror
+	[ui-method-editor] .CodeMirror
 		@include border-radius(2px)
-		height: auto
 		border: 1px solid #ddd
+	.selected [ui-method-editor] .CodeMirror
+		border-color: $blueDark
+
+[ui-method-editor]
+	.btn-toolbar
+		margin: 5px 0 0
+	.CodeMirror
+		height: auto

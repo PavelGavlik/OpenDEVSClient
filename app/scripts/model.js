@@ -281,6 +281,12 @@ App.model.AtomicDEVSPrototype.prototype.slots = [];
 App.model.AtomicDEVSPrototype.prototype.delegates = [];
 
 /**
+ * Contains all methods
+ * @type {Array<App.model.Method>}
+ */
+App.model.AtomicDEVSPrototype.prototype.methods = [];
+
+/**
 * Rewrite data in object with new data
 * @param {Object} data
 */
@@ -301,6 +307,10 @@ App.model.AtomicDEVSPrototype.prototype.load = function(data) {
 	if (this.delegates)
 		this.delegates = this.delegates.map(function(delegate) {
 			return new App.model.Delegate(delegate, this);
+		}, this);
+	if (this.methods)
+		this.methods = this.methods.map(function(method) {
+			return new App.model.Method(method, this);
 		}, this);
 };
 
@@ -385,6 +395,24 @@ App.model.AtomicDEVSPrototype.prototype.addDelegate = function(delegateName) {
  */
 App.model.AtomicDEVSPrototype.prototype.deleteDelegate = function(delegate) {
 	Util.removeArrayItem(this.delegates, delegate);
+};
+
+/**
+ * Factory method that adds a model method
+ * @param {String} methodName
+ */
+App.model.AtomicDEVSPrototype.prototype.addMethod = function(methodName) {
+	var method = new App.model.Method({ name: methodName }, this);
+	this.methods.push(method);
+	return method;
+};
+
+/**
+ * Remove given method
+ * @param {App.model.Method} method
+ */
+App.model.AtomicDEVSPrototype.prototype.deleteMethod = function(method) {
+	Util.removeArrayItem(this.methods, method);
 };
 
 
@@ -521,9 +549,7 @@ App.model.Slot.prototype.load = function(data) {
  * Return full Myrepository path in form '/path/to/object'
  * @returns {string}
  */
-App.model.Slot.prototype.getPath = function() {
-	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
-};
+App.model.Slot.prototype.getPath = App.model.Port.prototype.getPath;
 
 
 /**
@@ -572,9 +598,7 @@ App.model.Delegate.prototype.load = function(data) {
  * Return full Myrepository path in form '/path/to/object'
  * @returns {string}
  */
-App.model.Delegate.prototype.getPath = function() {
-	return this.path = this.parent.getPath() + this.resourcePath + this.name + '/';
-};
+App.model.Delegate.prototype.getPath = App.model.Port.prototype.getPath;
 
 /**
  * Sets new name for this item
@@ -584,6 +608,61 @@ App.model.Delegate.prototype.rename = function(newName) {
 	this.name = newName;
 	this.getPath();
 };
+
+
+/**
+ *
+ * @param {Object=} data
+ * @param {App.model.AtomicDEVSPrototype} parent
+ * @constructor
+ */
+App.model.Method = function(data, parent) {
+	this.resourcePath = 'methods/';
+	if (parent)
+		this.parent = parent;
+	this.load(data);
+};
+
+/**
+ * Method name
+ * @type {string}
+ */
+App.model.Method.prototype.name = '';
+
+/**
+ * Parent object of this item
+ * @type {App.model.BaseDEVS}
+ */
+App.model.Method.prototype.parent = null;
+
+/**
+ * Full path in MyRepository hierarchy
+ * @type {string}
+ */
+App.model.Method.prototype.path = '/';
+
+/**
+ * Slot value
+ * @type {string}
+ */
+App.model.Method.prototype.value = 'nil';
+
+/**
+ * Rewrite data in object with new data
+ * @param {Object} data
+ */
+App.model.Method.prototype.load = function(data) {
+	if (data) {
+		angular.extend(this, data);
+		this.getPath();
+	}
+};
+
+/**
+ * Return full Myrepository path in form '/path/to/object'
+ * @returns {string}
+ */
+App.model.Method.prototype.getPath = App.model.Port.prototype.getPath;
 
 
 /**
@@ -629,6 +708,12 @@ App.model.PrototypeObject.prototype.slots = [];
 App.model.PrototypeObject.prototype.delegates = [];
 
 /**
+ * Contains all methods
+ * @type {Array<App.model.Method>}
+ */
+App.model.PrototypeObject.prototype.methods = [];
+
+/**
  * Rewrite data in object with new data
  * @param {Object} data
  */
@@ -644,6 +729,10 @@ App.model.PrototypeObject.prototype.load = function(data) {
 		if (this.delegates)
 			this.delegates = this.delegates.map(function(delegate) {
 				return new App.model.Delegate(delegate, this);
+			}, this);
+		if (this.methods)
+			this.methods = this.methods.map(function(method) {
+				return new App.model.Method(method, this);
 			}, this);
 	}
 };
@@ -677,3 +766,15 @@ App.model.PrototypeObject.prototype.addDelegate = App.model.AtomicDEVSPrototype.
  * @param {App.model.Delegate} delegate
  */
 App.model.PrototypeObject.prototype.deleteDelegate = App.model.AtomicDEVSPrototype.prototype.deleteDelegate;
+
+/**
+ * Factory method that adds a model method
+ * @param {String} methodName
+ */
+App.model.PrototypeObject.prototype.addMethod = App.model.AtomicDEVSPrototype.prototype.addMethod;
+
+/**
+ * Remove given method
+ * @param {App.model.Method} method
+ */
+App.model.PrototypeObject.prototype.deleteMethod = App.model.AtomicDEVSPrototype.prototype.deleteMethod;

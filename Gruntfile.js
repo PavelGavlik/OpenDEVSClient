@@ -21,14 +21,6 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		yeoman: yeomanConfig,
 		watch: {
-//			coffee: {
-//				files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-//				tasks: ['coffee:dist']
-//			},
-//			coffeeTest: {
-//				files: ['test/spec/{,*/}*.coffee'],
-//				tasks: ['coffee:test']
-//			},
 			compass: {
 				files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
 				tasks: ['compass']
@@ -98,21 +90,6 @@ module.exports = function (grunt) {
 				singleRun: true
 			}
 		},
-//		coffee: {
-//			dist: {
-//				files: {
-//					'.tmp/scripts/coffee.js': '<%= yeoman.app %>/scripts/*.coffee'
-//				}
-//			},
-//			test: {
-//				files: [{
-//					expand: true,
-//					cwd: '.tmp/spec',
-//					src: '*.coffee',
-//					dest: 'test/spec'
-//				}]
-//			}
-//		},
 		compass: {
 			options: {
 				sassDir: '<%= yeoman.app %>/styles',

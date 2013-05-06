@@ -114,4 +114,22 @@ describe('Model: AtomicDEVSPrototype', function () {
 		expect(atomic.delegates.length).toBe(1);
 		expect(atomic.delegates[0].name).toBe('my2');
 	});
+
+	it("should be able to add method", function () {
+		expect(atomic.methods.length).toBe(0);
+		var returnedMethod = atomic.addMethod('myMethod');
+		expect(returnedMethod).toBe(atomic.methods[0]);
+		expect(returnedMethod.parent).toBe(atomic);
+		expect(atomic.methods.length).toBe(1);
+		expect(atomic.methods[0].name).toBe('myMethod');
+	});
+
+	it("should be able to delete method", function () {
+		atomic.methods = [];
+		atomic.addMethod('myMethod');
+		atomic.addMethod('myMethod2');
+		atomic.deleteMethod(atomic.methods[0]);
+		expect(atomic.methods.length).toBe(1);
+		expect(atomic.methods[0].name).toBe('myMethod2');
+	});
 });

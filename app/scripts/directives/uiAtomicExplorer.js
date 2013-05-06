@@ -10,6 +10,8 @@ App.type.uiAtomicExplorerScope = {
 	selectedSlot: null,
 	/** @type {App.model.Delegate} */
 	selectedDelegate: null,
+	/** @type {App.model.Method} */
+	selectedMethod: null,
 	/** @type {function()} */
 	addInputPort: null,
 	/** @type {function()} */
@@ -18,22 +20,30 @@ App.type.uiAtomicExplorerScope = {
 	addSlot: null,
 	/** @type {function()} */
 	addDelegate: null,
+	/** @type {function()} */
+	addMethod: null,
 	/** @type {function(App.model.InputPort|App.model.OutputPort)} */
 	selectPort: null,
 	/** @type {function(App.model.Slot)} */
 	selectSlot: null,
 	/** @type {function(App.model.Delegate)} */
 	selectDelegate: null,
+	/** @type {function(App.model.Method)} */
+	selectMethod: null,
 	/** @type {function()} */
 	renamePort: null,
 	/** @type {function()} */
 	injectSlotWithValue: null,
+	/** @type {function(App.model.Method)} */
+	updateMethodSource: null,
 	/** @type {function()} */
 	deletePort: null,
 	/** @type {function()} */
 	deleteSlot: null,
 	/** @type {function()} */
-	deleteDelegate: null
+	deleteDelegate: null,
+	/** @type {function()} */
+	deleteMethod: null
 };
 
 /**
@@ -80,9 +90,19 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 		}
 	}
 
+	function addMethod() {
+		var name = $window.prompt('Enter method name:');
+		if (name) {
+			$scope.selectedMethod = $scope.model.addMethod(name);
+			var methodResource = new api.Method($scope.selectedMethod);
+			methodResource.post();
+		}
+	}
+
 	var selectPort = Util.passToObj($scope, 'selectedPort');
 	var selectSlot = Util.passToObj($scope, 'selectedSlot');
 	var selectDelegate = Util.passToObj($scope, 'selectedDelegate');
+	var selectMethod = Util.passToObj($scope, 'selectedMethod');
 
 	function renamePort() {
 		var name = $window.prompt('Enter new port name for "' + $scope.selectedPort.name + '":');
@@ -104,6 +124,11 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 			slotResource.injectValue(value);
 			$scope.selectedSlot.value = value;
 		}
+	}
+
+	function updateMethodSource(method) {
+		var methodResource = new api.Method(method);
+		methodResource.updateSource();
 	}
 
 	function deletePort() {
@@ -146,22 +171,46 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 			});
 	}
 
+	function deleteMethod() {
+		var methodResource = new api.Method($scope.selectedMethod);
+		methodResource.delete()
+			.success(function() {
+				$scope.model.deleteMethod($scope.selectedMethod);
+				$scope.selectedMethod = null;
+			})
+			.error(function() {
+				$window.alert('Unable to delete methodt.');
+			});
+	}
+
+	$scope.$on('uiMethodEditor:sourceChanged', function(e, method) {
+		updateMethodSource(method);
+	});
+	$scope.$on('uiMethodEditor:focus', function(e, method) {
+		selectMethod(method);
+	});
+
 	$scope.selectedPort = null;
 	$scope.selectedSlot = null;
 	$scope.selectedDelegate = null;
+	$scope.selectedMethod = null;
 
 	$scope.addInputPort = addInputPort;
 	$scope.addOutputPort = addOutputPort;
 	$scope.addSlot = addSlot;
 	$scope.addDelegate = addDelegate;
+	$scope.addMethod = addMethod;
 	$scope.selectPort = selectPort;
 	$scope.selectSlot = selectSlot;
 	$scope.selectDelegate = selectDelegate;
+	$scope.selectMethod = selectMethod;
 	$scope.renamePort = renamePort;
 	$scope.injectSlotWithValue = injectSlotWithValue;
+	$scope.updateMethodSource = updateMethodSource;
 	$scope.deletePort = deletePort;
 	$scope.deleteSlot = deleteSlot;
 	$scope.deleteDelegate = deleteDelegate;
+	$scope.deleteMethod = deleteMethod;
 };
 
 /**

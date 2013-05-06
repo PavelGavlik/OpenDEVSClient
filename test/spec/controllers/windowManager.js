@@ -131,7 +131,7 @@ describe('Controller: MyRepositoryItem', function() {
 	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
 		api = a;
-		$scope.model = new App.model.MyRepository();
+		$scope.model = new App.model.MyRepository({});
 		spyOn(api.MyRepository.prototype, 'get').andReturn(allPromise);
 
 		$controller('MyRepositoryItem', {
@@ -143,7 +143,28 @@ describe('Controller: MyRepositoryItem', function() {
 		});
 	}]));
 
-	it("should work", function () {
+	it('should load item data', function () {
 		expect(api.MyRepository.prototype.get).toHaveBeenCalled();
+	});
+
+	it('should send event to open window', function() {
+		var spy = jasmine.createSpy();
+		$scope.$on('WindowManager:openWindow', spy);
+		$scope.openWindow($scope.model);
+		expect(spy).toHaveBeenCalled();
+	});
+
+	it('should send event to select window', function() {
+		var spy = jasmine.createSpy();
+		$scope.$on('WindowManager:selectWindow', spy);
+		$scope.selectWindow($scope.model);
+		expect(spy).toHaveBeenCalled();
+	});
+
+	it('should send event to close window', function() {
+		var spy = jasmine.createSpy();
+		$scope.$on('WindowManager:closeWindow', spy);
+		$scope.closeWindow($scope.model);
+		expect(spy).toHaveBeenCalled();
 	});
 });

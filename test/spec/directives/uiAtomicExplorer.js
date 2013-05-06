@@ -29,6 +29,9 @@ describe('Controller: uiAtomicExplorer', function() {
 		spyOn(api.Slot.prototype, 'delete').andReturn(allPromise);
 		spyOn(api.Delegate.prototype, 'post');
 		spyOn(api.Delegate.prototype, 'delete').andReturn(allPromise);
+		spyOn(api.Method.prototype, 'post');
+		spyOn(api.Method.prototype, 'updateSource');
+		spyOn(api.Method.prototype, 'delete').andReturn(allPromise);
 	}]));
 
 	it('should be able to add port', function() {
@@ -53,12 +56,20 @@ describe('Controller: uiAtomicExplorer', function() {
 		expect($scope.selectedPort).toBe('a');
 	});
 
-	it("should be able to rename port", function () {
+	it("should be able to rename input port", function () {
 		$scope.model.addInputPortWithName('a');
 		$scope.selectPort($scope.model.inputPorts[0]);
 		$scope.renamePort();
 		expect($scope.model.inputPorts[0].name).toBe('name');
 		expect(api.InputPort.prototype.rename).toHaveBeenCalled();
+	});
+
+	it("should be able to rename output port", function () {
+		$scope.model.addOutputPortWithName('a');
+		$scope.selectPort($scope.model.outputPorts[0]);
+		$scope.renamePort();
+		expect($scope.model.outputPorts[0].name).toBe('name');
+		expect(api.OutputPort.prototype.rename).toHaveBeenCalled();
 	});
 
 	it("should be able to delete port", function () {
@@ -132,6 +143,37 @@ describe('Controller: uiAtomicExplorer', function() {
 		expect($scope.model.delegates[0].name).toBe('b');
 		expect($scope.selectedDelegate).toBe(null);
 		expect(api.Delegate.prototype.delete).toHaveBeenCalled();
+	});
+
+	it("should be able to add method", function () {
+		expect($scope.model.methods.length).toBe(0);
+		$scope.addMethod();
+		expect($scope.model.methods.length).toBe(1);
+		expect($scope.model.methods[0].name).toBe('name');
+		expect($scope.selectedMethod).toBe($scope.model.methods[0]);
+		expect(api.Method.prototype.post).toHaveBeenCalled();
+	});
+
+	it("should be able to update method source", function() {
+		var method = new App.model.Method({source: 'b'}, new App.model.AtomicDEVSPrototype());
+		$scope.$emit('uiMethodEditor:sourceChanged', method);
+		expect(api.Method.prototype.updateSource).toHaveBeenCalled();
+	});
+
+	it("should be able to select method", function () {
+		expect($scope.selectedMethod).toBe(null);
+		$scope.$emit('uiMethodEditor:focus', 'a')
+		expect($scope.selectedMethod).toBe('a');
+	});
+
+	it("should be able to delete method", function () {
+		$scope.model.addMethod('a');
+		$scope.model.addMethod('b');
+		$scope.selectMethod($scope.model.methods[0]);
+		$scope.deleteMethod();
+		expect($scope.model.methods[0].name).toBe('b');
+		expect($scope.selectedMethod).toBe(null);
+		expect(api.Method.prototype.delete).toHaveBeenCalled();
 	});
 });
 

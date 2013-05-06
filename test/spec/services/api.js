@@ -211,4 +211,28 @@ describe('Service: api', function () {
 			$httpBackend.flush();
 		});
 	});
+
+	describe("MethodResource", function () {
+		var resource;
+
+		beforeEach(function() {
+			var atomic = new App.model.AtomicDEVSPrototype({name: 'atomic'}, new App.model.MyRepository());
+			var method = new App.model.Method({name: 'new', source: 'mySource'}, atomic);
+			resource = new api.Method(method);
+		});
+
+		it("should implement POST request", function () {
+			$httpBackend.when('POST', 'http://server:9004/atomic/methods/').respond({});
+			$httpBackend.expectPOST('http://server:9004/atomic/methods/', resource);
+			resource.post();
+			$httpBackend.flush();
+		});
+
+		it("should be able to update source", function() {
+			$httpBackend.when('PATCH', 'http://server:9004/atomic/methods/new/').respond({});
+			$httpBackend.expectPATCH('http://server:9004/atomic/methods/new/', {source: 'mySource'});
+			resource.updateSource();
+			$httpBackend.flush();
+		})
+	});
 });

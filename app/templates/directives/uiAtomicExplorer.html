@@ -57,16 +57,28 @@
     </li>
 
     <li ui-tree-item title="Methods">
-        <div ng-repeat="(mName, mSource) in model.methods" ui-tree><ul>
-            <li ui-tree-item ng-model="mName">
-                <div ui-method-editor ng-model="mSource"></div>
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <button ng-click="addMethod()" class="btn">
+                    <i class="icon-plus"></i> Add Method
+                </button>
+                <button ng-click="deleteMethod()" ng-disabled="!selectedMethod" class="btn">
+                    <i class="icon-minus"></i> Delete
+                </button>
+            </div>
+        </div>
+        <div ng-repeat="m in model.methods | orderBy:'name'" ui-tree><ul>
+            <li ui-tree-item ng-model="m.name">
+                <div ng-class="{selected: selectedMethod == m}">
+                    <div ui-method-editor ng-model="m"></div>
+                </div>
             </li>
         </ul></div>
     </li>
 
-    <div ng-show="model.type == 'atomic'">
-    <li ui-tree-item title="Comment">
-        <div ui-method-editor ng-model="model.comment"></div>
-    </li>
-    </div>
+    <!--<div ng-show="model.type == 'atomic'">-->
+    <!--<li ui-tree-item title="Comment">-->
+        <!--<div ui-method-editor ng-model="model.comment"></div>-->
+    <!--</li>-->
+    <!--</div>-->
 </ul></div>

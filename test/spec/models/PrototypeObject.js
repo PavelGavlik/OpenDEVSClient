@@ -9,8 +9,16 @@ describe('Model: PrototypeObject', function () {
 	});
 
 	it("should be able to load data via constructor", function () {
-		prototype = new App.model.PrototypeObject({name: 'foo'}, new App.model.MyRepository());
+		prototype = new App.model.PrototypeObject({
+			name: 'foo',
+			slots: [{name: 'slot'}],
+			delegates: [{name: 'delegate'}],
+			methods: [{name: 'aa'}]
+		}, new App.model.MyRepository());
 		expect(prototype.name).toBe('foo');
+		expect(prototype.slots[0] instanceof App.model.Slot).toBeTruthy();
+		expect(prototype.delegates[0] instanceof App.model.Delegate).toBeTruthy();
+		expect(prototype.methods[0] instanceof App.model.Method).toBeTruthy();
 	});
 
 	it("should be able to add slot", function () {
@@ -47,5 +55,23 @@ describe('Model: PrototypeObject', function () {
 		prototype.deleteDelegate(prototype.delegates[0]);
 		expect(prototype.delegates.length).toBe(1);
 		expect(prototype.delegates[0].name).toBe('my2');
+	});
+
+	it("should be able to add method", function () {
+		expect(prototype.methods.length).toBe(0);
+		var returnedMethod = prototype.addMethod('myMethod');
+		expect(returnedMethod).toBe(prototype.methods[0]);
+		expect(returnedMethod.parent).toBe(prototype);
+		expect(prototype.methods.length).toBe(1);
+		expect(prototype.methods[0].name).toBe('myMethod');
+	});
+
+	it("should be able to delete method", function () {
+		prototype.methods = [];
+		prototype.addMethod('myMethod');
+		prototype.addMethod('myMethod2');
+		prototype.deleteMethod(prototype.methods[0]);
+		expect(prototype.methods.length).toBe(1);
+		expect(prototype.methods[0].name).toBe('myMethod2');
 	});
 });

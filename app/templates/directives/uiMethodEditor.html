@@ -1,6 +1,6 @@
-<textarea ui-codemirror="codemirrorOpts" ng-model="model"></textarea>
+<textarea ui-codemirror="codemirrorOpts" ng-model="currentSource"></textarea>
 
-<div ng-show="modified">
-    <button class="btn btn-primary">Accept</button>
+<div ng-show="modified" class="btn-toolbar">
+    <button ng-click="acceptSource()" class="btn btn-primary">Accept</button>
     <button ng-click="revertSource()" class="btn">Cancel</button>
 </div>

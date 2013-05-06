@@ -93,6 +93,10 @@ App.controller.MyRepositoryItem = function($scope, $window, $element, api, model
 			});
 	}
 
+	function selectWindow() {
+		$scope.$emit('WindowManager:selectWindow', $scope.model);
+	}
+
 	function closeWindow(model) {
 		$scope.$emit('WindowManager:closeWindow', model);
 	}
@@ -118,15 +122,14 @@ App.controller.MyRepositoryItem = function($scope, $window, $element, api, model
 
 	$scope.openWindow = openWindow;
 	$scope.refreshWindow = refreshWindow;
+	$scope.selectWindow = selectWindow;
 	$scope.closeWindow = closeWindow;
 
 	refreshWindow();
 	setWindowTemplate($scope.model.type);
 	setWindowPosition();
 
-	$element.bind('click', function() {
-		$scope.$emit('WindowManager:selectWindow', $scope.model);
-	});
+	$element.bind('click', selectWindow);
 };
 
 App.directive.uiWindow = function() {
