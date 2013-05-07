@@ -7,18 +7,30 @@ basePath = '';
 
 // list of files / patterns to load in the browser
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
-  '../test/vendor/es5-shim.js',
-  'scripts/vendor/angular.js',
-  'scripts/vendor/codemirror.js',
-  '../test/vendor/angular-mocks.js',
-  '../test/vendor/test-helpers.js',
-  '../.tmp/scripts/templates.js',
-  'scripts/app.js',
-  'scripts/*.js',
-  'scripts/**/*.js',
-  '../test/spec/**/*.js'
+	JASMINE,
+	JASMINE_ADAPTER,
+	'../test/vendor/es5-shim.js',
+	'scripts/vendor/angular.js',
+	'scripts/vendor/codemirror.js',
+	'../test/vendor/angular-mocks.js',
+	'../test/vendor/test-helpers.js',
+	'../.tmp/scripts/templates.js',
+	'scripts/app.js',
+	'scripts/*.js',
+	'scripts/models/MyRepository.js',
+	'scripts/models/BaseDEVS.js',
+	'scripts/models/CoupledDEVSPrototype.js',
+	'scripts/models/DEVSRootSolverRT.js',
+	'scripts/models/AtomicDEVSPrototype.js',
+	'scripts/models/Port.js',
+	'scripts/models/InputPort.js',
+	'scripts/models/OutputPort.js',
+	'scripts/models/Slot.js',
+	'scripts/models/Delegate.js',
+	'scripts/models/Method.js',
+	'scripts/models/PrototypeObject.js',
+	'scripts/**/*.js',
+	'../test/spec/**/*.js'
 ];
 
 
@@ -75,9 +87,9 @@ coverageReporter = {
 };
 
 preprocessors = {
-//  '**/*.html': 'html2js',
-  '**/scripts/*.js': 'coverage',
-  '**/scripts/controllers/*.js': 'coverage',
-  '**/scripts/directives/*.js': 'coverage',
-  '**/scripts/services/*.js': 'coverage'
+	'**/scripts/*.js': 'coverage',
+	'**/scripts/controllers/*.js': 'coverage',
+	'**/scripts/directives/*.js': 'coverage',
+	'**/scripts/models/*.js': 'coverage',
+	'**/scripts/services/*.js': 'coverage'
 };

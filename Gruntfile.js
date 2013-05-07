@@ -236,7 +236,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('count', 'count all lines of my project', function () {
 		var done = this.async();
-		require('child_process').exec('cd app; wc -l scripts/{controllers,directives,services,.}/*.js templates/*/* index.html styles/main.sass ../test/spec/{*,*/*}.js', function (err, stdout) {
+		require('child_process').exec('cd app; wc -l scripts/{controllers,directives,models,services,.}/*.js templates/*/* index.html styles/main.sass ../test/spec/{*,*/*}.js', function (err, stdout) {
 			grunt.log.write(stdout);
 			done(err);
 		});
