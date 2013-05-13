@@ -64,7 +64,7 @@ describe('Service: api', function () {
 		var resource;
 
 		beforeEach(function() {
-			resource = new api.MyRepository(new App.model.MyRepository());
+			resource = new api.MyRepositoryItem(new App.model.MyRepository());
 		});
 
 		it('should list MyRepository items', function() {
@@ -109,37 +109,13 @@ describe('Service: api', function () {
 		});
 	});
 
-	describe("InputPortResource", function () {
-		var resource;
-
-		beforeEach(function() {
-			var atomic = new App.model.AtomicDEVSPrototype({name: 'atomic'}, new App.model.MyRepository());
-			var port = new App.model.InputPort({name: 'newPort'}, atomic);
-			resource = new api.InputPort(port);
-		});
-
-		it("should implement POST request", function () {
-			$httpBackend.when('POST', 'http://server:9004/atomic/input_ports/').respond({});
-			$httpBackend.expectPOST('http://server:9004/atomic/input_ports/', resource);
-			resource.post();
-			$httpBackend.flush();
-		});
-
-		it("should implement DELETE request", function () {
-			$httpBackend.when('DELETE', 'http://server:9004/atomic/input_ports/newPort/').respond({});
-			$httpBackend.expectDELETE('http://server:9004/atomic/input_ports/newPort/');
-			resource.delete();
-			$httpBackend.flush();
-		});
-	});
-
-	describe("OutputPortResource", function () {
+	describe("PortResource", function () {
 		var resource;
 
 		beforeEach(function() {
 			var atomic = new App.model.AtomicDEVSPrototype({name: 'atomic'}, new App.model.MyRepository());
 			var port = new App.model.OutputPort({name: 'newPort'}, atomic);
-			resource = new api.OutputPort(port);
+			resource = new api.Port(port);
 		});
 
 		it("should implement POST request", function () {

@@ -5,7 +5,8 @@ App.type.uiRunBlockScope = {
 	loading: false,
 	/** @type {App.model.AtomicDEVSPrototype} */
 	model: null,
-	solverResource: null,
+	/** @type {App.model.DEVSRootSolverRT} */
+	solver: null,
 	/** @type {function} */
 	start: null,
 	/** @type {function} */
@@ -23,9 +24,10 @@ App.type.uiRunBlockScope = {
 App.controller.uiRunBlock = function($scope, $window, api) {
 	function changeRunningState(willBeRunning) {
 		$scope.loading = true;
-		$scope.solverResource.changeRunningState(willBeRunning).success(function() {
+		var solverResource = new api.DEVSRootSolverRT($scope.solver);
+		solverResource.changeRunningState(willBeRunning).success(function() {
 			$scope.loading = false;
-			$scope.model.running = willBeRunning;
+			$scope.solver.running = willBeRunning;
 		}).error(function() {
 			$window.alert('Unable to change simulation running state.');
 			$scope.loading = false;
@@ -34,16 +36,17 @@ App.controller.uiRunBlock = function($scope, $window, api) {
 
 	function resetSimulation() {
 		$scope.loading = true;
-		$scope.solverResource.resetSimulation().success(function() {
+		var solverResource = new api.DEVSRootSolverRT($scope.solver);
+		solverResource.resetSimulation().success(function() {
 			$scope.loading = false;
-			$scope.model.running = false;
+			$scope.solver.running = false;
 		}).error(function() {
 			$window.alert('Unable to reset simulation.');
 			$scope.loading = false;
 		});
 	}
 
-	$scope.solverResource = new api.DEVSRootSolverRT($scope.model.rootSolver());
+	$scope.solver = $scope.model.rootSolver();
 	$scope.start = changeRunningState.bind(null, true);
 	$scope.stop = changeRunningState.bind(null, false);
 	$scope.reset = resetSimulation;

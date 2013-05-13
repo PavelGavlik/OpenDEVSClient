@@ -27,5 +27,10 @@ describe('Directive: uiMyRepository', function() {
 		expect(element.find('li').length).toEqual(2);
 	});
 
-	xit('should fire event handler when item clicked');
+	it('should select item when clicked', function() {
+		$scope.tree = {components: [{name: 'aa'}, {name: 'bb'}]};
+		$scope.selected = $scope.tree.components[0];
+		build();
+		expect(element.find('li').eq(0).hasClass('selected')).toBeTruthy();
+	});
 });

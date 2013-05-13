@@ -83,10 +83,10 @@ App.service.api = function($http, $location) {
 	 * @constructor
 	 * @extends {MyRepositoryItemResource}
 	 */
-	function InputPortResource(port) {
+	function PortResource(port) {
 		MyRepositoryItemResource.call(this, port);
 	}
-	Util.inherits(InputPortResource, MyRepositoryItemResource);
+	Util.inherits(PortResource, MyRepositoryItemResource);
 
 
 	/**
@@ -94,10 +94,10 @@ App.service.api = function($http, $location) {
 	 * @constructor
 	 * @extends {MyRepositoryItemResource}
 	 */
-	function OutputPortResource(port) {
-		MyRepositoryItemResource.call(this, port);
-	}
-	Util.inherits(OutputPortResource, MyRepositoryItemResource);
+//	function OutputPortResource(port) {
+//		MyRepositoryItemResource.call(this, port);
+//	}
+//	Util.inherits(OutputPortResource, MyRepositoryItemResource);
 
 
 	/**
@@ -147,9 +147,8 @@ App.service.api = function($http, $location) {
 	return {
 		_resource: Resource,
 		DEVSRootSolverRT: DEVSRootSolverRTResource,
-		MyRepository: MyRepositoryItemResource,
-		InputPort: InputPortResource,
-		OutputPort: OutputPortResource,
+		MyRepositoryItem: MyRepositoryItemResource,
+		Port: PortResource,
 		Slot: SlotResource,
 		Delegate: DelegateResource,
 		Method: MethodResource

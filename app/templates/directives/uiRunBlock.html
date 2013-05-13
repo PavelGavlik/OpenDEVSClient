@@ -1,10 +1,10 @@
-<div>
-    <button ng-click="start()" ng-hide="model.running" ng-disabled="loading" class="btn"><i class="icon-play"></i> Start</button>
-    <button ng-click="stop()" ng-show="model.running" ng-disabled="loading"  class="btn"><i class="icon-stop"></i> Stop</button>
+ <div>
+    <button ng-click="start()" ng-hide="solver.running" ng-disabled="loading" class="btn"><i class="icon-play"></i> Start</button>
+    <button ng-click="stop()" ng-show="solver.running" ng-disabled="loading"  class="btn"><i class="icon-stop"></i> Stop</button>
     <button ng-click="reset()" ng-disabled="loading" class="btn">Reset</button>
 
-    time: <span>{{model.rootSolver().time}}</span>,
+    time: <span>{{solver.time}}</span>,
     timeLast: <span>{{model.timeLast}}</span>,
     timeNext: <span>{{model.timeNext}}</span>,
-    RT Factor: <span>{{model.rootSolver().rtFactor}}</span>
+    RT Factor: <span>{{solver.rtFactor}}</span>
 </div>

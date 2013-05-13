@@ -132,7 +132,7 @@ describe('Controller: MyRepositoryItem', function() {
 		$scope = $rootScope;
 		api = a;
 		$scope.model = new App.model.MyRepository({});
-		spyOn(api.MyRepository.prototype, 'get').andReturn(allPromise);
+		spyOn(api.MyRepositoryItem.prototype, 'get').andReturn(allPromise);
 
 		$controller('MyRepositoryItem', {
 			$scope: $scope,
@@ -144,7 +144,7 @@ describe('Controller: MyRepositoryItem', function() {
 	}]));
 
 	it('should load item data', function () {
-		expect(api.MyRepository.prototype.get).toHaveBeenCalled();
+		expect(api.MyRepositoryItem.prototype.get).toHaveBeenCalled();
 	});
 
 	it('should send event to open window', function() {

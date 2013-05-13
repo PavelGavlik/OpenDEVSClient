@@ -57,7 +57,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 		var name = $window.prompt('Enter input port name:');
 		if (name) {
 			$scope.selectedPort = $scope.model.addInputPortWithName(name);
-			var portResource = new api.InputPort($scope.selectedPort);
+			var portResource = new api.Port($scope.selectedPort);
 			portResource.post();
 		}
 	}
@@ -65,7 +65,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 		var name = $window.prompt('Enter output port name:');
 		if (name) {
 			$scope.selectedPort = $scope.model.addOutputPortWithName(name);
-			var portResource = new api.OutputPort($scope.selectedPort);
+			var portResource = new api.Port($scope.selectedPort);
 			portResource.post();
 		}
 	}
@@ -107,11 +107,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	function renamePort() {
 		var name = $window.prompt('Enter new port name for "' + $scope.selectedPort.name + '":');
 		if (name) {
-			var portResource;
-			if ($scope.selectedPort instanceof App.model.InputPort)
-				portResource = new api.InputPort($scope.selectedPort);
-			else
-				portResource = new api.OutputPort($scope.selectedPort);
+			var portResource = new api.Port($scope.selectedPort);
 			portResource.rename(name);
 			$scope.selectedPort.rename(name);
 		}
@@ -132,11 +128,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	}
 
 	function deletePort() {
-		var portResource;
-		if ($scope.selectedPort instanceof App.model.InputPort)
-			portResource = new api.InputPort($scope.selectedPort);
-		else
-			portResource = new api.OutputPort($scope.selectedPort);
+		var portResource = new api.Port($scope.selectedPort);
 		portResource.delete()
 			.success(function() {
 				$scope.model.deletePort($scope.selectedPort);
@@ -179,7 +171,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 				$scope.selectedMethod = null;
 			})
 			.error(function() {
-				$window.alert('Unable to delete methodt.');
+				$window.alert('Unable to delete method.');
 			});
 	}
 

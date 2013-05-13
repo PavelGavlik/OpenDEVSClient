@@ -77,20 +77,24 @@ App.controller.WindowManager = function($scope) {
 
 var i = 0;
 
-App.controller.MyRepositoryItem = function($scope, $window, $element, api, model) {
+App.controller.MyRepositoryItem = function($scope, $window, $element, $timeout, api, model) {
 	function openWindow(model) {
 		$scope.$emit('WindowManager:openWindow', model.path, model);
 	}
 
 	function refreshWindow() {
-		var modelResource = new api.MyRepository($scope.model);
+		var modelResource = new api.MyRepositoryItem($scope.model);
 		modelResource.get()
 			.success(function (item) {
 				$scope.model = model.put($scope.model.path, item);
+//				if (item && item.name != 'Root' && item.type != 'MyRepository' &&
+//					$scope.model.rootSolver && $scope.model.rootSolver().running)
+//					$timeout(refreshWindow, 1000);
 			})
 			.error(function () {
 				$window.alert('Unable to load item from server.');
 			});
+
 	}
 
 	function selectWindow() {

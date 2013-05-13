@@ -3,11 +3,9 @@
 describe('Controller: uiRunBlock', function() {
 	var $scope, api;
 
-	// load the controller's module
 	beforeEach(module('clientApp'));
 
-	// initialize the controller and a mock scope
-	beforeEach(inject(['$controller', '$rootScope', '$q', 'api', function($controller, $rootScope, $q, a) {
+	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
 		$scope.model = new App.model.DEVSRootSolverRT({components: [
 			{name: 'comp', type: 'coupled'}
@@ -19,24 +17,24 @@ describe('Controller: uiRunBlock', function() {
 			$window: $window,
 			api: api
 		});
+
+		spyOn(api.DEVSRootSolverRT.prototype, 'changeRunningState').andReturn(allPromise);
+		spyOn(api.DEVSRootSolverRT.prototype, 'resetSimulation').andReturn(allPromise);
 	}]));
 
-	it("should be able to start simulation", function () {
-		spyOn($scope.solverResource, 'changeRunningState').andReturn(allPromise);
+	it('should be able to start simulation', function () {
 		$scope.start();
-		expect($scope.solverResource.changeRunningState).toHaveBeenCalled();
+		expect(api.DEVSRootSolverRT.prototype.changeRunningState).toHaveBeenCalled();
 	});
 
-	it("should be able to stop simulation", function () {
-		spyOn($scope.solverResource, 'changeRunningState').andReturn(allPromise);
+	it('should be able to stop simulation', function () {
 		$scope.stop();
-		expect($scope.solverResource.changeRunningState).toHaveBeenCalled();
+		expect(api.DEVSRootSolverRT.prototype.changeRunningState).toHaveBeenCalled();
 	});
 
-	it("should be able to reset simulation", function () {
-		spyOn($scope.solverResource, 'resetSimulation').andReturn(allPromise);
+	it('should be able to reset simulation', function () {
 		$scope.reset();
-		expect($scope.solverResource.resetSimulation).toHaveBeenCalled();
+		expect(api.DEVSRootSolverRT.prototype.resetSimulation).toHaveBeenCalled();
 	});
 });
 
@@ -48,12 +46,13 @@ describe('Directive: uiRunBlock', function() {
 	beforeEach(inject(['$rootScope', '$compile', function($r, $c) {
 		$scope = $r;
 		$compile = $c;
-		$scope.data = {
+		$scope.data = new App.model.DEVSRootSolverRT({
 			type: 'simulation', running: true,
 			rtFactor: 0, time: 20,
 			timeLast: 2, timeNext: 3,
-			rootSolver: function() { return this; }
-		};
+			components: [
+				{name: 'comp', type: 'coupled'}
+			]});
 	}]));
 
 	function build() {

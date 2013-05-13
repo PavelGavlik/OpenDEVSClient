@@ -1,7 +1,6 @@
 <ul>
-	<h2 ng-show="title">{{title}}</h2>
-	<li ng-repeat="item in val.components | orderBy:'name'" ng-class="{closed: !this[$index], end: !item.components.length}">
-		<a ng-click="this[$index] = !this[$index]" ng-dblclick="itemClick(item)"><span></span>{{item.name}}</a>
-		<div ui-my-repository ng-model="item" item-click="itemClick"></div>
+	<li ng-repeat="item in val.components | orderBy:'name'" ng-class="{closed: !this[$index], end: !item.components.length, selected: selected == item}">
+		<a ng-click="this[$index] = !this[$index]; itemClicked(item)" ng-dblclick="itemDblClick(item)"><span></span>{{item.name}}</a>
+		<div ui-my-repository ng-model="item" item-dbl-click="itemDblClick" selected="selected"></div>
 	</li>
 </ul>

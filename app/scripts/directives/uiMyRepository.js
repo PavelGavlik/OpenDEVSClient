@@ -11,11 +11,18 @@ App.directive.uiMyRepository = function($compile, $http, $templateCache) {
 			// needs explicit compiling because of tree structure
 			element.append(template);
 			$compile(element.contents())(scope.$new());
+
+			if (scope.selected)
+				console.log(scope.selected);
+
+			scope.itemClicked = function(item) {
+				scope.selected = item;
+			}
 		});
 	}
 
 	return {
-		scope: {val:'=ngModel', itemClick: '=', title: '@'},
+		scope: {val:'=ngModel', itemDblClick: '=', selected: '='},
 		link: linkFn
 	};
 };
