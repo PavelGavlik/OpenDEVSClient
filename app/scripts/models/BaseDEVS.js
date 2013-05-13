@@ -26,6 +26,18 @@ App.model.BaseDEVS.prototype.path = '/';
 App.model.BaseDEVS.prototype.name = '';
 
 /**
+ * Contains all input ports
+ * @type {Array<App.model.Port>}
+ */
+App.model.BaseDEVS.prototype.inputPorts = [];
+
+/**
+ * Contains all output ports
+ * @type {Array<App.model.Port>}
+ */
+App.model.BaseDEVS.prototype.outputPorts = [];
+
+/**
  * @return {App.model.DEVSRootSolverRT}
  */
 App.model.BaseDEVS.prototype.rootSolver = function() {
@@ -44,6 +56,14 @@ App.model.BaseDEVS.prototype.load = function(data) {
 		angular.extend(this, data);
 		this.getPath();
 	}
+	if (this.inputPorts)
+		this.inputPorts = this.inputPorts.map(function(port) {
+			return new App.model.InputPort(port, this);
+		}, this);
+	if (this.outputPorts)
+		this.outputPorts = this.outputPorts.map(function(port) {
+			return new App.model.OutputPort(port, this);
+		}, this);
 };
 
 /**
@@ -51,3 +71,50 @@ App.model.BaseDEVS.prototype.load = function(data) {
  * @returns {string}
  */
 App.model.BaseDEVS.prototype.getPath = App.model.MyRepository.prototype.getPath;
+
+/**
+ * Factory method that adds an input port
+ * @param {App.model.InputPort} port
+ * @returns {App.model.InputPort}
+ */
+App.model.BaseDEVS.prototype.addInputPort = function(port) {
+	this.inputPorts.push(port);
+	return port;
+};
+
+/**
+ * Factory method that adds an input port with given name
+ * @param {String} portName
+ * @returns {App.model.InputPort}
+ */
+App.model.BaseDEVS.prototype.addInputPortWithName = function(portName) {
+	return this.addInputPort(new App.model.InputPort({ name: portName }, this));
+};
+
+/**
+ * Factory method that adds an output port
+ * @param {App.model.OutputPort} port
+ * @returns {App.model.OutputPort}
+ */
+App.model.BaseDEVS.prototype.addOutputPort = function(port) {
+	this.outputPorts.push(port);
+	return port;
+};
+
+/**
+ * Factory method that adds an output port with given name
+ * @param {String} portName
+ * @returns {App.model.OutputPort}
+ */
+App.model.BaseDEVS.prototype.addOutputPortWithName = function(portName) {
+	return this.addOutputPort(new App.model.OutputPort({ name: portName }, this));
+};
+
+/**
+ * Remove given port
+ * @param {App.model.Port} port
+ */
+App.model.BaseDEVS.prototype.deletePort = function(port) {
+	Util.removeArrayItem(this.inputPorts, port);
+	Util.removeArrayItem(this.outputPorts, port);
+};

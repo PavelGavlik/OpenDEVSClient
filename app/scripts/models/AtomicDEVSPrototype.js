@@ -15,18 +15,6 @@ App.model.AtomicDEVSPrototype = function(data, parent) {
 Util.inherits(App.model.AtomicDEVSPrototype, App.model.BaseDEVS);
 
 /**
- * Contains all input ports
- * @type {Array<App.model.Port>}
- */
-App.model.AtomicDEVSPrototype.prototype.inputPorts = [];
-
-/**
- * Contains all output ports
- * @type {Array<App.model.Port>}
- */
-App.model.AtomicDEVSPrototype.prototype.outputPorts = [];
-
-/**
  * Contains all slots
  * @type {Array<App.model.Slot>}
  */
@@ -50,14 +38,6 @@ App.model.AtomicDEVSPrototype.prototype.methods = [];
  */
 App.model.AtomicDEVSPrototype.prototype.load = function(data) {
 	App.model.BaseDEVS.prototype.load.call(this, data);
-	if (this.inputPorts)
-		this.inputPorts = this.inputPorts.map(function(port) {
-			return new App.model.InputPort(port, this);
-		}, this);
-	if (this.outputPorts)
-		this.outputPorts = this.outputPorts.map(function(port) {
-			return new App.model.OutputPort(port, this);
-		}, this);
 	if (this.slots)
 		this.slots = this.slots.map(function(slot) {
 			return new App.model.Slot(slot, this);
@@ -70,53 +50,6 @@ App.model.AtomicDEVSPrototype.prototype.load = function(data) {
 		this.methods = this.methods.map(function(method) {
 			return new App.model.Method(method, this);
 		}, this);
-};
-
-/**
- * Factory method that adds an input port
- * @param {App.model.InputPort} port
- * @returns {App.model.InputPort}
- */
-App.model.AtomicDEVSPrototype.prototype.addInputPort = function(port) {
-	this.inputPorts.push(port);
-	return port;
-};
-
-/**
- * Factory method that adds an input port with given name
- * @param {String} portName
- * @returns {App.model.InputPort}
- */
-App.model.AtomicDEVSPrototype.prototype.addInputPortWithName = function(portName) {
-	return this.addInputPort(new App.model.InputPort({ name: portName }, this));
-};
-
-/**
- * Factory method that adds an output port
- * @param {App.model.OutputPort} port
- * @returns {App.model.OutputPort}
- */
-App.model.AtomicDEVSPrototype.prototype.addOutputPort = function(port) {
-	this.outputPorts.push(port);
-	return port;
-};
-
-/**
- * Factory method that adds an output port with given name
- * @param {String} portName
- * @returns {App.model.OutputPort}
- */
-App.model.AtomicDEVSPrototype.prototype.addOutputPortWithName = function(portName) {
-	return this.addOutputPort(new App.model.OutputPort({ name: portName }, this));
-};
-
-/**
- * Remove given port
- * @param {App.model.Port} port
- */
-App.model.AtomicDEVSPrototype.prototype.deletePort = function(port) {
-	Util.removeArrayItem(this.inputPorts, port);
-	Util.removeArrayItem(this.outputPorts, port);
 };
 
 /**

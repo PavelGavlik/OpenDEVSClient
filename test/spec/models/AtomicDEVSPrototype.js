@@ -28,59 +28,6 @@ describe('Model: AtomicDEVSPrototype', function () {
 		expect(atomic.parent instanceof App.model.MyRepository).toBe(true);
 	});
 
-	it("should be able to add input port", function () {
-		expect(atomic.inputPorts.length).toBe(0);
-		var returnedPort = atomic.addInputPort(new App.model.InputPort({name: 'myInput'}, atomic));
-		expect(returnedPort).toBe(atomic.inputPorts[0]);
-		expect(atomic.inputPorts.length).toBe(1);
-		expect(atomic.inputPorts[0].name).toBe('myInput');
-		expect(atomic.inputPorts[0].parent).toBe(atomic);
-	});
-
-	it("should be able to add input port with name", function () {
-		expect(atomic.inputPorts.length).toBe(0);
-		var returnedPort = atomic.addInputPortWithName('myInput');
-		expect(returnedPort).toBe(atomic.inputPorts[0]);
-		expect(atomic.inputPorts.length).toBe(1);
-		expect(atomic.inputPorts[0].name).toBe('myInput');
-		expect(atomic.inputPorts[0].parent).toBe(atomic);
-	});
-
-	it("should be able to add output port", function () {
-		expect(atomic.outputPorts.length).toBe(0);
-		var returnedPort = atomic.addOutputPort(new App.model.OutputPort({name: 'myOutput'}, atomic));
-		expect(returnedPort).toBe(atomic.outputPorts[0]);
-		expect(atomic.outputPorts.length).toBe(1);
-		expect(atomic.outputPorts[0].name).toBe('myOutput');
-		expect(atomic.outputPorts[0].parent).toBe(atomic);
-	});
-
-	it("should be able to add output port with name", function () {
-		expect(atomic.outputPorts.length).toBe(0);
-		var returnedPort = atomic.addOutputPortWithName('myOutput');
-		expect(returnedPort).toBe(atomic.outputPorts[0]);
-		expect(atomic.outputPorts.length).toBe(1);
-		expect(atomic.outputPorts[0].name).toBe('myOutput');
-		expect(atomic.outputPorts[0].parent).toBe(atomic);
-	});
-
-	it("should be able to delete port", function () {
-		atomic.addInputPortWithName('myPort');
-		atomic.addInputPortWithName('myPort2');
-		atomic.addOutputPortWithName('myPort');
-		atomic.addOutputPortWithName('myPort2');
-
-		atomic.deletePort(atomic.inputPorts[0]);
-		expect(atomic.inputPorts.length).toBe(1);
-		expect(atomic.outputPorts.length).toBe(2);
-		expect(atomic.inputPorts[0].name).toBe('myPort2');
-
-		atomic.deletePort(atomic.outputPorts[0]);
-		expect(atomic.inputPorts.length).toBe(1);
-		expect(atomic.outputPorts.length).toBe(1);
-		expect(atomic.outputPorts[0].name).toBe('myPort2');
-	});
-
 	it("should be able to add slot", function () {
 		expect(atomic.slots.length).toBe(0);
 		var returnedSlot = atomic.addSlot('mySlot');
