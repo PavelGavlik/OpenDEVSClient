@@ -2,7 +2,9 @@
 
 /**
  * Output Port
- * @inheritDoc
+ * @param {Object=} data
+ * @param {App.model.BaseDEVS} parent
+ * @extends {App.model.Port}
  */
 App.model.OutputPort = function(data, parent) {
 	this.resourcePath = 'output_ports/';

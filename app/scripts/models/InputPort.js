@@ -2,7 +2,9 @@
 
 /**
  * Input Port
- * @inheritDoc
+ * @param {Object=} data
+ * @param {App.model.BaseDEVS} parent
+ * @extends {App.model.Port}
  */
 App.model.InputPort = function(data, parent) {
 	this.resourcePath = 'input_ports/';
