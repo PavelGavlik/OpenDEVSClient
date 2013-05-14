@@ -73,31 +73,13 @@ App.model.BaseDEVS.prototype.load = function(data) {
 App.model.BaseDEVS.prototype.getPath = App.model.MyRepository.prototype.getPath;
 
 /**
- * Factory method that adds an input port
- * @param {App.model.InputPort} port
- * @returns {App.model.InputPort}
- */
-App.model.BaseDEVS.prototype.addInputPort = function(port) {
-	this.inputPorts.push(port);
-	return port;
-};
-
-/**
  * Factory method that adds an input port with given name
  * @param {String} portName
  * @returns {App.model.InputPort}
  */
-App.model.BaseDEVS.prototype.addInputPortWithName = function(portName) {
-	return this.addInputPort(new App.model.InputPort({ name: portName }, this));
-};
-
-/**
- * Factory method that adds an output port
- * @param {App.model.OutputPort} port
- * @returns {App.model.OutputPort}
- */
-App.model.BaseDEVS.prototype.addOutputPort = function(port) {
-	this.outputPorts.push(port);
+App.model.BaseDEVS.prototype.addInputPort = function(portName) {
+	var port = new App.model.InputPort({ name: portName }, this);
+	this.inputPorts.push(port);
 	return port;
 };
 
@@ -106,8 +88,10 @@ App.model.BaseDEVS.prototype.addOutputPort = function(port) {
  * @param {String} portName
  * @returns {App.model.OutputPort}
  */
-App.model.BaseDEVS.prototype.addOutputPortWithName = function(portName) {
-	return this.addOutputPort(new App.model.OutputPort({ name: portName }, this));
+App.model.BaseDEVS.prototype.addOutputPort = function(portName) {
+	var port = new App.model.OutputPort({ name: portName }, this);
+	this.outputPorts.push(port);
+	return port;
 };
 
 /**

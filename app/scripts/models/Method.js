@@ -32,10 +32,10 @@ App.model.Method.prototype.parent = null;
 App.model.Method.prototype.path = '/';
 
 /**
- * Slot value
+ * Method source
  * @type {string}
  */
-App.model.Method.prototype.value = 'nil';
+App.model.Method.prototype.source = '';
 
 /**
  * Rewrite data in object with new data

@@ -56,7 +56,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	function addInputPort() {
 		var name = $window.prompt('Enter input port name:');
 		if (name) {
-			$scope.selectedPort = $scope.model.addInputPortWithName(name);
+			$scope.selectedPort = $scope.model.addInputPort(name);
 			var portResource = new api.Port($scope.selectedPort);
 			portResource.post();
 		}
@@ -64,7 +64,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 	function addOutputPort() {
 		var name = $window.prompt('Enter output port name:');
 		if (name) {
-			$scope.selectedPort = $scope.model.addOutputPortWithName(name);
+			$scope.selectedPort = $scope.model.addOutputPort(name);
 			var portResource = new api.Port($scope.selectedPort);
 			portResource.post();
 		}
@@ -124,7 +124,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 
 	function updateMethodSource(method) {
 		var methodResource = new api.Method(method);
-		methodResource.updateSource();
+		methodResource.updateSource(method.source);
 	}
 
 	function deletePort() {

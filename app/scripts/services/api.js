@@ -90,17 +90,6 @@ App.service.api = function($http, $location) {
 
 
 	/**
-	 * @param {App.model.OutputPort} port
-	 * @constructor
-	 * @extends {MyRepositoryItemResource}
-	 */
-//	function OutputPortResource(port) {
-//		MyRepositoryItemResource.call(this, port);
-//	}
-//	Util.inherits(OutputPortResource, MyRepositoryItemResource);
-
-
-	/**
 	 * @param {App.model.Slot} slot
 	 * @constructor
 	 * @extends {MyRepositoryItemResource}
@@ -139,8 +128,11 @@ App.service.api = function($http, $location) {
 	}
 	Util.inherits(MethodResource, MyRepositoryItemResource);
 
-	MethodResource.prototype.updateSource = function() {
-		return this.patch({source: this.source});
+	/**
+	 * @param {String} source New method source
+	 */
+	MethodResource.prototype.updateSource = function(source) {
+		return this.patch({source: source});
 	};
 
 

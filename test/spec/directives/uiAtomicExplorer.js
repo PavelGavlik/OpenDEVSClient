@@ -54,7 +54,7 @@ describe('Controller: uiAtomicExplorer', function() {
 	});
 
 	it("should be able to rename input port", function () {
-		$scope.model.addInputPortWithName('a');
+		$scope.model.addInputPort('a');
 		$scope.selectPort($scope.model.inputPorts[0]);
 		$scope.renamePort();
 		expect($scope.model.inputPorts[0].name).toBe('name');
@@ -62,7 +62,7 @@ describe('Controller: uiAtomicExplorer', function() {
 	});
 
 	it("should be able to rename output port", function () {
-		$scope.model.addOutputPortWithName('a');
+		$scope.model.addOutputPort('a');
 		$scope.selectPort($scope.model.outputPorts[0]);
 		$scope.renamePort();
 		expect($scope.model.outputPorts[0].name).toBe('name');
@@ -70,8 +70,8 @@ describe('Controller: uiAtomicExplorer', function() {
 	});
 
 	it("should be able to delete port", function () {
-		$scope.model.addInputPortWithName('a');
-		$scope.model.addOutputPortWithName('b');
+		$scope.model.addInputPort('a');
+		$scope.model.addOutputPort('b');
 
 		$scope.selectPort($scope.model.inputPorts[0]);
 		$scope.deletePort();
