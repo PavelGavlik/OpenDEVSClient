@@ -207,7 +207,7 @@ describe('Service: api', function () {
 		it("should be able to update source", function() {
 			$httpBackend.when('PATCH', 'http://server:9004/atomic/methods/new/').respond({});
 			$httpBackend.expectPATCH('http://server:9004/atomic/methods/new/', {source: 'mySource'});
-			resource.updateSource();
+			resource.updateSource(resource.source);
 			$httpBackend.flush();
 		})
 	});

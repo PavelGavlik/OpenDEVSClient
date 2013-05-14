@@ -2,11 +2,40 @@
 
 App.value.submodelPortGap = 15;
 
-App.controller.uiCoupledExplorer = function($scope, $element, computeSubmodelSize, computeCouplingSegments) {
-	$scope.portGap = App.value.submodelPortGap;
-	$scope.rectHeight = $scope.rectWidth = 0;
-	$scope.svgRoot = $element.find('svg')[0];
+App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, computeSubmodelSize, computeCouplingSegments) {
+	function randomPortPosition() {
+		return Math.floor(Math.random() * 300) + 10;
+	}
 
+	function addInputPort() {
+		var name = $window.prompt('Enter input port name:');
+		if (name) {
+			var port = $scope.model.addInputPort(name);
+			port.position = {x: randomPortPosition(), y: randomPortPosition()};
+			var portResource = new api.Port(port);
+			portResource.post();
+		}
+	}
+	function addOutputPort() {
+		var name = $window.prompt('Enter output port name:');
+		if (name) {
+			var port = $scope.model.addOutputPort(name);
+			port.position = {x: randomPortPosition(), y: randomPortPosition()};
+			var portResource = new api.Port(port);
+			portResource.post();
+		}
+	}
+	function addAtomic() {
+		var name = $window.prompt('Enter atomic DEVS name:');
+		if (name) {
+			var atomic = new App.model.AtomicDEVSPrototype({name: name});
+			atomic.position = {x: randomPortPosition(), y: randomPortPosition()};
+			$scope.model.addComponent(atomic);
+			var atomicResource = new api.MyRepositoryItem(atomic);
+			redrawSubmodels($scope.model.components);
+			atomicResource.post();
+		}
+	}
 	/**
 	 * @param {Array<App.model.CoupledDEVSPrototype|App.model.AtomicDEVSPrototype>} submodels
 	 */
@@ -33,8 +62,16 @@ App.controller.uiCoupledExplorer = function($scope, $element, computeSubmodelSiz
 		});
 	}
 
-	$scope.$watch('data.components', redrawSubmodels);
-	$scope.$watch('data.couplings', redrawCouplings);
+	$scope.portGap = App.value.submodelPortGap;
+	$scope.rectHeight = $scope.rectWidth = 0;
+	$scope.svgRoot = $element.find('svg')[0];
+
+	$scope.$watch('model.components', redrawSubmodels);
+	$scope.$watch('model.couplings', redrawCouplings);
+
+	$scope.addAtomic = addAtomic;
+	$scope.addInputPort = addInputPort;
+	$scope.addOutputPort = addOutputPort;
 };
 
 /**
@@ -44,7 +81,7 @@ App.controller.uiCoupledExplorer = function($scope, $element, computeSubmodelSiz
 App.directive.uiCoupledExplorer = function() {
 	return {
 		controller: App.controller.uiCoupledExplorer,
-		scope: {data: '=ngModel'},
+		scope: {model: '=ngModel'},
 		templateUrl: 'templates/directives/uiCoupledExplorer.html'
 	};
 };
@@ -85,180 +122,4 @@ App.service.computeSubmodelSize = function() {
 		size.y = (portCount + 1) * App.value.submodelPortGap + 5;
 		return size;
 	}
-};
-
-App.service.Point = function() {
-	/**
-	 * Class representing a point
-	 * @param {number} x
-	 * @param {number} y
-	 * @constructor
-	 */
-	var Point = function(x, y) {
-		this.x = x;
-		this.y = y;
-	};
-
-	/** @typedef {{x: number, y: number}} */
-	Point.Record;
-
-	/** @type {number} */
-	Point.prototype.x = 0;
-
-	/** @type {number} */
-	Point.prototype.y = 0;
-
-	/**
-	 * Creates new Point instance from regular object
-	 * @param {Point.Record} p
-	 * @return {Point}
-	 */
-	Point.fromObject = function(p) {
-		return new Point(p.x, p.y);
-	};
-
-	/**
-	 * Returns new point which is sum of this point and p
-	 * @param {Point} p
-	 * @return {Point}
-	 */
-	Point.prototype.plus = function(p) {
-		return new Point(this.x + p.x, this.y + p.y);
-	};
-
-	/**
-	 * Computes difference of two points
-	 * @param {Point} p
-	 * @return {Point}
-	 */
-	Point.prototype.minus = function(p) {
-		return new Point(this.x - p.x, this.y - p.y);
-	};
-
-	/**
-	 * Computes distance between this and p
-	 * @param {Point} p
-	 * @return {number}
-	 */
-	Point.prototype.distTo = function pointsDist(p) {
-		var dx = p.x - this.x;
-		var dy = p.y - this.y;
-		return Math.sqrt(dx*dx + dy*dy);
-	};
-
-	/**
-	 * Computes product of this point and number
-	 * @param {number} num
-	 * @return {Point}
-	 */
-	Point.prototype.timesNum = function(num) {
-		return new Point(this.x * num, this.y * num);
-	};
-
-	/**
-	 * Computes division of this point and number
-	 * @param {number} num
-	 * @return {Point}
-	 */
-	Point.prototype.divideByNum = function(num) {
-		return new Point(this.x / num, this.y / num);
-	};
-
-	/**
-	 * Interpolation between two points with given ammount
-	 * @param {Point} p
-	 * @param {number} ammount
-	 * @return {Point}
-	 */
-	Point.prototype.interpolateTo = function(p, ammount) {
-		return this.plus(p.minus(this).timesNum(ammount));
-	};
-
-	/**
-	 * Return true if coordinates of two points are equal
-	 * @param {Point} p
-	 * @return {boolean}
-	 */
-	Point.prototype.isEqual = function(p) {
-		return this.x === p.x && this.y === p.y;
-	};
-
-	return Point;
-};
-
-App.service.computeCouplingSegments = function(Point) {
-	/**
-	 * Returns part rounded if it's number
-	 * @param {String|Number} part
-	 * @returns {*}
-	 */
-	function roundedPart(part) {
-		return angular.isString(part) ?
-			part :
-			Math.round(part)
-	}
-
-	/**
-	 * Returns a line segment of SVG path
-	 * @param {Point.Record|Point} p
-	 * @return {string}
-	 */
-	function lineSegment(p) {
-		return [' L', p.x, p.y].map(roundedPart).join(' ');
-	}
-
-	/**
-	 * Returns a bezier segment of SVG path
-	 * @param {Point.Record|Point} p1
-	 * @param {Point.Record|Point} p2
-	 * @return {string}
-	 */
-	function bezierSegment(p1, p2) {
-		return [' Q', p1.x, p1.y, p2.x, p2.y].map(roundedPart).join(' ');
-	}
-
-	/**
-	 * Computes connected SVG path from points it should go through
-	 * @param {Array<Point.Record>} vertices
-	 * @return {string}
-	 */
-	function computeCouplingSegments(vertices) {
-		// algorithm adapted from NCLineMorph#computeSegments
-		var path = '';
-		if (vertices.length === 2)
-			path = lineSegment(vertices[0]) + lineSegment(vertices[1]);
-
-		var v2, v3, lastUsed = Point.fromObject(vertices[0]);
-		for (var i = 1; i < vertices.length - 1; i++) {
-			v2 = Point.fromObject(vertices[i]);
-			v3 = Point.fromObject(vertices[i + 1]);
-			var l1 = lastUsed.distTo(v2);
-			var l2 = v2.distTo(v3);
-			var symmetry = l1 - l2;
-			var m, end;
-
-			if (symmetry < 0) {
-				m = lastUsed.plus(v2).divideByNum(2);
-				end = v2.interpolateTo(v3, l1 / l2 / 2);
-				if (!lastUsed.isEqual(m))
-					path += lineSegment(lastUsed) + lineSegment(m);
-				path += bezierSegment(v2, end);
-				lastUsed = end;
-			}
-			else {
-				m = v2.plus(v3).divideByNum(2);
-				end = v2.interpolateTo(lastUsed, l2 / l1 / 2);
-				if (!lastUsed.isEqual(end))
-					path += lineSegment(lastUsed) + lineSegment(end);
-				path += bezierSegment(v2, m);
-				lastUsed = m;
-			}
-		}
-		if (v3 && !lastUsed.isEqual(v3))
-			path += lineSegment(v3);
-
-		return 'M' + path.substr(2);
-	}
-
-	return computeCouplingSegments;
 };

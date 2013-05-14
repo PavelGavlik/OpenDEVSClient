@@ -46,9 +46,15 @@ App.service.api = function($http, $location) {
 	Util.inherits(MyRepositoryItemResource, Resource);
 
 	MyRepositoryItemResource.prototype.post = function() {
-		var path = host + this.parent.path + this.resourcePath;
+		var path = host + this.parent.path;
+		if (this.resourcePath)
+			path += this.resourcePath;
 		delete this.parent; // cannot serialize circular dependency
 		return $http.post(path, this);
+	};
+	MyRepositoryItemResource.prototype.origPost = function() {
+		delete this.parent; // cannot serialize circular dependency
+		return $http.post(this.path, this);
 	};
 	/**
 	 * @param {String} newName

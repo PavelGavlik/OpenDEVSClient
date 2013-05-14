@@ -8,6 +8,20 @@
  * @extends {App.model.BaseDEVS}
  */
 App.model.CoupledDEVSPrototype = function(data, parent) {
+	App.model.BaseDEVS.call(this);
+
+	/**
+	 * Object type (used in controllers)
+	 * @type {string}
+	 */
+	this.type = 'coupled';
+
+	/**
+	 * Children of this item
+	 * @type {Array}
+	 */
+	this.components = [];
+
 	if (parent)
 		this.parent = parent;
 	if (data)
@@ -39,3 +53,15 @@ App.model.CoupledDEVSPrototype.prototype.load = function(data) {
  * @param {string} name
  */
 App.model.CoupledDEVSPrototype.prototype.componentNamed = App.model.MyRepository.prototype.componentNamed;
+
+/**
+ * Factory method that adds a component
+ * @param {Object} component
+ */
+App.model.CoupledDEVSPrototype.prototype.addComponent = App.model.MyRepository.prototype.addComponent;
+
+/**
+ * Remove given component
+ * @param {Object} component
+ */
+App.model.CoupledDEVSPrototype.prototype.deleteComponent = App.model.MyRepository.prototype.deleteComponent;

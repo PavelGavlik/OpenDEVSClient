@@ -12,8 +12,8 @@ App.directive.uiMyRepository = function($compile, $http, $templateCache) {
 			element.append(template);
 			$compile(element.contents())(scope.$new());
 
-			if (scope.selected)
-				console.log(scope.selected);
+//			if (scope.selected)
+//				console.log(scope.selected);
 
 			scope.itemClicked = function(item) {
 				scope.selected = item;

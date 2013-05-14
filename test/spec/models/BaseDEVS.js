@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Model: BaseDEVS', function () {
-	/** @type{App.model.AtomicDEVSPrototype} */
+	/** @type{App.model.BaseDEVS} */
 	var devs;
 
 	beforeEach(function () {
@@ -20,17 +20,8 @@ describe('Model: BaseDEVS', function () {
 		expect(devs.outputPorts.length).toBe(1);
 	});
 
-//	it("should be able to add input port", function () {
-//		devs.inputPorts = [];
-//		expect(devs.inputPorts.length).toBe(0);
-//		var returnedPort = devs.addInputPort(new App.model.InputPort({name: 'myInput'}, devs));
-//		expect(returnedPort).toBe(devs.inputPorts[0]);
-//		expect(devs.inputPorts.length).toBe(1);
-//		expect(devs.inputPorts[0].name).toBe('myInput');
-//		expect(devs.inputPorts[0].parent).toBe(devs);
-//	});
-
-	it("should be able to add input port with name", function () {
+	it("should be able to add input port", function () {
+		devs.inputPorts = [];
 		expect(devs.inputPorts.length).toBe(0);
 		var returnedPort = devs.addInputPort('myInput');
 		expect(returnedPort).toBe(devs.inputPorts[0]);
@@ -39,17 +30,8 @@ describe('Model: BaseDEVS', function () {
 		expect(devs.inputPorts[0].parent).toBe(devs);
 	});
 
-//	it("should be able to add output port", function () {
-//		devs.outputPorts = [];
-//		expect(devs.outputPorts.length).toBe(0);
-//		var returnedPort = devs.addOutputPort(new App.model.OutputPort({name: 'myOutput'}, devs));
-//		expect(returnedPort).toBe(devs.outputPorts[0]);
-//		expect(devs.outputPorts.length).toBe(1);
-//		expect(devs.outputPorts[0].name).toBe('myOutput');
-//		expect(devs.outputPorts[0].parent).toBe(devs);
-//	});
-
 	it("should be able to add output port", function () {
+		devs.outputPorts = [];
 		expect(devs.outputPorts.length).toBe(0);
 		var returnedPort = devs.addOutputPort('myOutput');
 		expect(returnedPort).toBe(devs.outputPorts[0]);
@@ -59,8 +41,8 @@ describe('Model: BaseDEVS', function () {
 	});
 
 	it("should be able to delete port", function () {
-		devs.inputPorts = [];
-		devs.outputPorts = [];
+//		devs.inputPorts = [];
+//		devs.outputPorts = [];
 		devs.addInputPort('myPort');
 		devs.addInputPort('myPort2');
 		devs.addOutputPort('myPort');

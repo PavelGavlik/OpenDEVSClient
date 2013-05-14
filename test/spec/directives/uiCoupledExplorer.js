@@ -1,5 +1,52 @@
 'use strict';
 
+describe('Controller: uiCoupledExplorer', function() {
+	var $scope, api;
+
+	// load the controller's module
+	beforeEach(module('clientApp'));
+
+	// initialize the controller and a mock scope
+	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
+		$scope = $rootScope;
+		api = a;
+		$scope.model = new App.model.CoupledDEVSPrototype();
+
+		$controller('uiCoupledExplorer', {
+			$element: angular.element('<div />'),
+			$scope: $scope,
+			$window: $window,
+			api: api
+		});
+		spyOn($window, 'prompt').andReturn('name');
+		spyOn(api.MyRepositoryItem.prototype, 'post').andReturn(allPromise);
+		spyOn(api.MyRepositoryItem.prototype, 'origPost').andReturn(allPromise);
+//		spyOn(api.Port.prototype, 'post'); - same method as MyRepositoryItem
+	}]));
+
+	it('should be able to add port', function() {
+		expect($scope.model.inputPorts.length).toBe(0);
+		$scope.addInputPort();
+		expect($scope.model.inputPorts.length).toBe(1);
+		expect($scope.model.inputPorts[0].name).toBe('name');
+		expect(api.Port.prototype.post).toHaveBeenCalled();
+
+		expect($scope.model.outputPorts.length).toBe(0);
+		$scope.addOutputPort();
+		expect($scope.model.outputPorts.length).toBe(1);
+		expect($scope.model.outputPorts[0].name).toBe('name');
+		expect(api.Port.prototype.post).toHaveBeenCalled();
+	});
+
+	xit('should be able to add atomic', function() {
+		expect($scope.model.components.length).toBe(0);
+		$scope.addAtomic();
+		expect($scope.model.components.length).toBe(1);
+		expect($scope.model.components[0].name).toBe('name');
+		expect(api.MyRepositoryItem.prototype.origPost).toHaveBeenCalled();
+	});
+});
+
 describe('Directive: uiCoupledExplorer', function() {
 	var $element, $scope, $compile;
 
@@ -54,25 +101,5 @@ describe('Service: computeSubmodelSize', function () {
 		});
 		expect(tolerance(size.x, 72, 10)).toBe(true);
 		expect(tolerance(size.y, 35, 10)).toBe(true);
-	});
-});
-
-describe('Service: computeCouplingSegments', function () {
-	var service;
-
-	beforeEach(module('clientApp'));
-
-	beforeEach(inject(function(computeCouplingSegments) {
-		service = computeCouplingSegments;
-	}));
-
-	it('should return line for two vertices', function() {
-		var vertices = [{x:341, y:79}, {x:502, y:79}];
-		expect(service(vertices)).toBe('M 341 79 L 502 79');
-	});
-
-	it('should return bezier curve for more vertices', function() {
-		var vertices = [{x:59, y:79}, {x:162, y:111}, {x:231, y:94}];
-		expect(service(vertices)).toBe('M 59 79 L 128 100 Q 162 111 197 103 L 231 94');
 	});
 });

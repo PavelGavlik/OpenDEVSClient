@@ -8,6 +8,8 @@
  * @param {Object=} parent
  */
 App.model.DEVSRootSolverRT = function(data, parent) {
+	App.model.CoupledDEVSPrototype.call(this);
+
 	if (parent)
 		this.parent = parent;
 	if (data)

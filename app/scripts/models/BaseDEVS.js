@@ -5,6 +5,17 @@
  * @constructor
  */
 App.model.BaseDEVS = function() {
+	/**
+	 * Contains all input ports
+	 * @type {Array<App.model.Port>}
+	 */
+	this.inputPorts = [];
+
+	/**
+	 * Contains all output ports
+	 * @type {Array<App.model.Port>}
+	 */
+	this.outputPorts = [];
 };
 
 /**
@@ -24,18 +35,6 @@ App.model.BaseDEVS.prototype.path = '/';
  * @type {string}
  */
 App.model.BaseDEVS.prototype.name = '';
-
-/**
- * Contains all input ports
- * @type {Array<App.model.Port>}
- */
-App.model.BaseDEVS.prototype.inputPorts = [];
-
-/**
- * Contains all output ports
- * @type {Array<App.model.Port>}
- */
-App.model.BaseDEVS.prototype.outputPorts = [];
 
 /**
  * @return {App.model.DEVSRootSolverRT}

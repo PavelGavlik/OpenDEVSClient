@@ -114,3 +114,21 @@ App.model.MyRepository.prototype.put = function(path, item) {
 	component.load(item);
 	return component;
 };
+
+/**
+ * Factory method that adds a component
+ * @param {Object} component
+ */
+App.model.MyRepository.prototype.addComponent = function(component) {
+	component.parent = this;
+	component.getPath();
+	this.components.push(component);
+};
+
+/**
+ * Remove given component
+ * @param {Object} component
+ */
+App.model.MyRepository.prototype.deleteComponent = function(component) {
+	Util.removeArrayItem(this.components, component);
+};

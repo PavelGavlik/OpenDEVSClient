@@ -1,16 +1,38 @@
+<div class="btn-toolbar">
+    <div class="btn-group">
+        <button class="btn" ng-click="addAtomic()">
+            <i class="icon-plus"></i> Add Atomic DEVS
+        </button>
+        <button class="btn" ng-click="addCoupled()">
+            <i class="icon-plus"></i> Add Coupled DEVS
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn" ng-click="addInputPort()">
+            <i class="icon-plus"></i> Add Input Port
+        </button>
+        <button class="btn" ng-click="addOutputPort()">
+            <i class="icon-plus"></i> Add Output Port
+        </button>
+        <button class="btn" ng-click="addCoupling()">
+            <i class="icon-plus"></i> Add Coupling
+        </button>
+    </div>
+</div>
+
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns="http://www.w3.org/2000/svg">
 	<g>
-		<g ng-repeat="p in data.inputPorts" ng-show="p.position.x" ng-transform="translate({{0.5 + p.position.x}}, {{0.5 + p.position.y}})">
+		<g ng-repeat="p in model.inputPorts" ng-show="p.position.x" ng-transform="translate({{0.5 + p.position.x}}, {{0.5 + p.position.y}})">
 			<circle cx="10" cy="10" r="10" stroke="black" stroke-width="2" fill="rgb(0, 209, 0)"></circle>
 			<text x="10" y="35" style="text-anchor: middle">{{p.name}}</text>
 		</g>
 	</g><g>
-		<g ng-repeat="p in data.outputPorts" ng-show="p.position.x" ng-transform="translate({{0.5 + p.position.x}}, {{0.5 + p.position.y}})">
+		<g ng-repeat="p in model.outputPorts" ng-show="p.position.x" ng-transform="translate({{0.5 + p.position.x}}, {{0.5 + p.position.y}})">
 			<circle cx="10" cy="10" r="10" stroke="black" stroke-width="2" fill="red"></circle>
 			<text x="10" y="35" style="text-anchor: middle">{{p.name}}</text>
 		</g>
 	</g><g>
-		<g ng-repeat="c in data.components" ng-show="c.position.x" ng-transform="translate({{0.5 + c.position.x}}, {{0.5 + c.position.y}})">
+		<g ng-repeat="c in model.components" ng-show="c.position.x" ng-transform="translate({{0.5 + c.position.x}}, {{0.5 + c.position.y}})">
 			<rect x="10" y="0" ng-height="{{c.rectHeight}}" ng-width="{{c.rectWidth}}" stroke="black" stroke-width="1" fill="none"></rect>
 			<text x="13" y="13" style="font-weight: bold">{{c.name}}</text>
 		
@@ -25,6 +47,6 @@
 			</g>
 		</g>
 	</g><g>
-		<path ng-repeat="c in data.couplings" ng-d="{{c.segments}}" stroke="black" fill="none"></path>
+		<path ng-repeat="c in model.couplings" ng-d="{{c.segments}}" stroke="black" fill="none"></path>
 	</g>
 </svg>

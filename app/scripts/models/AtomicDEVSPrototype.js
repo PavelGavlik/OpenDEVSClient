@@ -8,29 +8,37 @@
  * @extends {App.model.BaseDEVS}
  */
 App.model.AtomicDEVSPrototype = function(data, parent) {
+	App.model.BaseDEVS.call(this);
+
+	/**
+	 * Contains all slots
+	 * @type {Array<App.model.Slot>}
+	 */
+	this.slots = [];
+
+	/**
+	 * Contains all delegates
+	 * @type {Array<App.model.Delegate>}
+	 */
+	this.delegates = [];
+
+	/**
+	 * Contains all methods
+	 * @type {Array<App.model.Method>}
+	 */
+	this.methods = [];
+
+	/**
+	 * Object type (used in controllers)
+	 * @type {string}
+	 */
+	this.type = 'atomic';
+
 	if (parent)
 		this.parent = parent;
 	this.load(data);
 };
 Util.inherits(App.model.AtomicDEVSPrototype, App.model.BaseDEVS);
-
-/**
- * Contains all slots
- * @type {Array<App.model.Slot>}
- */
-App.model.AtomicDEVSPrototype.prototype.slots = [];
-
-/**
- * Contains all delegates
- * @type {Array<App.model.Delegate>}
- */
-App.model.AtomicDEVSPrototype.prototype.delegates = [];
-
-/**
- * Contains all methods
- * @type {Array<App.model.Method>}
- */
-App.model.AtomicDEVSPrototype.prototype.methods = [];
 
 /**
  * Rewrite data in object with new data
