@@ -52,10 +52,6 @@ App.service.api = function($http, $location) {
 		delete this.parent; // cannot serialize circular dependency
 		return $http.post(path, this);
 	};
-	MyRepositoryItemResource.prototype.origPost = function() {
-		delete this.parent; // cannot serialize circular dependency
-		return $http.post(this.path, this);
-	};
 	/**
 	 * @param {String} newName
 	 */
