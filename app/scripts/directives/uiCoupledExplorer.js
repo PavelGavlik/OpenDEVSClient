@@ -16,6 +16,7 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			portResource.post();
 		}
 	}
+
 	function addOutputPort() {
 		var name = $window.prompt('Enter output port name:');
 		if (name) {
@@ -25,6 +26,7 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			portResource.post();
 		}
 	}
+
 	function addAtomic() {
 		var name = $window.prompt('Enter atomic DEVS name:');
 		if (name) {
@@ -36,6 +38,19 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			atomicResource.post();
 		}
 	}
+
+	function addCoupled() {
+		var name = $window.prompt('Enter coupled DEVS name:');
+		if (name) {
+			var coupled = new App.model.CoupledDEVSPrototype({name: name});
+			coupled.position = {x: randomPortPosition(), y: randomPortPosition()};
+			$scope.model.addComponent(coupled);
+			var coupledResource = new api.MyRepositoryItem(coupled);
+			redrawSubmodels($scope.model.components);
+			coupledResource.post();
+		}
+	}
+
 	/**
 	 * @param {Array<App.model.CoupledDEVSPrototype|App.model.AtomicDEVSPrototype>} submodels
 	 */
@@ -70,6 +85,7 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 	$scope.$watch('model.couplings', redrawCouplings);
 
 	$scope.addAtomic = addAtomic;
+	$scope.addCoupled = addCoupled;
 	$scope.addInputPort = addInputPort;
 	$scope.addOutputPort = addOutputPort;
 };

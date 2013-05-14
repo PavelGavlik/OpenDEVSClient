@@ -48,6 +48,14 @@ describe('Controller: uiCoupledExplorer', function() {
 		expect($scope.model.components[0].name).toBe('name');
 		expect(api.MyRepositoryItem.prototype.post).toHaveBeenCalled();
 	});
+
+	it('should be able to add coupled', function() {
+		expect($scope.model.components.length).toBe(0);
+		$scope.addCoupled();
+		expect($scope.model.components.length).toBe(1);
+		expect($scope.model.components[0].name).toBe('name');
+		expect(api.MyRepositoryItem.prototype.post).toHaveBeenCalled();
+	});
 });
 
 describe('Directive: uiCoupledExplorer', function() {

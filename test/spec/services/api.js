@@ -20,10 +20,6 @@ describe('Service: api', function () {
 			expect(resource.path).toBe('http://server:9004/URL/');
 		});
 
-		xit("should have path getter", function () {
-			expect(resource.getPath()).toBe(resource.path);
-		});
-
 		it("should have default methods", function () {
 			expect(typeof resource.get).toBe('function');
 			expect(typeof resource.post).toBe('function');
