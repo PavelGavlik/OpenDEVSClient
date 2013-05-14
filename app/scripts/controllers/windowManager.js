@@ -117,7 +117,7 @@ App.controller.MyRepositoryItem = function($scope, $window, $element, $timeout, 
 			$element.parent().addClass('root');
 		}
 		else {
-			$element[0].style.left = i * 20 + 'px';
+			$element[0].style.left = i * 20 + 350 + 'px';
 			$element[0].style.top = i * 28 - 8 + 'px';
 		}
 		$element[0].style.zIndex = i;
