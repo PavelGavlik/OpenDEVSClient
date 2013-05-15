@@ -17,10 +17,10 @@
                 </button>
             </div>
         </div>
-        <div ng-show="model.inputPorts" class="input-ports">
+        <div class="input-ports">
             <div ng-repeat="p in model.inputPorts | orderBy:'name'" ng-click="selectPort(p)" ng-class="{selected: selectedPort == p}" class="port">{{p.name}}</div>
         </div>
-        <div ng-show="model.outputPorts" class="output-ports">
+        <div class="output-ports">
             <div ng-repeat="p in model.outputPorts | orderBy:'name'" ng-click="selectPort(p)" ng-class="{selected: selectedPort == p}" class="port">{{p.name}}</div>
         </div>
         <div class="clearfix"></div>

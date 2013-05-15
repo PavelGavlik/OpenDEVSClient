@@ -13,6 +13,7 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			var port = $scope.model.addInputPort(name);
 			port.position = {x: randomPortPosition(), y: randomPortPosition()};
 			var portResource = new api.Port(port);
+			redrawSubmodels($scope.model.components);
 			portResource.post();
 		}
 	}
@@ -23,6 +24,7 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			var port = $scope.model.addOutputPort(name);
 			port.position = {x: randomPortPosition(), y: randomPortPosition()};
 			var portResource = new api.Port(port);
+			redrawSubmodels($scope.model.components);
 			portResource.post();
 		}
 	}
