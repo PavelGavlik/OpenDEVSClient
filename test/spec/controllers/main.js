@@ -16,7 +16,7 @@ describe('Controller: Main', function() {
 		});
 	}));
 
-	it("should open Myrepository", inject(function ($timeout) {
+	xit("should open Myrepository", inject(function ($timeout) {
 		var count = 0;
 		$scope.$on('WindowManager:openWindow', function() {
 			count++;
