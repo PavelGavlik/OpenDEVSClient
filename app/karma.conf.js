@@ -1,95 +1,105 @@
-// Testacular configuration
+module.exports = function(config) {
+	config.set({
+
+		// base path, that will be used to resolve files and exclude
+		basePath: '',
+
+	    // frameworks to use
+	    frameworks: ['jasmine'],
+
+		// list of files / patterns to load in the browser
+		files: [
+			// JASMINE,
+			// JASMINE_ADAPTER,
+			'../test/vendor/es5-shim.js',
+			'scripts/vendor/angular.js',
+			'scripts/vendor/codemirror.js',
+			'../test/vendor/angular-mocks.js',
+			'../test/vendor/test-helpers.js',
+			'../.tmp/scripts/templates.js',
+			'scripts/app.js',
+			'scripts/*.js',
+			'scripts/models/MyRepository.js',
+			'scripts/models/BaseDEVS.js',
+			'scripts/models/CoupledDEVSPrototype.js',
+			'scripts/models/DEVSRootSolverRT.js',
+			'scripts/models/AtomicDEVSPrototype.js',
+			'scripts/models/Port.js',
+			'scripts/models/InputPort.js',
+			'scripts/models/OutputPort.js',
+			'scripts/models/Slot.js',
+			'scripts/models/Delegate.js',
+			'scripts/models/Method.js',
+			'scripts/models/PrototypeObject.js',
+			'scripts/**/*.js',
+			'../test/spec/**/*.js'
+		],
 
 
-// base path, that will be used to resolve files and exclude
-basePath = '';
+		// list of files to exclude
+		exclude: [
+		  'scripts/**/*.min.js'
+		],
 
 
-// list of files / patterns to load in the browser
-files = [
-	JASMINE,
-	JASMINE_ADAPTER,
-	'../test/vendor/es5-shim.js',
-	'scripts/vendor/angular.js',
-	'scripts/vendor/codemirror.js',
-	'../test/vendor/angular-mocks.js',
-	'../test/vendor/test-helpers.js',
-	'../.tmp/scripts/templates.js',
-	'scripts/app.js',
-	'scripts/*.js',
-	'scripts/models/MyRepository.js',
-	'scripts/models/BaseDEVS.js',
-	'scripts/models/CoupledDEVSPrototype.js',
-	'scripts/models/DEVSRootSolverRT.js',
-	'scripts/models/AtomicDEVSPrototype.js',
-	'scripts/models/Port.js',
-	'scripts/models/InputPort.js',
-	'scripts/models/OutputPort.js',
-	'scripts/models/Slot.js',
-	'scripts/models/Delegate.js',
-	'scripts/models/Method.js',
-	'scripts/models/PrototypeObject.js',
-	'scripts/**/*.js',
-	'../test/spec/**/*.js'
-];
+		// web server port
+		port: 8080,
 
 
-// list of files to exclude
-exclude = [
-  'scripts/**/*.min.js'
-];
+		// cli runner port
+		runnerPort: 9100,
 
 
-// web server port
-port = 8080;
+		// enable / disable colors in the output (reporters and logs)
+		colors: true,
 
 
-// cli runner port
-runnerPort = 9100;
+		// level of logging
+		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+		logLevel: config.LOG_INFO,
 
 
-// enable / disable colors in the output (reporters and logs)
-colors = true;
+		// enable / disable watching file and executing tests whenever any file changes
+		autoWatch: true,
 
 
-// level of logging
-// possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-logLevel = LOG_INFO;
+		// Start these browsers, currently available:
+		// - Chrome
+		// - ChromeCanary
+		// - Firefox
+		// - Opera
+		// - Safari
+		// - PhantomJS
+		browsers: ['PhantomJS'],
 
 
-// enable / disable watching file and executing tests whenever any file changes
-autoWatch = true;
+		// Continuous Integration mode
+		// if true, it capture browsers, run tests and exit
+		singleRun: false,
 
 
-// Start these browsers, currently available:
-// - Chrome
-// - ChromeCanary
-// - Firefox
-// - Opera
-// - Safari
-// - PhantomJS
-browsers = ['PhantomJS'];
+		plugins: [
+			'karma-coverage',
+			require('karma-jasmine')
+		],
 
 
-// Continuous Integration mode
-// if true, it capture browsers, run tests and exit
-singleRun = false;
+		// test results reporter to use
+		// possible values: dots || progress
+		//reporter = 'progress';
+		reporters: ['dots', 'coverage'],
 
+		coverageReporter: {
+		   type : 'html',
+		   dir : '../test/coverage/'
+		},
 
-// test results reporter to use
-// possible values: dots || progress
-//reporter = 'progress';
-reporters = ['dots', 'coverage'];
-
-coverageReporter = {
-   type : 'html',
-   dir : '../test/coverage/'
-};
-
-preprocessors = {
-	'**/scripts/*.js': 'coverage',
-	'**/scripts/controllers/*.js': 'coverage',
-	'**/scripts/directives/*.js': 'coverage',
-	'**/scripts/models/*.js': 'coverage',
-	'**/scripts/services/*.js': 'coverage'
+		preprocessors: {
+			'**/scripts/*.js': 'coverage',
+			'**/scripts/controllers/*.js': 'coverage',
+			'**/scripts/directives/*.js': 'coverage',
+			'**/scripts/models/*.js': 'coverage',
+			'**/scripts/services/*.js': 'coverage'
+		}
+	});
 };
