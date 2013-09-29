@@ -124,10 +124,27 @@ App.controller.MyRepositoryItem = function($scope, $window, $element, $timeout, 
 		i++;
 	}
 
+	function addSimulation() {
+		var name = $window.prompt('Enter simulation name:');
+		if (name) {
+			var repo = model.at('/Simulations/');
+			var simulation = new App.model.DEVSRootSolverRT({name: name, parent: repo});
+			var simulationResource = new api.MyRepositoryItem(simulation);
+			simulationResource.post()
+				.success(function() {
+					repo.addComponent(simulation);
+				})
+				.error(function() {
+					$window.alert('Unable to add simulation.');
+				});
+		}
+	}
+
 	$scope.openWindow = openWindow;
 	$scope.refreshWindow = refreshWindow;
 	$scope.selectWindow = selectWindow;
 	$scope.closeWindow = closeWindow;
+	$scope.addSimulation = addSimulation;
 
 	refreshWindow();
 	setWindowTemplate($scope.model.type);

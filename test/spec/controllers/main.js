@@ -16,13 +16,13 @@ describe('Controller: Main', function() {
 		});
 	}));
 
-	xit("should open Myrepository", inject(function ($timeout) {
+	it("should open Myrepository", inject(function ($timeout) {
 		var count = 0;
 		$scope.$on('WindowManager:openWindow', function() {
 			count++;
-		})
+		});
 		$scope.$emit('WindowManager:ready');
 		$timeout.flush();
-		expect(count).toBe(2);
+		expect(count).toBe(1);
 	}));
 });

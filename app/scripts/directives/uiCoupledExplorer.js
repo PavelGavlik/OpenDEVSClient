@@ -2,7 +2,7 @@
 
 App.value.submodelPortGap = 15;
 
-App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, computeSubmodelSize, computeCouplingSegments) {
+App.controller.uiCoupledExplorer = function($rootScope, $scope, $element, $window, api, computeSubmodelSize, computeCouplingSegments) {
 	function randomPortPosition() {
 		return Math.floor(Math.random() * 300) + 10;
 	}
@@ -14,6 +14,9 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			port.position = {x: randomPortPosition(), y: randomPortPosition()};
 			var portResource = new api.Port(port);
 			redrawSubmodels($scope.model.components);
+			var root = $scope.model.rootSolver();
+			if (root != $scope.model)
+				$rootScope.$broadcast('uiCoupledExplorer:redraw', $scope.model.rootSolver());
 			portResource.post();
 		}
 	}
@@ -25,6 +28,9 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			port.position = {x: randomPortPosition(), y: randomPortPosition()};
 			var portResource = new api.Port(port);
 			redrawSubmodels($scope.model.components);
+			var root = $scope.model.rootSolver();
+			if (root != $scope.model)
+				$rootScope.$broadcast('uiCoupledExplorer:redraw', $scope.model.rootSolver());
 			portResource.post();
 		}
 	}
@@ -51,6 +57,28 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 			redrawSubmodels($scope.model.components);
 			coupledResource.post();
 		}
+	}
+
+	function fillCouplings(model, recurse) {
+		$scope.couplings = $scope.couplings.concat(model.inputPorts);
+		$scope.couplings = $scope.couplings.concat(model.outputPorts);
+		if (recurse === true)
+			$scope.model.components.forEach(fillCouplings);
+	}
+	
+	function addCoupling() {
+		if ($scope.couplingStart === $scope.couplingEnd) {
+			$window.alert('Please select different ports to connect');
+			return;
+		}
+		var coupledResource = new api.MyRepositoryItem($scope.model);
+		coupledResource.addCoupling($scope.couplingStart, $scope.couplingEnd)
+			.success(function() {
+				$scope.couplingToolbar = false;
+			})
+			.error(function() {
+				$window.alert('Unable to add coupling. Check if it already doesn\'t exist and if you are adding correct combination of ports.')
+			});
 	}
 
 	/**
@@ -85,11 +113,17 @@ App.controller.uiCoupledExplorer = function(api, $scope, $element, $window, comp
 
 	$scope.$watch('model.components', redrawSubmodels);
 	$scope.$watch('model.couplings', redrawCouplings);
+	$scope.$on('uiCoupledExplorer:redraw', function(e, model) {
+		if (model == $scope.model)
+			redrawSubmodels($scope.model.components);
+	});
 
 	$scope.addAtomic = addAtomic;
 	$scope.addCoupled = addCoupled;
 	$scope.addInputPort = addInputPort;
 	$scope.addOutputPort = addOutputPort;
+	$scope.fillCouplings = fillCouplings;
+	$scope.addCoupling = addCoupling;
 };
 
 /**

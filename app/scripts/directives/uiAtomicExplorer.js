@@ -52,11 +52,12 @@ App.type.uiAtomicExplorerScope = {
  * @param {Window} $window
  * @param {App.service.api} api
  */
-App.controller.uiAtomicExplorer = function($scope, $window, api) {
+App.controller.uiAtomicExplorer = function($rootScope, $scope, $window, $timeout, api) {
 	function addInputPort() {
 		var name = $window.prompt('Enter input port name:');
 		if (name) {
 			$scope.selectedPort = $scope.model.addInputPort(name);
+			$rootScope.$broadcast('uiCoupledExplorer:redraw', $scope.model.rootSolver());
 			var portResource = new api.Port($scope.selectedPort);
 			portResource.post();
 		}
@@ -65,6 +66,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 		var name = $window.prompt('Enter output port name:');
 		if (name) {
 			$scope.selectedPort = $scope.model.addOutputPort(name);
+			$rootScope.$broadcast('uiCoupledExplorer:redraw', $scope.model.rootSolver());
 			var portResource = new api.Port($scope.selectedPort);
 			portResource.post();
 		}
@@ -109,16 +111,30 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 		if (name) {
 			var portResource = new api.Port($scope.selectedPort);
 			portResource.rename(name);
+			$timeout(function() {
+				$rootScope.$broadcast('uiCoupledExplorer:redraw', $scope.model.rootSolver());
+			}, 0);
+
 			$scope.selectedPort.rename(name);
 		}
 	}
 
 	function injectSlotWithValue() {
+		var oldValue = $scope.selectedSlot.value;
 		var value = $window.prompt('Enter new slot value for "' + $scope.selectedSlot.name + '":');
 		if (value) {
-			var slotResource = new api.Slot($scope.selectedSlot);
-			slotResource.injectValue(value);
 			$scope.selectedSlot.value = value;
+			var slotResource = new api.Slot($scope.selectedSlot);
+			slotResource.injectValue(value)
+				.success(function(data) {
+					if (data && angular.isDefined(data.value))
+						$scope.selectedSlot.value = data.value;
+				})
+				.error(function(data) {
+					if (data && angular.isDefined(data.error))
+						$window.alert('Server reported error while setting slot value: ' + data.error);
+					$scope.selectedSlot.value = oldValue;
+				});
 		}
 	}
 
@@ -133,6 +149,7 @@ App.controller.uiAtomicExplorer = function($scope, $window, api) {
 			.success(function() {
 				$scope.model.deletePort($scope.selectedPort);
 				$scope.selectedPort = null;
+				$rootScope.$broadcast('uiCoupledExplorer:redraw', $scope.model.rootSolver());
 			})
 			.error(function() {
 				$window.alert('Unable to delete port.');

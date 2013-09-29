@@ -58,6 +58,25 @@ App.service.api = function($http, $location) {
 	MyRepositoryItemResource.prototype.rename = function(newName) {
 		return $http.patch(this.path, {name: newName});
 	};
+	/**
+	 * @param {App.model.Port} from
+	 * @param {App.model.Port} to
+	 */
+	MyRepositoryItemResource.prototype.addCoupling = function(from, to) {
+		var getModelRepr = function(model) {
+			if (host + model.parent.path == this.path)
+				return 'self'
+			else
+				return model.parent.path;
+		};
+		getModelRepr = getModelRepr.bind(this);
+		return $http.post(this.path, {
+			type: 'coupling',
+			fromModel: getModelRepr(from),
+			fromPort: from.name,
+			toModel: getModelRepr(to),
+			toPort: to.name});
+	};
 
 
 	/**

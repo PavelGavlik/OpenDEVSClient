@@ -10,7 +10,7 @@ describe('Controller: uiCoupledExplorer', function() {
 	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
 		api = a;
-		$scope.model = new App.model.CoupledDEVSPrototype();
+		$scope.model = new App.model.CoupledDEVSPrototype({parent: new App.model.DEVSRootSolverRT()});
 
 		var element = angular.element('<div />');
 		var svgRoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');

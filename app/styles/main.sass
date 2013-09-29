@@ -44,12 +44,9 @@ body
 
 	.root &
 		width: 330px
-		//top: 20px
-		//left: 730px
 
 	.win-header, .win-statusbar
 		@extend .nav-header
-		cursor: move
 		font-weight: normal
 		text-transform: none
 		font-size: 14px
@@ -85,9 +82,13 @@ body
 		background-color: white
 		.btn-toolbar
 			margin: 0
-			padding: 5px 10px
-		.btn-group
+			padding: 0 5px 5px
+		.btn-group, .coupling-toolbar
 			margin-top: 5px
+		.coupling-toolbar
+			font-size: 12px
+			select
+				margin: 0 5px 3px 2px
 
 	.win-statusbar
 		font-size: 12px

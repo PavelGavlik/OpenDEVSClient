@@ -14,18 +14,24 @@
         <button class="btn" ng-click="addOutputPort()">
             <i class="icon-plus"></i> Add Output Port
         </button>
-        <button class="btn" ng-click="addCoupling()">
+        <button class="btn" ng-class="{active: couplingToolbar}" ng-click="couplingToolbar = true; couplings = []; fillCouplings(model, true)">
             <i class="icon-plus"></i> Add Coupling
         </button>
     </div>
-    <div class="btn-group">
-        <button class="btn" ng-click="renameItem()" ng-disabled="true">
-            <i class="icon-pencil"></i> Rename Item
-        </button>
-        <button class="btn" ng-click="deleteItem()" ng-disabled="true">
-            <i class="icon-minus"></i> Delete Item
-        </button>
-    </div>
+    <form class="coupling-toolbar" ng-show="couplingToolbar" ng-submit="addCoupling()">
+        <label>From:
+            <select ng-model="couplingStart" ng-options="c.name group by c.parent.name for c in couplings" required>
+                <option value="">-- coupling start --</option>
+            </select>
+        </label>
+        <label>To:
+            <select ng-model="couplingEnd" ng-options="c.name group by c.parent.name for c in couplings" required>
+                <option value="">-- coupling end --</option>
+            </select>
+        </label>
+        <button ng-disabled="form.$invalid" class="btn btn-primary" type="submit">Connect</button>
+        <button ng-click="couplingToolbar = false" class="btn">Cancel</button>
+    </form>
 </div>
 
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns="http://www.w3.org/2000/svg">

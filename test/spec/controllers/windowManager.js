@@ -1,20 +1,21 @@
 'use strict';
 
 describe('Controller: WindowManager', function() {
-	var $scope;
+	var $scope, api;
 
 	// load the controller's module
 	beforeEach(module('clientApp'));
 
 	// initialize the controller and a mock scope
-	beforeEach(inject(function($controller, $rootScope) {
+	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
+		api = a;
 		$scope.safeApply = $scope.$apply;
 
 		$controller('WindowManager', {
 			$scope: $scope
 		});
-	}));
+	}]));
 
 	it('should empty windows after launch', function() {
 		expect($scope.windows.length).toBe(0);
@@ -131,8 +132,13 @@ describe('Controller: MyRepositoryItem', function() {
 	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
 		api = a;
-		$scope.model = new App.model.MyRepository({});
+		$scope.model = new App.model.MyRepository({
+			components: [{name: 'Simulations', type: 'MyRepository'}]
+		});
+
 		spyOn(api.MyRepositoryItem.prototype, 'get').andReturn(allPromise);
+		spyOn(api.MyRepositoryItem.prototype, 'post').andReturn(allPromise);
+		spyOn($window, 'prompt').andReturn('name');
 
 		$controller('MyRepositoryItem', {
 			$scope: $scope,
@@ -166,5 +172,10 @@ describe('Controller: MyRepositoryItem', function() {
 		$scope.$on('WindowManager:closeWindow', spy);
 		$scope.closeWindow($scope.model);
 		expect(spy).toHaveBeenCalled();
+	});
+
+	it('should be able to add simulation', function() {
+		$scope.addSimulation();
+		expect(api.MyRepositoryItem.prototype.post).toHaveBeenCalled();
 	});
 });

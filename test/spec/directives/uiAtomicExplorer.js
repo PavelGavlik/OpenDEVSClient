@@ -10,7 +10,7 @@ describe('Controller: uiAtomicExplorer', function() {
 	beforeEach(inject(['$controller', '$rootScope', 'api', function($controller, $rootScope, a) {
 		$scope = $rootScope;
 		api = a;
-		$scope.model = new App.model.AtomicDEVSPrototype();
+		$scope.model = new App.model.AtomicDEVSPrototype({parent: new App.model.DEVSRootSolverRT()});
 
 		$controller('uiAtomicExplorer', {
 			$scope: $scope,
@@ -22,7 +22,7 @@ describe('Controller: uiAtomicExplorer', function() {
 		spyOn(api.Port.prototype, 'rename');
 		spyOn(api.Port.prototype, 'delete').andReturn(allPromise);
 		spyOn(api.Slot.prototype, 'post');
-		spyOn(api.Slot.prototype, 'injectValue');
+		spyOn(api.Slot.prototype, 'injectValue').andReturn(successPromise);
 		spyOn(api.Slot.prototype, 'delete').andReturn(allPromise);
 		spyOn(api.Delegate.prototype, 'post');
 		spyOn(api.Delegate.prototype, 'delete').andReturn(allPromise);

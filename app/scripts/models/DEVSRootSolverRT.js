@@ -10,6 +10,12 @@
 App.model.DEVSRootSolverRT = function(data, parent) {
 	App.model.CoupledDEVSPrototype.call(this);
 
+	/**
+	 * Object type (used in controllers)
+	 * @type {string}
+	 */
+	this.type = 'simulation';
+
 	if (parent)
 		this.parent = parent;
 	if (data)
